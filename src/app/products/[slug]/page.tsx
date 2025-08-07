@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 
+type Params = Promise<{ slug: string }>;
+
 interface ProductType {
   id: string;
   slug: string;
@@ -37,8 +39,9 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-const ProductDetailsPage = async ({ params }: { params: { slug: string } }) => {
-  const product = await getProductBySlug(params.slug);
+export default async function ProductPage({ params }: { params: Params }) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
   if (!product) return notFound();
 
   return (
@@ -93,5 +96,3 @@ const ProductDetailsPage = async ({ params }: { params: { slug: string } }) => {
     </section>
   );
 }
-
-export default ProductDetailsPage;
