@@ -108,12 +108,11 @@ export default function AboutUsPage() {
               <p className="text-lg leading-relaxed">{t("p4")}</p>
             </div>
             {/* Media */}
-<div className="flex justify-center">
+<div className="flex justify-center max-h-[450px]">
   <Lottie
     animationData={AboutAnimation}
     loop
     autoplay
-    style={{ height: '450px', width: '450px' }}
   />
 </div>
 
@@ -129,12 +128,11 @@ export default function AboutUsPage() {
   transition={{ duration: 0.6 }}
 >
             {/* Media */}
-<div className="flex justify-center">
+<div className="flex justify-center max-h-[500px]">
   <Lottie
     animationData={visionAnimation}
     loop
     autoplay
-    style={{ height: '450px', width: '450px' }}
   />
 </div>
 
@@ -170,12 +168,11 @@ export default function AboutUsPage() {
               <p className="text-lg leading-relaxed">{t("missionText")}</p>
             </div>
             {/* Media */}
-<div className="flex justify-center">
+<div className="flex justify-center max-h-[400px]">
   <Lottie
     animationData={missionAnimation}
     loop
     autoplay
-    style={{ height: '450px', width: '450px' }}
   />
 </div>
 
@@ -197,7 +194,6 @@ export default function AboutUsPage() {
     animationData={ResponsAnimation}
     loop
     autoplay
-    style={{ height: '450px', width: '450px' }}
   />
 </div>
 
@@ -243,7 +239,6 @@ export default function AboutUsPage() {
     animationData={innovationAnimation}
     loop
     autoplay
-    style={{ height: '450px', width: '450px' }}
   />
 </div>
 
