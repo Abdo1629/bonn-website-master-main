@@ -17,6 +17,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
     "plugins": [
       {
         "name": "next"
