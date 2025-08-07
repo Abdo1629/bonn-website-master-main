@@ -19,7 +19,6 @@ interface ProductType {
   outlets?: string[];
 }
 
-// ✅ توليد static paths
 export async function generateStaticParams() {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
@@ -28,7 +27,6 @@ export async function generateStaticParams() {
     .map((slug) => ({ slug }));
 }
 
-// ✅ جلب بيانات المنتج
 async function getProductBySlug(slug: string): Promise<ProductType | null> {
   const snapshot = await getDocs(collection(db, "products"));
   const productDoc = snapshot.docs.find((doc) => doc.data().slug === slug);
@@ -39,8 +37,7 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-// ✅ أهم حاجة: استخدام async وتعريف مباشر للـ params
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function ProductDetailsPage({ params }: { params: { slug: string } }) {
   const product = await getProductBySlug(params.slug);
   if (!product) return notFound();
 
