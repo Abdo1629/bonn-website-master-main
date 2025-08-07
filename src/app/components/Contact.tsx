@@ -1,6 +1,5 @@
 "use client";
 
-import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
 import { useState, useRef } from "react";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";

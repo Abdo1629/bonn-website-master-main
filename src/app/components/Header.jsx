@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
+import { TbWorld } from "react-icons/tb";
 import Image from "next/image";
 import { db } from "../lib/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
@@ -154,7 +155,7 @@ export default function FactoryHeader() {
   initial={{ opacity: 1 , y: -50 }}
   animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? -50 : 0 }}
   transition={{ delay: 0.5, duration: 0.6 }}
-  className="w-full fixed top-0 left-0 z-50 bg-white/90 backdrop-blur-md shadow-md"
+  className="w-full fixed top-0 left-0  z-50 bg-white/90 backdrop-blur-md shadow-md"
   dir="ltr"
 >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center relative">
@@ -183,10 +184,10 @@ export default function FactoryHeader() {
 
               <button
                 onClick={switchLanguage}
-                className=" w-[60px] h-[30px] rounded-sm text-[#0056D2] cursor-pointer border border-[#0056D2] hover:bg-[#0058d210] transition"
+                className="rounded-sm text-[#0056D290] cursor-pointer hover:text-[#0056d2] transition"
                 aria-label="Switch Language"
               >
-                {i18n.language === "ar" ? "العربية" : "English"}
+                <TbWorld className="w-7 h-7"/>
               </button>
             </div>
 
@@ -272,11 +273,12 @@ export default function FactoryHeader() {
         <AnimatePresence>
   {brandsOpen && (
     <motion.div
-      initial={{ opacity: 0, y: -25 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -25 }}
+       initial={{ opacity: 0, y: -10, scaleY: 0 }}
+      animate={{ opacity: 1, y: 0, scaleY: 1 }}
+      exit={{ opacity: 0, y: -10, scaleY: 0 }}
       transition={{ duration: 0.3 }}
-      className="absolute right-[-20] top-full z-40 bg-white/90 p-4 rounded-xl shadow-xl w-[100%] mx-5"
+      style={{ originY: 0 }}
+      className="absolute right-[-20px] top-full z-40 bg-white/90 p-4 rounded-xl shadow-xl w-[100%] mx-5"
     >
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {factories.map((factory) => (
@@ -311,20 +313,21 @@ export default function FactoryHeader() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute top-full left-0 w-full bg-white shadow-xl rounded-b-2xl z-40"
+      initial={{ opacity: 0, y: -10, scaleY: 0 }}
+      animate={{ opacity: 1, y: 0, scaleY: 1 }}
+      exit={{ opacity: 0, y: -10, scaleY: 0 }}
+      transition={{ duration: 0.35 }}
+      style={{ originY: 0 }}
+      className="absolute right-[-20px] top-full z-40 bg-white p-4 rounded-xl shadow-xl w-[100%] mx-5"
           >
 <div className="flex items-center gap-3 px-6 pt-4">
   {/* Language Button */}
               <button
                 onClick={switchLanguage}
-                className=" w-[60px] h-[30px] rounded-sm text-[#0056D2] cursor-pointer border border-[#0056D2] hover:bg-[#0058d210] transition"
+                className="rounded-sm text-[#0056D2] cursor-pointer transition"
                 aria-label="Switch Language"
               >
-                  {i18n.language === "ar" ? "العربية" : "English"}
+                <TbWorld className="w-7 h-7"/>
               </button>
 
   {/* Search Input */}
