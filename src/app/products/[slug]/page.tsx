@@ -19,6 +19,7 @@ interface ProductType {
   outlets?: string[];
 }
 
+// ✅ هنا بنولّد كل الـ slugs اللي Next.js هيستخدمهم في الـ static generation
 export async function generateStaticParams() {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
@@ -27,6 +28,7 @@ export async function generateStaticParams() {
     .map((slug) => ({ slug }));
 }
 
+// ✅ هنا بنجيب المنتج حسب الـ slug
 async function getProductBySlug(slug: string): Promise<ProductType | null> {
   const snapshot = await getDocs(collection(db, "products"));
   const productDoc = snapshot.docs.find((doc) => doc.data().slug === slug);
@@ -37,7 +39,7 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-// ✅ التعديل هنا: استخدمنا النوع inline بدل تعريف ProductDetailsPageProps
+// ✅ أهم تعديل هنا: تأكد إن الدالة async وعندك `{ params }: { params: { slug: string } }`
 export default async function ProductDetailsPage({
   params,
 }: {
