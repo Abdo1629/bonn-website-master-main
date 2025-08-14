@@ -52,7 +52,7 @@ export default function HeroVideo() {
             {isArabic ? "جمال مصنع Bonn" : "Beauty by Bonn Factory"}
           </h1>
 
-          <p className="text-sm mb-6 max-w-xl">
+          <p className="text-sm mb-6 max-w-xl text-center">
             {isArabic
               ? "مصنع Bonn متخصص في تصنيع مستحضرات التجميل بأعلى معايير الجودة العالمية. نستخدم أحدث التقنيات لإنتاج منتجات فعالة وآمنة."
               : "Bonn factory specializes in producing cosmetics with top global quality standards. We use advanced technologies to ensure safety and performance."}

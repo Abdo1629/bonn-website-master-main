@@ -1,44 +1,18 @@
 "use client";
 
 import { useInView } from "react-intersection-observer";
-import CountUp from "react-countup";
 import { useTranslation } from "react-i18next";
-import { useEffect , useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import clsx from "clsx";
 import Link from "next/link";
-
 
 const aboutImages = [
   "/images/bonn1.jpeg",
   "/images/bonn2.jpeg",
   "/images/bonn3.jpeg",
 ];
-
-function CapabilityCard({
-  value,
-  label,
-  suffix = "",
-}: {
-  value: number;
-  label: string;
-  suffix?: string;
-}) {
-  const { ref, inView } = useInView({ triggerOnce: true });
-
-  return (
-    <div
-      ref={ref}
-      className="bg-white/30 backdrop-blur-md hover:bg-white/50 transition border border-white/40 shadow-xl rounded-xl p-6 text-center w-full"
-    >
-      <h3 className="text-2xl font-extrabold text-[#0056D2] mb-2">
-        {inView ? <CountUp end={value} duration={2} suffix={suffix} /> : "0"}
-      </h3>
-      <p className="text-sm text-[#003D99] font-medium">{label}</p>
-    </div>
-  );
-}
 
 function useTypingEffect(texts: string[], typingSpeed = 100, pauseTime = 2000) {
   const [displayText, setDisplayText] = useState("");
@@ -72,13 +46,12 @@ function useTypingEffect(texts: string[], typingSpeed = 100, pauseTime = 2000) {
   return displayText;
 }
 
-
 export default function About() {
-  
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === "ar";
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
   const scrollToImage = (index: number) => {
     const scrollContainer = scrollRef.current;
     if (scrollContainer) {
@@ -98,34 +71,28 @@ export default function About() {
     scrollToImage(newIndex);
   };
 
-          const typingText = useTypingEffect([
-  t("whoWeAre"),
-  t("weAreDifferent"),
-  t("bmiIsFuture"),
-]);
+  const typingText = useTypingEffect([
+    t("whoWeAre"),
+    t("weAreDifferent"),
+    t("bmiIsFuture"),
+  ]);
 
-const activeIndexRef = useRef(0);
+  const activeIndexRef = useRef(0);
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    const nextIndex = (activeIndexRef.current + 1) % aboutImages.length;
-    activeIndexRef.current = nextIndex; 
-    scrollToImage(nextIndex);
-  }, 5000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex = (activeIndexRef.current + 1) % aboutImages.length;
+      activeIndexRef.current = nextIndex;
+      scrollToImage(nextIndex);
+    }, 5000);
 
-  return () => clearInterval(interval);
-}, []);
-
-
-
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="w-full bg-gradient-to-br from-white to-[#F1F6FD] py-16 px-6 md:px-8">
-      <div
-        className=
-          "flex flex-col-reverse md:flex-row items-center gap-10 md:flex-row-reverse"
-      >
-                {/* Carousel */}
+      <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:flex-row-reverse">
+        {/* Carousel */}
         <div className="w-full md:w-1/2 relative">
           <div
             dir="ltr"
@@ -177,21 +144,22 @@ useEffect(() => {
                 key={i}
                 onClick={() => scrollToImage(i)}
                 className={clsx(
-  "h-3 rounded-full transition-all duration-300",
-  i === activeIndex ? "w-6 bg-[#0056D2]" : "w-3 bg-gray-300 hover:bg-gray-400"
-)}
-
+                  "h-3 rounded-full transition-all duration-300",
+                  i === activeIndex
+                    ? "w-6 bg-[#0056D2]"
+                    : "w-3 bg-gray-300 hover:bg-gray-400"
+                )}
               />
             ))}
           </div>
         </div>
+
         {/* Text Section */}
         <div className="w-full md:w-1/2 text-[#003D99] space-y-6">
-<h2 className="text-4xl font-extrabold min-h-[48px] drop-shadow-md">
-  {typingText}
-  <span className="blinking-cursor">|</span>
-</h2>
-
+          <h2 className="text-4xl font-extrabold min-h-[48px] drop-shadow-md">
+            {typingText}
+            <span className="blinking-cursor">|</span>
+          </h2>
 
           <p className="text-lg leading-relaxed text-[#1A3351]">
             {t("aboutParagraph1")}
@@ -200,17 +168,11 @@ useEffect(() => {
             {t("aboutParagraph2")}
           </p>
           <Link
-  href="/about"
-  className="inline-block mt-4 text-[#0056D2] font-semibold hover:underline transition"
->
-  {t("readMore")}
-</Link>
-
-          <div className="mt-8 grid grid-cols-1 max-[530px]:grid-cols-1 max-[768px]:grid-cols-3 min-[768px]:grid-cols-3 gap-4">
-            <CapabilityCard value={50} suffix="+" label={t("capability1")} />
-            <CapabilityCard value={100000} suffix="+" label={t("capability2")} />
-            <CapabilityCard value={100} suffix="%" label={t("capability3")} />
-          </div>
+            href="/about"
+            className="inline-block mt-4 text-[#0056D2] font-semibold hover:underline transition"
+          >
+            {t("readMore")}
+          </Link>
         </div>
       </div>
     </section>

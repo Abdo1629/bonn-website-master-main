@@ -68,7 +68,7 @@ export default function FactoryHeader() {
   const navItems = [
     { key: "home", path: "/" },
     { key: "about", path: "/about" },
-    { key: "products", path: "/products" },
+    { key: "Services", path: "/products" },
     { key: "certifications", path: "/certifications" },
     { key: "contact", path: "/contact" },
   ];
