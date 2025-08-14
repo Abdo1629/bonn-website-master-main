@@ -4,6 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import i18n from "../../i18n";
+import Link from "next/link";
 
 export default function HeroVideo() {
   const { t } = useTranslation();
@@ -63,6 +64,7 @@ export default function HeroVideo() {
             onHoverEnd={handleHoverEnd}
             className="w-fit relative group overflow-hidden border-2 border-[#4ca1ff] text-[#4ca1ff] px-6 py-2 rounded-lg backdrop-blur-md cursor-pointer hover:bg-[#4ca1ff] hover:text-white transition-colors duration-300"
           >
+            <Link href="/services" className="flex items-center justify-center">
             <motion.div
               className="absolute -z-10 w-[200%] h-[200%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gradient-to-r from-[#4ca1ff44] to-[#0056d244] blur-2xl opacity-30"
               animate={{ x: ["-50%", "50%", "-50%"] }}
@@ -75,6 +77,7 @@ export default function HeroVideo() {
               {t("button")}
               {isArabic ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
             </motion.span>
+            </Link>
           </motion.button>
         </motion.div>
       </div>

@@ -1,13 +1,13 @@
 import I18nProvider from "./i18n-provider";
 import type { Metadata } from "next";
 import "./globals.css";
-import { Titillium_Web, Geist_Mono } from "next/font/google";
+import { Mada, Geist_Mono } from "next/font/google";
 import i18n from "../i18n";
 import Header from './components/Header';
 import Footer from './components/Footer';
 
 
-const titillium = Titillium_Web({
+const titillium = Mada({
   subsets: ["latin"],
   weight: ["400"],
 });
