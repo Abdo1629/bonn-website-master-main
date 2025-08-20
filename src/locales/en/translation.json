@@ -1,7 +1,7 @@
 {
   "home": "Home",
   "about": "About Us",
-  "products": "Products",
+  "services": "Services",
   "certifications": "Certifications",
   "contact": "Contact",
   "language": "العربية",
@@ -149,5 +149,19 @@
   "Le Visage Plus": "Le Visage Plus",
   "Luxury skincare for a radiant look.": "Luxury skincare for a radiant look.",
   "PuCare": "PuCare",
-  "Premium skincare for sensitive skin.": "Premium skincare for sensitive skin."
+  "Premium skincare for sensitive skin.": "Premium skincare for sensitive skin.",
+  "how_we_work": "How We Work",
+  "Breif": "Brief",
+  "R&D": "R&D",
+  "Sampling": "Sampling",
+  "Validation": "Validation",
+  "Production": "Production",
+  "Delivery": "Delivery",
+  "Breif_desc": "Objectives, target, price band, regulatory needs.",
+  "R&D_desc": "Lab formulation aligned to claims and cost-in-use.",
+  "Sampling_desc": "Iterations with performance and sensory checks.",
+  "Validation_desc": "Stability, compatibility, and QA sign-off.",
+  "Production_desc": "Scaled batches with in-process controls.",
+  "Delivery_desc": "Final QA release, labeling, and dispatch.",
+  "medical_consultiton": "Medical Consultation"
 }

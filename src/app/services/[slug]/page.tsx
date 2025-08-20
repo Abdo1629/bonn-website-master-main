@@ -2,7 +2,6 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Heart } from "lucide-react";
 
 type Params = Promise<{ slug: string }>;
 
@@ -60,10 +59,6 @@ export default async function ProductPage({ params }: { params: Params }) {
         <div className="space-y-4">
           <p className="text-gray-700">{product.description_en}</p>
 
-          <p className="text-xl font-semibold text-[#0056D2]">
-            {Number(product.price).toFixed(2)} SAR
-          </p>
-
           {product.brand && (
             <p className="text-sm text-gray-700">
               <span className="font-medium text-gray-800">Brand:</span> {product.brand}
@@ -75,11 +70,6 @@ export default async function ProductPage({ params }: { params: Params }) {
               Best Seller
             </span>
           )}
-
-          <p className="text-sm text-gray-500 flex items-center gap-1">
-            <Heart className="w-4 h-4 text-red-500" />
-            {product.likes ?? 0} Likes
-          </p>
 
           {product.outlets && product.outlets.length > 0 && (
             <div>

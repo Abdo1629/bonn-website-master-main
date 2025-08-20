@@ -1,27 +1,31 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 
-type StatCardProps = {
+type Stat = {
   id: number;
   value: number;
   label: string;
   suffix?: string;
-  shouldCount: boolean;
 };
 
-function StatCard({ value, label, suffix = "", shouldCount }: StatCardProps) {
+function StatCard({ value, label, suffix = "" }: Stat) {
+  const [startCount, setStartCount] = useState(true);
+
+  useEffect(() => {
+    setStartCount(true);
+    const timer = setTimeout(() => setStartCount(false), 2200);
+    return () => clearTimeout(timer);
+  }, [value]);
+
   return (
-    <div
-      className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-center py-8"
-      style={{ scrollSnapAlign: "center" }}
-    >
+    <div className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-center py-8">
       <h3 className="text-7xl font-extrabold mb-2 bg-clip-text text-transparent bg-white/75 backdrop-blur-sm drop-shadow-lg">
-        {shouldCount ? (
+        {startCount ? (
           <CountUp end={value} duration={2} suffix={suffix} />
         ) : (
-          value
+          value + suffix
         )}
       </h3>
       <p className="text-xl bg-clip-text text-transparent bg-white/75 backdrop-blur-sm">
@@ -33,19 +37,19 @@ function StatCard({ value, label, suffix = "", shouldCount }: StatCardProps) {
 
 export default function StatsCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [stats, setStats] = useState([
-    { id: 1, value: 150, suffix: "+", label: "Products" },
-    { id: 2, value: 100000, suffix: "+", label: "Clients" },
+  const [stats, setStats] = useState<Stat[]>([
+    { id: 1, value: 500, suffix: "+", label: "Products" },
+    { id: 2, value: 10, suffix: "+", label: "Clients" },
     { id: 3, value: 100, suffix: "%", label: "Satisfaction" },
-    { id: 4, value: 50, suffix: "+", label: "Tons/Day" },
+    { id: 4, value: 25, suffix: "+", label: "Tons/Day" },
+    { id: 5, value: 9, suffix: "+", label: "Countries" },
+    { id: 6, value: 7, suffix: "+", label: "Production Lines" },
   ]);
 
-  const [countingIds, setCountingIds] = useState<number[]>([1, 2, 3, 4]);
-
   const getVisibleCards = () => {
-    if (window.innerWidth < 640) return 1; // موبايل
-    if (window.innerWidth < 1024) return 2; // تابلت
-    return 3; // ديسكتوب
+    if (window.innerWidth < 640) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
   };
 
   useEffect(() => {
@@ -53,52 +57,50 @@ export default function StatsCarousel() {
     if (!scrollContainer) return;
 
     let visibleCards = getVisibleCards();
-    let currentIndex = 0;
+    let cardWidth = scrollContainer.clientWidth / visibleCards;
 
     const handleResize = () => {
       visibleCards = getVisibleCards();
+      cardWidth = scrollContainer.clientWidth / visibleCards;
     };
 
     window.addEventListener("resize", handleResize);
 
-    const moveNext = () => {
-      currentIndex = (currentIndex + 1) % stats.length;
+    const loop = () => {
+      // scroll خطوة واحدة
+      scrollContainer.scrollBy({ left: cardWidth, behavior: "smooth" });
 
-      const cardWidth = scrollContainer.clientWidth / visibleCards;
-      const scrollPosition =
-        currentIndex * cardWidth - (scrollContainer.clientWidth - cardWidth) / 2;
+      setTimeout(() => {
+        setStats((prev) => {
+          // cut أول عنصر وحطه في الآخر
+          const [first, ...rest] = prev;
+          return [...rest, first];
+        });
 
-      scrollContainer.scrollTo({
-        left: scrollPosition,
-        behavior: "smooth",
-      });
+        // reset scroll مكانه
+        scrollContainer.scrollLeft -= cardWidth;
 
-      setTimeout(moveNext, 2500);
+        loop();
+      }, 2500);
     };
 
-    setTimeout(moveNext, 2000);
+    const timer = setTimeout(loop, 2000);
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
     };
-  }, [stats.length]);
+  }, []);
 
   return (
-    <div className="w-full bg-[#0056D2] py-12 overflow-hidden">
+    <div className="w-full bg-[#0056D2] py-12 overflow-hidden" dir="ltr">
       <div
         ref={scrollRef}
         className="flex flex-nowrap overflow-x-scroll no-scrollbar"
-        style={{
-          scrollbarWidth: "none",
-          scrollSnapType: "x mandatory", // لليوزر بس
-        }}
+        style={{ scrollbarWidth: "none" }}
       >
         {stats.map((stat) => (
-          <StatCard
-            key={stat.id}
-            {...stat}
-            shouldCount={countingIds.includes(stat.id)}
-          />
+          <StatCard key={stat.id} {...stat} />
         ))}
       </div>
     </div>

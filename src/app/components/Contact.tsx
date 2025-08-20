@@ -38,7 +38,7 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-10" dir="ltr">
+    <div id="contact" className="max-w-5xl mx-auto p-6 space-y-10" dir="ltr">
       <motion.div
         variants={fadeUp}
         animate= "visible"

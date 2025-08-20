@@ -54,27 +54,27 @@ const brands = [
   {
     name: "Covix Care",
     description: "Specialized in protective care.",
-    image: "/images/brands/covix-care.png",
+    image: "/images/covix-care.png",
   },
   {
     name: "Rubin",
     description: "Medical-grade skin solutions.",
-    image: "/images/brands/rubin.png",
+    image: "/images/rubin.png",
   },
   {
     name: "B1 Care",
     description: "Innovative skincare for all.",
-    image: "/images/brands/b1care.png",
+    image: "/images/b1care.png",
   },
   {
     name: "Le Visage Plus",
     description: "Luxury skincare for a radiant look.",
-    image: "/images/brands/le-visage-plus.png",
+    image: "/images/le-visage-plus.png",
   },
   {
     name: "PuCare",
     description: "Premium skincare for sensitive skin.",
-    image: "/images/brands/pucare.png",
+    image: "/images/pucare.png",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function ServicesAndBrands() {
       <h3 className="text-2xl font-semibold text-gray-200 mb-3 text-center">
         {t(service.title)}
       </h3>
-      <p className="text-gray-900 text-center mb-4">{t(service.description)}</p>
+      <p className="text-gray-1000 text-center mb-4">{t(service.description)}</p>
     </motion.div>
   ))}
 </div>

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../i18n";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseSharp } from "react-icons/io5";
@@ -68,9 +68,9 @@ export default function FactoryHeader() {
   const navItems = [
     { key: "home", path: "/" },
     { key: "about", path: "/about" },
-    { key: "Services", path: "/products" },
+    { key: "services", path: "/services" },
     { key: "certifications", path: "/certifications" },
-    { key: "contact", path: "/contact" },
+    { key: "contact", path: "/#contact" },
   ];
 
     const factories = [
@@ -227,7 +227,7 @@ export default function FactoryHeader() {
       key={item.key}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 + index * 0.15, duration: 0.4 }} // تأخير تدريجي بين كل عنصر
+      transition={{ delay: 0.3 + index * 0.15, duration: 0.4 }} 
     >
       <Link
         href={item.path}
@@ -318,7 +318,7 @@ export default function FactoryHeader() {
       exit={{ opacity: 0, y: -10, scaleY: 0 }}
       transition={{ duration: 0.35 }}
       style={{ originY: 0 }}
-      className="absolute right-[-20px] top-full z-40 bg-white p-4 rounded-xl shadow-xl w-[100%] mx-5"
+      className="absolute right-[-20px] top-full z-40 bg-white p-4 rounded-b-xl shadow-xl w-[100%] mx-5"
           >
 <div className="flex items-center gap-3 px-6 pt-4">
   {/* Language Button */}
