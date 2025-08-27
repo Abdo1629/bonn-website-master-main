@@ -34,7 +34,7 @@ export default function UnderDevelopmentPage() {
         transition={{ duration: 0.7, delay: 0.4 }}
         className="text-lg md:text-xl text-gray-700 max-w-2xl leading-relaxed mb-10"
       >
-        We're working hard to bring you the full experience.  
+        We&apos;re working hard to bring you the full experience.  
         Please check back soon for updates!
       </motion.p>
 
