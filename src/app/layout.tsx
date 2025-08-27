@@ -1,16 +1,11 @@
 import I18nProvider from "./i18n-provider";
 import type { Metadata } from "next";
 import "./globals.css";
-import { Mada, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import i18n from "../i18n";
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-
-const titillium = Mada({
-  subsets: ["latin"],
-  weight: ["400"],
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -81,7 +76,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={i18n.language} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
-      <body className={`${titillium.className} antialiased`}>
+      <body className={`font-din antialiased.className antialiased`}>
         <I18nProvider>
           <Header />
            <div className="margin-top"></div>

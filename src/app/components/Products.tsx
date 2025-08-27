@@ -50,33 +50,6 @@ const services = [
   },
 ];
 
-const brands = [
-  {
-    name: "Covix Care",
-    description: "Specialized in protective care.",
-    image: "/images/covix-care.png",
-  },
-  {
-    name: "Rubin",
-    description: "Medical-grade skin solutions.",
-    image: "/images/rubin.png",
-  },
-  {
-    name: "B1 Care",
-    description: "Innovative skincare for all.",
-    image: "/images/b1care.png",
-  },
-  {
-    name: "Le Visage Plus",
-    description: "Luxury skincare for a radiant look.",
-    image: "/images/le-visage-plus.png",
-  },
-  {
-    name: "PuCare",
-    description: "Premium skincare for sensitive skin.",
-    image: "/images/pucare.png",
-  },
-];
 
 export default function ServicesAndBrands() {
   const { t } = useTranslation();
@@ -95,13 +68,15 @@ export default function ServicesAndBrands() {
 
 <div className="background grid md:grid-cols-3 gap-5 md:ml-28 md:mr-28">
   {services.map((service, index) => (
-    <motion.div
-      key={service.title}
-      initial={{ opacity: 0, y: 60, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-      className="bg-white/30 backdrop-blur-md rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all border border-white/30"
-    >
+<motion.div
+  key={service.title}
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+  className="ios-fix bg-white/30 backdrop-blur-md rounded-2xl p-8 shadow-md hover:shadow-xl transition-all border border-white/30 will-change-transform will-change-opacity "
+>
+
       <div className="flex justify-center mb-6">{service.icon}</div>
       <h3 className="text-2xl font-semibold text-gray-200 mb-3 text-center">
         {t(service.title)}

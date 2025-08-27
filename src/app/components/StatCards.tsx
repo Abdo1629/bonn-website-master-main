@@ -21,7 +21,7 @@ function StatCard({ value, label, suffix = "" }: Stat) {
 
   return (
     <div className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-center py-8">
-      <h3 className="text-7xl font-extrabold mb-2 bg-clip-text text-transparent bg-white/75 backdrop-blur-sm drop-shadow-lg">
+      <h3 className="text-7xl font-extrabold mb-2 text-white drop-shadow-lg">
         {startCount ? (
           <CountUp end={value} duration={2} suffix={suffix} />
         ) : (
