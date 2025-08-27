@@ -467,7 +467,7 @@ const factories = [
       onClick={() => setIsOpen(false)}
     >
       {/* ثابت للوجو */}
-      <div className="w-20 h-12 flex items-center justify-center">
+      <div className="w-12 h-10 flex items-center justify-center">
         <Image
           src={factory.logo}
           alt={factory.name}
