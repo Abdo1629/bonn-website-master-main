@@ -73,14 +73,53 @@ export default function FactoryHeader() {
     { key: "contact", path: "/#contact" },
   ];
 
-    const factories = [
-    { logo: " ", name: "Covix Care", color: "pink", glow: "glow-pink" },
-    { logo: " ", name: "Rubin", color: "yellow", glow: "glow-yellow" },
-    { logo: " ", name: "B1Care", color: "green", glow: "glow-green" },
-    { logo: " ", name: "Le Visage Plus", color: "sky", glow: "glow-sky" },
-    { logo: " ", name: "PuCare", color: "red", glow: "glow-red" },
-    { logo: " ", name: "Luxury", color: "purple", glow: "glow-purple" },
-  ];
+const factories = [
+  { 
+    logo: "/images/covix.png", 
+    name: "Covix Care", 
+    bg: "bg-gray-100", 
+    glow: "shadow-[0_0_15px_rgba(255,69,0,0.7)]", // برتقالي/أحمر
+    w: 70, h: 20 
+  },
+  { 
+    logo: "/images/Vert.png", 
+    name: "Vert", 
+    bg: "bg-gray-100", 
+    glow: "shadow-[0_0_15px_rgba(34,197,94,0.7)]", // أخضر
+    w: 40, h: 20 
+  },
+  { 
+    logo: "/images/B1.png", 
+    name: "B1Care", 
+    bg: "bg-gray-100", 
+    glow: "shadow-[0_0_15px_rgba(30,64,175,0.7)]", // كحلي
+    w: 40, h: 20 
+  },
+  { 
+    logo: "/images/Visage.png", 
+    name: "Le Visage Plus", 
+    bg: "bg-gray-100", 
+    glow: "shadow-[0_0_15px_rgba(239,68,68,0.7)]", // أحمر فاتح
+    w: 70, h: 20 
+  },
+  { 
+    logo: "/images/Shield.png", 
+    name: "Shield", 
+    bg: "bg-gray-100", 
+    glow: "shadow-[0_0_15px_rgba(59,130,246,0.7)]", // أزرق
+    w: 40, h: 20 
+  },
+  { 
+    logo: "/images/Haut.png", 
+    name: "Haut", 
+    bg: "bg-gray-100", 
+    glow: "shadow-[0_0_20px_rgba(255,215,0,0.8)]", // دهبي
+    w: 50, h: 20 
+  },
+];
+
+
+
 
 
   // ✅ Fuse Search Logic
@@ -280,18 +319,28 @@ export default function FactoryHeader() {
       style={{ originY: 0 }}
       className="absolute right-[-20px] top-full z-40 bg-white/90 p-4 rounded-xl shadow-xl w-[100%] mx-5"
     >
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {factories.map((factory) => (
-          <Link
-            key={factory.name}
-            href={`/brands/${factory.name.toLowerCase()}`}
-            className={`text-white text-sm text-center py-2 rounded-md relative overflow-hidden ${factory.glow}`}
-            onClick={() => setIsOpen(false)}
-          >
-            {factory.name}
-          </Link>
-        ))}
+<div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+  {factories.map((factory) => (
+    <Link
+      key={factory.name}
+      href={`/brands/${factory.name.toLowerCase()}`}
+      className={`text-white flex flex-col items-center justify-center text-sm text-center py-4 rounded-md relative gap-2 overflow-hidden ${factory.bg} ${factory.glow}`}
+      onClick={() => setIsOpen(false)}
+    >
+      {/* ثابت للوجو */}
+      <div className="w-25 h-20 flex items-center justify-center">
+        <Image
+          src={factory.logo}
+          alt={factory.name}
+          width={factory.w}
+          height={factory.h}
+          className="object-contain w-full h-full"
+        />
       </div>
+    </Link>
+  ))}
+</div>
+
     </motion.div>
   )}
 </AnimatePresence>
@@ -409,18 +458,27 @@ export default function FactoryHeader() {
 ))}
 
 
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                {factories.map((factory) => (
-                  <Link
-                    key={factory.name}
-                    href={`/brands/${factory.name.toLowerCase()}`}
-                    className={`text-white text-sm text-center py-2 rounded-md relative overflow-hidden ${factory.glow}`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {factory.name}
-                  </Link>
-                ))}
-              </div>
+<div className="grid grid-cols-2 gap-3 mt-4">
+  {factories.map((factory) => (
+    <Link
+      key={factory.name}
+      href={`/brands/${factory.name.toLowerCase()}`}
+      className={`text-white text-sm text-center py-2 rounded-md relative overflow-hidden flex flex-col items-center justify-center ${factory.bg} ${factory.glow}`}
+      onClick={() => setIsOpen(false)}
+    >
+      {/* ثابت للوجو */}
+      <div className="w-20 h-12 flex items-center justify-center">
+        <Image
+          src={factory.logo}
+          alt={factory.name}
+          width={factory.w}
+          height={factory.h}
+          className="object-contain max-w-full max-h-full"
+        />
+      </div>
+    </Link>
+  ))}
+</div>
             </div>
           </motion.div>
         )}
