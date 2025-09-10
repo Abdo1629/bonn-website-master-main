@@ -108,14 +108,14 @@
   "hospital_solutions_desc": "Advanced solutions for hospitals with a focus on quality and efficiency.",
   "injection_services": "Injection Services",
   "injection_services_desc": " Advanced equipment and expertise for precise injection services.",
-     "pageTitle": "About Us | Bonn Medical Industries",
+  "pageTitle": "About Us | Bonn Medical Industries",
   "about_title": "About Us",
   "p1": "Bonn is a contract manufacturer located in Riyadh, Saudi Arabia. Equipped with the latest and up to date machines and equipment, we are confident that we are able to provide the latest and novel formulations under cGMP regulations, either for standard formulations as well as bespoke preparations when required.",
   "p2": "Our highly qualified staff is continuously improving and actualizing their knowledge to attend the constant advances in the sector.",
   "p3": "All these experience and qualifications helped us develop, formulate and manufacture highly professional cosmetics as well as providing the corresponding technical and documental support according to the latest Saudi Food and Drug Administration “SFDA” regulations.",
   "p4": "With all these qualities, Bonn is the ideal partner for companies searching for quality, security and improvement in their product’s development and manufacturing.",
   "visionTitle": "Vision",
-  "visionText": "To be the trusted Saudi partner powering innovative, high-quality personal care brands across the region—setting benchmarks in speed, reliability, and compliance.",
+  "visionText": "To be a leading innovator in the medical and cosmetic industries, recognized globally for our unwavering commitment to product safety, exceptional quality, and regulatory excellence, setting the standard for patient and consumer trust.",
   "missionTitle": "Mission",
   "missionText": "To build lasting relationships with our customers by providing exceptional service and consistently exceeding their expectations.",
   "responsibilitiesTitle": "Our Responsibilities",
@@ -180,75 +180,62 @@
   "value_innovation_desc": "Practical R&D that solves real market needs.",
   "value_sustainability_title": "Sustainability",
   "value_sustainability_desc": "Smarter inputs, reduced waste, responsible packaging.",
-    "hero": {
-    "title": "Research & Development (R&D)",
-    "subtitle": "Advanced & Integrated Innovation. At Bonn Factory, our R&D is engineered to deliver innovative, high-quality and compliant personal care solutions by integrating state-of-the-art laboratories, market intelligence, and regulatory expertise.",
-    "ctaPrimary": "See the Process",
-    "ctaSecondary": "Talk to R&D"
-  },
-  "intro": {
-    "title": "Advanced & Integrated Innovation",
-    "body": "We align every formulation with real market needs and strict regulatory expectations (SFDA/ISO). From idea screening and specs definition to analytical testing and stability, our approach reduces risk and accelerates time-to-market."
-  },
-  "highlights": {
-    "title": "What You Get",
-    "items": [
-      "Faster, risk-reduced iterations from lab to line",
-      "Rigorous QA & documentation ready for SFDA/ISO",
-      "Scalable formulas optimized for performance and cost-in-use",
-      "Registration support and smooth market entry" 
-    ]
-  },
-  "process": {
-    "title": "The R&D Process — Step by Step",
-    "steps": [
-      { "title": "Idea Research & Market Benchmarking", "desc": "Analyze trends, feedback, and references to identify opportunities for improvement and innovation." },
-      { "title": "Input Data & Specification Definition", "desc": "Lock detailed requirements and client specs to ensure formulation fit-for-purpose." },
-      { "title": "Initial Formulation", "desc": "Preliminary formulas built with the latest ingredient science and safety guidance." },
-      { "title": "R&D Trials & Analytical Testing", "desc": "Parallel lab trials with chemical and microbiological analysis for safety, efficacy, and stability." },
-      { "title": "Product Evaluation", "desc": "Lab-based performance and safety screening; real-world checks where relevant." },
-      { "title": "Stability Formulation & Testing", "desc": "Advanced stability studies meeting local (SFDA) and global standards for shelf life and reliability." },
-      { "title": "Design & Packaging Development", "desc": "Aesthetic, functional, and compliant packs that protect the product and look right on shelf." },
-      { "title": "Product Registration", "desc": "End-to-end support to meet Saudi and international regulations for smooth market entry." },
-      { "title": "Product Delivery & Logistics", "desc": "On-time, end-to-end delivery with flexible solutions tailored to each client." },
-      { "title": "Customer Feedback & Continuous Improvement", "desc": "Post-delivery insights feed an ongoing loop to refine R&D and production." }
-    ],
-    "feedbackTitle": "Customer Feedback & Continuous Improvement",
-    "feedbackDesc": "We actively capture post-delivery insights to continuously refine our formulations, processes, and documentation—closing the loop between lab, line, and market."
-  },
-  "labs": {
-    "title": "R&D Departments & Advanced Lab Sections",
-    "deptTitle": "Core Divisions",
-    "departments": [
-      { "title": "Microbiological Laboratory", "desc": "Certified microbial testing for safety, robustness, and product integrity." },
-      { "title": "Quality Control – Chemical Analysis", "desc": "Analytical validation and contamination control to assure quality batch after batch." }
-    ],
-    "techTitle": "Lab Technologies & Equipment",
-    "technologies": [
-      "High-Performance Liquid Chromatography (HPLC)",
-      "Gas Chromatography (GC)",
-      "Spectrophotometry",
-      "Karl Fischer Titration",
-      "Automated Titrators"
-    ]
-  },
-  "innovation": {
-    "title": "What Drives Our Innovation?",
-    "intro": "Our product development is shaped by practical, up-to-date signals.",
-    "drivers": [
-      "Latest market directions and forecasts",
-      "Direct feedback from key customers",
-      "Continuous updates from global industry and science"
-    ]
-  },
-  "stability": {
-    "title": "Our Unique Edge in Stability",
-    "desc": "Bonn Factory’s distinctive stability capability ensures integrity, efficacy, and safety across the product lifecycle—meeting the strictest regulatory demands and market expectations."
-  },
-  "cta": {
-    "title": "Ready to develop your next product?",
-    "subtitle": "Share your brief with our R&D team—let’s move from concept to a compliant, stable, and scalable formula.",
-    "primary": "Contact R&D",
-    "secondary": "Explore Services"
+  "rnd": {
+    "title": "Research & Development",
+    "subtitle": "From Concept to Compliant, Stable, and Scalable Formulations",
+    "intro": "At Bonn, our R&D team is the engine driving innovation and quality in every product we create. With deep expertise in cosmetic science, regulatory compliance, and market trends",
+    "introtitle": "",
+    "process": {
+      "title": "R&D Process — Step by Step",
+      "steps": [
+        { "title": "Idea Research & Market Benchmarking", "desc": "Analyzing trends, feedback, and reference products to identify opportunities for improvement and innovation." },
+        { "title": "Data Preparation & Specifications", "desc": "Defining requirements and customer specifications to ensure formulation relevance." },
+        { "title": "Initial Formulation", "desc": "Designing preliminary formulations using the latest ingredient science and safety guidelines." },
+        { "title": "R&D Trials & Analytical Testing", "desc": "Lab trials paired with chemical and microbiological analyses for safety, efficacy, and stability." },
+        { "title": "Product Evaluation", "desc": "Assessing lab performance, safety testing, and real-world trials when needed." },
+        { "title": "Stability Formulation & Testing", "desc": "Advanced stability studies meeting local (SFDA) and global standards for reliable shelf life." },
+        { "title": "Design & Packaging Development", "desc": "Attractive, functional, and compliant packaging that protects the product and stands out on shelves." },
+        { "title": "Product Registration", "desc": "End-to-end registration management aligned with Saudi and international regulations for smooth market entry." },
+        { "title": "Delivery & Logistics", "desc": "Flexible supply and shipping solutions ensuring on-time delivery." },
+        { "title": "Feedback & Continuous Improvement", "desc": "Leveraging post-delivery insights to refine R&D, production, and documentation continuously." }
+      ],
+      "feedbackTitle": "Feedback & Continuous Improvement",
+      "feedbackDesc": "We gather post-delivery feedback and turn it into actionable improvements in formulations, processes, and documentation—connecting lab to production line and market."
+    },
+    "labs": {
+      "title": "R&D Divisions & Advanced Labs",
+      "deptTitle": "Core Departments",
+      "departments": [
+        { "title": "Microbiology Lab", "desc": "Certified microbial testing to ensure safety, immunity, and product quality." },
+        { "title": "Quality Control — Chemical Analysis", "desc": "Rigorous analytical verification and contamination control to ensure batch-to-batch consistency." }
+      ],
+      "techTitle": "Technologies & Equipment",
+      "technologies": [
+        "High-Performance Liquid Chromatography (HPLC)",
+        "Gas Chromatography (GC)",
+        "Spectrophotometry",
+        "Karl Fischer Moisture Analysis",
+        "Automated Titration Devices"
+      ]
+    },
+    "innovation": {
+      "title": "What Drives Our Innovation?",
+      "intro": "Our product development is powered by real-time, actionable signals.",
+      "drivers": [
+        "Latest market trends and forecasts",
+        "Direct feedback from key clients",
+        "Continuous updates from global industry and science"
+      ]
+    },
+    "stability": {
+      "title": "Our Edge in Stability Testing",
+      "desc": "Our advanced stability expertise ensures product safety and efficacy throughout its lifecycle—meeting strict regulatory standards and market expectations."
+    },
+    "cta": {
+      "title": "Ready to Develop Your Next Product?",
+      "subtitle": "Submit your brief to our R&D team—we’ll take it from idea to compliant, stable, and scalable formulation.",
+      "primary": "Contact R&D Team",
+      "secondary": "Explore Our Services"
+    }
   }
 }

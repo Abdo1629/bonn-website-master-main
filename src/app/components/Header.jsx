@@ -70,6 +70,7 @@ export default function FactoryHeader() {
     { key: "about", path: "/about" },
     { key: "services", path: "/services" },
     { key: "certifications", path: "/certifications" },
+    { key: "R & D", path: "/RD" },
     { key: "contact", path: "/#contact" },
   ];
 
