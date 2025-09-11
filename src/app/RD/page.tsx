@@ -93,14 +93,14 @@ export default function RandDPage() {
               {t("rnd.cta.title")}
             </h3>
             <p className="mb-6">{t("rnd.cta.subtitle")}</p>
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-3 md:flex-row flex-col gap-y-2">
               <button className="hover:scale-[1.02] transition">
-              <Link href="/#contact" className="bg-white text-[#0B5BD3] px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition">
+              <Link href="/#contact" className="bg-white text-[#0B5BD3] px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition md:w-full block">
                 {t("rnd.cta.primary")}
               </Link>
               </button>
               <button className="hover:scale-[1.02] transition">
-           <Link href="/services" className="bg-white/10 px-6 py-3 rounded-full font-semibold hover:bg-white/20 transition">
+           <Link href="/services" className="bg-white/10 px-6 py-3 rounded-full font-semibold hover:bg-white/20 transition md:w-full block">
                 {t("rnd.cta.secondary")}
               </Link>
               </button>
