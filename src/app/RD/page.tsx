@@ -2,6 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function RandDPage() {
   const { t, i18n } = useTranslation();
@@ -10,7 +11,7 @@ export default function RandDPage() {
   return (
     <main className="w-full text-[#0F2451]">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient from-[#0B5BD3] to-[#0B5BD3]/80 text-white">
+      <section className="pt-10 relative overflow-hidden bg-gradient-to-r from-[#0B5BD3] to-[#1F7AF1] text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10">
           <motion.h1
             className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-md"
@@ -29,14 +30,6 @@ export default function RandDPage() {
             {t("rnd.subtitle")}
           </motion.p>
         </div>
-
-        <svg
-          className="absolute bottom-0 left-0 w-full"
-          viewBox="0 0 1440 120"
-          preserveAspectRatio="none"
-        >
-          <path fill="#fff" d="M0,96L1440,0L1440,120L0,120Z"></path>
-        </svg>
       </section>
 
       {/* Process */}
@@ -101,12 +94,16 @@ export default function RandDPage() {
             </h3>
             <p className="mb-6">{t("rnd.cta.subtitle")}</p>
             <div className="flex justify-center gap-3">
-              <a className="bg-white text-[#0B5BD3] px-6 py-3 rounded-full font-semibold">
+              <button className="hover:scale-[1.02] transition">
+              <Link href="/#contact" className="bg-white text-[#0B5BD3] px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition">
                 {t("rnd.cta.primary")}
-              </a>
-              <a className="bg-white/10 px-6 py-3 rounded-full font-semibold">
+              </Link>
+              </button>
+              <button className="hover:scale-[1.02] transition">
+           <Link href="/services" className="bg-white/10 px-6 py-3 rounded-full font-semibold hover:bg-white/20 transition">
                 {t("rnd.cta.secondary")}
-              </a>
+              </Link>
+              </button>
             </div>
           </motion.div>
         </div>
