@@ -1,9 +1,7 @@
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-
-type Params = Promise<{ slug: string }>;
 
 interface ProductType {
   id: string;
@@ -29,23 +27,27 @@ export async function generateStaticParams() {
 }
 
 async function getProductBySlug(slug: string): Promise<ProductType | null> {
-  const snapshot = await getDocs(collection(db, "products"));
-  const productDoc = snapshot.docs.find((doc) => doc.data().slug === slug);
-  if (!productDoc) return null;
+  const q = query(collection(db, "products"), where("slug", "==", slug));
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) return null;
+  const productDoc = snapshot.docs[0];
   return {
     id: productDoc.id,
     ...productDoc.data(),
   } as ProductType;
 }
 
-export default async function ProductPage({ params }: { params: Params }) {
-  const { slug } = await params;
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const product = await getProductBySlug(slug);
+
   if (!product) return notFound();
 
   return (
-    <section className="max-w-5xl mx-auto py-12 px-6 bg-white rounded-2xl shadow-lg">
-      <h1 className="text-3xl font-bold text-[#0056D2] mb-6">{product.name_en}</h1>
+    <section className="mt-20 max-w-5xl mx-auto py-12 px-6 bg-white rounded-2xl shadow-lg">
+      <h1 className="text-3xl font-bold text-[#0056D2] mb-6">
+        {product.name_en}
+      </h1>
 
       <div className="grid md:grid-cols-2 gap-8">
         <Image

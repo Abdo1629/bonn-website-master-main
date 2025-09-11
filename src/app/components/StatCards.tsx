@@ -2,22 +2,24 @@
 
 import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 
-type Stat = {
-  id: number;
+type StatCardProps = {
   value: number;
   label: string;
   suffix?: string;
 };
 
-function StatCard({ value, label, suffix = "" }: Stat) {
+function StatCard({ value, label, suffix = "" }: StatCardProps) {
   const [startCount, setStartCount] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setStartCount(true);
     const timer = setTimeout(() => setStartCount(false), 2200);
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [value, i18n.language]); // 👈 أجبر الكومبوننت يعيد الرندر مع كل تغيير للغة
 
   return (
     <div className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-center py-8">
@@ -29,7 +31,7 @@ function StatCard({ value, label, suffix = "" }: Stat) {
         )}
       </h3>
       <p className="text-xl bg-clip-text text-transparent bg-white/75 backdrop-blur-sm">
-        {label}
+        {t(label)} {/* هتتغير مع اللغة أوتوماتيك */}
       </p>
     </div>
   );
@@ -37,13 +39,14 @@ function StatCard({ value, label, suffix = "" }: Stat) {
 
 export default function StatsCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [stats, setStats] = useState<Stat[]>([
-    { id: 1, value: 500, suffix: "+", label: "Products" },
-    { id: 2, value: 10, suffix: "+", label: "Clients" },
-    { id: 3, value: 100, suffix: "%", label: "Satisfaction" },
-    { id: 4, value: 25, suffix: "+", label: "Tons/Day" },
-    { id: 5, value: 9, suffix: "+", label: "Countries" },
-    { id: 6, value: 7, suffix: "+", label: "Production Lines" },
+
+  const [stats, setStats] = useState([
+    { id: 1, value: 500, suffix: "+", label: "products" },
+    { id: 2, value: 10, suffix: "+", label: "clients" },
+    { id: 3, value: 100, suffix: "%", label: "satisfaction" },
+    { id: 4, value: 25, suffix: "+", label: "tonsPerDay" },
+    { id: 5, value: 9, suffix: "+", label: "countries" },
+    { id: 6, value: 7, suffix: "+", label: "productionLines" },
   ]);
 
   const getVisibleCards = () => {
@@ -67,17 +70,14 @@ export default function StatsCarousel() {
     window.addEventListener("resize", handleResize);
 
     const loop = () => {
-      // scroll خطوة واحدة
       scrollContainer.scrollBy({ left: cardWidth, behavior: "smooth" });
 
       setTimeout(() => {
         setStats((prev) => {
-          // cut أول عنصر وحطه في الآخر
           const [first, ...rest] = prev;
           return [...rest, first];
         });
 
-        // reset scroll مكانه
         scrollContainer.scrollLeft -= cardWidth;
 
         loop();
@@ -100,7 +100,8 @@ export default function StatsCarousel() {
         style={{ scrollbarWidth: "none" }}
       >
         {stats.map((stat) => (
-          <StatCard key={stat.id} {...stat} />
+          <StatCard key={stat.id + "-" + i18n.language} {...stat} />
+          // 👆 key مرتبط باللغة كمان عشان يرندر تاني مع تغيير اللغة
         ))}
       </div>
     </div>

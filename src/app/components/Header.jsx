@@ -131,10 +131,12 @@ const factories = [
       return;
     }
 
-    const fuse = new Fuse(products, {
-      keys: ["name_en", "name_ar"],
-      threshold: 0.3,
-    });
+ const fuse = new Fuse(products, {
+  keys: ["name_en", "name_ar"],
+  threshold: 0.3,
+  includeMatches: true,
+});
+
 
     const results = fuse.search(searchTerm);
     if (results.length > 0) {

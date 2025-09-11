@@ -251,5 +251,12 @@
       "primary": "تواصل مع فريق R&D",
       "secondary": "استكشف خدماتنا"
     }
-  }
+  },
+    "best_seller": "الأكثر مبيعًا",
+    "products": "المنتجات",
+    "clients": "العملاء",
+    "satisfaction": "الرضا",
+    "tonsPerDay": "أطنان/يوم",
+    "countries": "الدول",
+    "productionLines": "خطوط الإنتاج"
 }

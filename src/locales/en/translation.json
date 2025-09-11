@@ -236,6 +236,13 @@
       "subtitle": "Submit your brief to our R&D team—we’ll take it from idea to compliant, stable, and scalable formulation.",
       "primary": "Contact R&D Team",
       "secondary": "Explore Our Services"
-    }
+    },
+      "best_seller": "Best Seller",
+      "products": "Products",
+      "clients": "Clients",
+      "satisfaction": "Satisfaction",
+      "tonsPerDay": "Tons/Day",
+      "countries": "Countries",
+      "productionLines": "Production Lines"
   }
 }
