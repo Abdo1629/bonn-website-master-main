@@ -18,7 +18,6 @@ interface ProductType {
   outlets?: string[];
 }
 
-// ✅ Next.js بيتوقع { slug: string } جوة params، فمش محتاج تعمل Extend أو Generic
 export async function generateStaticParams() {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
@@ -39,7 +38,7 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-// ✅ دي الطريقة المظبوطة مع Next.js App Router
+// ✅ من غير PageProps نهائيًا
 export default async function ProductPage({
   params,
 }: {
