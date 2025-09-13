@@ -40,9 +40,10 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
 }
 
 // ✅ هنا التايب مظبوط
-type ProductPageProps = {
+
+interface ProductPageProps {
   params: { slug: string };
-};
+}
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = params;
