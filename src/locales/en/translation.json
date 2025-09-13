@@ -4,6 +4,7 @@
   "services": "Services",
   "certifications": "Certifications",
   "contact": "Contact",
+  "operation": "Operations",
   "language": "العربية",
   "searchProduct": "Search Product",
   "productNotFound": "Product not found",
@@ -244,5 +245,57 @@
       "tonsPerDay": "Tons/Day",
       "countries": "Countries",
       "productionLines": "Production Lines"
+  },
+  "operations": {
+    "title": "Operations",
+    "subtitle": "Excellence in Quality Management and Research & Development.",
+    "qms": {
+      "title": "Quality Management System of Bonn Medical Industries",
+      "vision": {
+        "title": "Vision",
+        "desc": "To be a leading innovator in the medical and cosmetic industries, recognized globally for our unwavering commitment to product safety, exceptional quality, and regulatory excellence."
+      },
+      "mission": {
+        "title": "Mission",
+        "points": [
+          "Ensuring Product Safety and Efficacy: Strictly adhering to SFDA and ISO 13485.",
+          "Delivering Superior Quality: Applying ISO 9001 principles across all processes.",
+          "Upholding Food Safety and Hygiene: Integrating ISO 22000 principles.",
+          "Building Trust and Confidence: Operating with transparency and integrity."
+        ]
+      },
+      "steps": [
+        {
+          "title": "Alignment with Key Standards",
+          "desc": "SFDA, ISO 9001, ISO 13485, and ISO 22000 are embedded in every process."
+        },
+        {
+          "title": "Quality Policy & Objectives",
+          "desc": "Compliance, consistency, cost efficiency, and customer focus."
+        },
+        {
+          "title": "Implementation of Process & Controls",
+          "desc": "Management review, supplier oversight, CAPA, audits, and continual improvement."
+        },
+        {
+          "title": "Bonn Medical QMS in Action",
+          "desc": "Corrective & preventive actions, structured change control, supplier qualification, and robust audit programs."
+        },
+        {
+          "title": "Certifications & Compliance",
+          "desc": "ISO 22000, ISO 13485, HACCP, ISO 9001, SFDA Site License."
+        },
+        {
+          "title": "Continual Improvement",
+          "desc": "Annual reviews, KPI tracking, and customer feedback follow-up."
+        }
+      ]
+    },
+    "cta": {
+      "title": "What is Quality at Bonn Medical?",
+      "subtitle": "Delivering safe, effective, compliant products. Doing it right the first time. Customer satisfaction is our top priority.",
+      "primary": "Contact Us",
+      "secondary": "Learn More"
+    }
   }
 }
