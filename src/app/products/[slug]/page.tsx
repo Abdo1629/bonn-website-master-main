@@ -18,6 +18,7 @@ interface ProductType {
   outlets?: string[];
 }
 
+// ✅ لازم Promise<{ slug: string }[]>
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
@@ -25,7 +26,6 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
     .filter((slug): slug is string => typeof slug === "string")
     .map((slug) => ({ slug }));
 }
-
 
 async function getProductBySlug(slug: string): Promise<ProductType | null> {
   const q = query(collection(db, "products"), where("slug", "==", slug));
@@ -39,12 +39,12 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-// ✅ من غير PageProps نهائيًا
-export default async function ProductPage({
-  params,
-}: {
+// ✅ هنا التايب مظبوط
+type ProductPageProps = {
   params: { slug: string };
-}) {
+};
+
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = params;
   const product = await getProductBySlug(slug);
 
