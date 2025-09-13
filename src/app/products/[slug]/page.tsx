@@ -1,7 +1,9 @@
-import { getDocs, collection, query, where } from "firebase/firestore";
+import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+
+type Params = Promise<{ slug: string }>;
 
 interface ProductType {
   id: string;
@@ -18,8 +20,7 @@ interface ProductType {
   outlets?: string[];
 }
 
-// ✅ لازم Promise<{ slug: string }[]>
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+export async function generateStaticParams() {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
     .map((doc) => doc.data().slug)
@@ -28,34 +29,23 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 }
 
 async function getProductBySlug(slug: string): Promise<ProductType | null> {
-  const q = query(collection(db, "products"), where("slug", "==", slug));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) return null;
-
-  const productDoc = snapshot.docs[0];
+  const snapshot = await getDocs(collection(db, "products"));
+  const productDoc = snapshot.docs.find((doc) => doc.data().slug === slug);
+  if (!productDoc) return null;
   return {
     id: productDoc.id,
     ...productDoc.data(),
   } as ProductType;
 }
 
-// ✅ هنا التايب مظبوط
-
-interface ProductPageProps {
-  params: { slug: string };
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = params;
+export default async function ProductPage({ params }: { params: Params }) {
+  const { slug } = await params;
   const product = await getProductBySlug(slug);
-
   if (!product) return notFound();
 
   return (
-    <section className="mt-20 max-w-5xl mx-auto py-12 px-6 bg-white rounded-2xl shadow-lg">
-      <h1 className="text-3xl font-bold text-[#0056D2] mb-6">
-        {product.name_en}
-      </h1>
+    <section className="max-w-5xl mx-auto py-12 px-6 bg-white rounded-2xl shadow-lg">
+      <h1 className="text-3xl font-bold text-[#0056D2] mb-6">{product.name_en}</h1>
 
       <div className="grid md:grid-cols-2 gap-8">
         <Image
@@ -71,8 +61,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {product.brand && (
             <p className="text-sm text-gray-700">
-              <span className="font-medium text-gray-800">Brand:</span>{" "}
-              {product.brand}
+              <span className="font-medium text-gray-800">Brand:</span> {product.brand}
             </p>
           )}
 
@@ -84,9 +73,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {product.outlets && product.outlets.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-gray-700">
-                Available at:
-              </h4>
+              <h4 className="text-sm font-semibold text-gray-700">Available at:</h4>
               <ul className="list-disc list-inside text-sm text-gray-600">
                 {product.outlets.map((outlet, idx) => (
                   <li key={idx}>{outlet}</li>
