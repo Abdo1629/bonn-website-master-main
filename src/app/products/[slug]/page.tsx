@@ -18,7 +18,13 @@ interface ProductType {
   outlets?: string[];
 }
 
-export async function generateStaticParams() {
+interface ProductPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
     .map((doc) => doc.data().slug)
@@ -37,7 +43,7 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = params;
   const product = await getProductBySlug(slug);
 
@@ -63,7 +69,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
           {product.brand && (
             <p className="text-sm text-gray-700">
-              <span className="font-medium text-gray-800">Brand:</span> {product.brand}
+              <span className="font-medium text-gray-800">Brand:</span>{" "}
+              {product.brand}
             </p>
           )}
 
@@ -75,7 +82,9 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
           {product.outlets && product.outlets.length > 0 && (
             <div>
-              <h4 className="text-sm font-semibold text-gray-700">Available at:</h4>
+              <h4 className="text-sm font-semibold text-gray-700">
+                Available at:
+              </h4>
               <ul className="list-disc list-inside text-sm text-gray-600">
                 {product.outlets.map((outlet, idx) => (
                   <li key={idx}>{outlet}</li>
