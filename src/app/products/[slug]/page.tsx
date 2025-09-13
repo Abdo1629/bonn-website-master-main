@@ -18,13 +18,14 @@ interface ProductType {
   outlets?: string[];
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const snapshot = await getDocs(collection(db, "products"));
   return snapshot.docs
     .map((doc) => doc.data().slug)
     .filter((slug): slug is string => typeof slug === "string")
     .map((slug) => ({ slug }));
 }
+
 
 async function getProductBySlug(slug: string): Promise<ProductType | null> {
   const q = query(collection(db, "products"), where("slug", "==", slug));
