@@ -164,6 +164,7 @@ const factories = [
     }
   };
 
+
   return (
     <>
     {showIntro && (
@@ -439,6 +440,7 @@ const factories = [
         ? "text-[#0056D2]"
         : "text-gray-700 hover:text-[#0056D2]"
     }`}
+     onClick={() => setIsOpen(false)}
   >
     <span className="relative z-10">
       {t(item.key)}
