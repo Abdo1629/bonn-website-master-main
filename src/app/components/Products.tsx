@@ -66,7 +66,7 @@ export default function ServicesAndBrands() {
         </p>
       </div>
 
-<div className="background grid md:grid-cols-3 gap-5 md:ml-28 md:mr-28">
+<div className="background grid md:grid-cols-3 gap-5 md:ml-0 md:mr-0">
   {services.map((service, index) => (
 <motion.div
   key={service.title}

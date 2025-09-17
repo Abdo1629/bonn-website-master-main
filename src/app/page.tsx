@@ -3,6 +3,7 @@ import Products from './components/Products';
 import About from "./components/About"
 import ContactUs from './components/Contact';
 import StatsCarousel from './components/StatCards';
+import ClientsSection from './components/ClientsSection';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <StatsCarousel/>
       <About />
       <Products />
+      <ClientsSection />
       <ContactUs />
     </>
   );
