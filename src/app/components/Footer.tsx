@@ -40,16 +40,13 @@ export default function Footer() {
         <div className="flex flex-col gap-4">
           <h3 className="text-[#0056D2] font-semibold text-lg">{t("footer.followUs", "Follow Us")}</h3>
           <div className="flex gap-4 text-white">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+            <a href="https://www.facebook.com/bonnmedical" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaFacebookF />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
-              <FaTwitter />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+            <a href="https://instagram.com/bonnmedical" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaInstagram />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+            <a href="https://www.linkedin.com/company/bonnmedical" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaLinkedinIn />
             </a>
           </div>
