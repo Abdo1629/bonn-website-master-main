@@ -1,6 +1,5 @@
 "use client";
 
-import { useInView } from "react-intersection-observer";
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -47,8 +46,7 @@ function useTypingEffect(texts: string[], typingSpeed = 100, pauseTime = 2000) {
 }
 
 export default function About() {
-  const { t, i18n } = useTranslation();
-  const isArabic = i18n.language === "ar";
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -91,7 +89,7 @@ export default function About() {
 
   return (
     <section className="w-full bg-gradient-to-br from-white to-[#F1F6FD] py-16 px-6 md:px-8">
-      <div className="flex flex-col-reverse md:flex-row items-center gap-10 md:flex-row-reverse">
+      <div className="flex flex-col-reverse items-center gap-10 md:flex-row-reverse">
         {/* Carousel */}
         <div className="w-full md:w-1/2 relative">
           <div

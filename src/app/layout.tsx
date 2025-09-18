@@ -1,21 +1,9 @@
 import I18nProvider from "./i18n-provider";
 import type { Metadata } from "next";
 import "./globals.css";
-import { Geist_Mono } from "next/font/google";
 import i18n from "../i18n";
 import Header from './components/Header';
 import Footer from './components/Footer';
-
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  display: "swap",
-  style: "normal",
-  preload: true,
-  fallback: ["system-ui", "sans-serif"],
-});
 
 export const metadata: Metadata = {
   title: "Bonn Medical Industry | GMP & ISO Certified Cosmetics Manufacturer in Saudi Arabia",

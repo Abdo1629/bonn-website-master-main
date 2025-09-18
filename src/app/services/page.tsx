@@ -10,6 +10,7 @@ import { FaStethoscope, FaCapsules, FaTruck, FaHeadset } from "react-icons/fa";
 import { brandsInfo, BrandKey } from "../lib/Brands";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import Image from "next/image";
 import ComingSoon from "../components/ComingSoon";
 
 export default function ServicesPage() {
@@ -201,7 +202,7 @@ export default function ServicesPage() {
     //           <div key={brandKey} className="mb-16">
     //             {/* عنوان البراند + اللوجو */}
     //             <div className="flex items-center gap-4 mb-6">
-    //               <img
+    //               < Image
     //                 src={brandInfo.logo}
     //                 alt={brandInfo.name}
     //                 className="w-14 h-14 object-contain"
