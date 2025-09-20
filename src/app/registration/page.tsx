@@ -4,9 +4,9 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
-import Image from "next/image";
-import type { OptionProps } from "react-select";
+import type { OptionProps, SingleValueProps } from "react-select";
 import ReactCountryFlag from "react-country-flag";
+import { components } from "react-select";
 
 
 const countries = [
@@ -86,32 +86,41 @@ export default function RegistrationPage() {
     }, 5000);
   };
 
-  // ✅ Custom Option
-  const customOption = (props: OptionProps<CountryOption, false>) => {
-    const { innerProps, data } = props;
-    return (
-      <div
-        {...innerProps}
-        className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 cursor-pointer"
-      >
+ // ✅ Custom Option
+const customOption = (props: OptionProps<CountryOption, false>) => {
+  const { data } = props;
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center gap-2">
         <ReactCountryFlag
-  countryCode={data.value} // قيمة مثل "US"، "EG"
-  svg
-  title={data.label}
-  style={{ width: "1.5em", height: "1em" }}
-/>
+          countryCode={data.value}
+          svg
+          title={data.label}
+          style={{ width: "1.5em", height: "1em" }}
+        />
         <span>{data.label}</span>
       </div>
-    );
-  };
-
-  // ✅ Custom Selected Value
-  const customSingleValue = ({ data }: { data: CountryOption }) => (
-    <div className="flex items-center gap-2">
-      <Image src={data.flag} alt={data.label} width={20} height={15} />
-      <span>{data.label}</span>
-    </div>
+    </components.Option>
   );
+};
+
+// ✅ Custom Selected Value
+const customSingleValue = (props: SingleValueProps<CountryOption, false>) => {
+  const { data } = props;
+  return (
+    <components.SingleValue {...props}>
+      <div className="flex items-center gap-2">
+        <ReactCountryFlag
+          countryCode={data.value}
+          svg
+          title={data.label}
+          style={{ width: "1.5em", height: "1em" }}
+        />
+        <span>{data.label}</span>
+      </div>
+    </components.SingleValue>
+  );
+};
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-[#DCEEFF]/60 to-white px-6 py-16 flex justify-center items-center">
@@ -145,7 +154,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Contact Person */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.contactPerson")}
             </label>
@@ -160,7 +169,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Business Email */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.email")}
             </label>
@@ -175,7 +184,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Phone */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.phone")}
             </label>
@@ -190,7 +199,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Country Dropdown */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.country")}
             </label>
@@ -206,7 +215,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Product Category */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.productCategory")}
             </label>
@@ -228,7 +237,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Product Form */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.productForm")}
             </label>
@@ -243,7 +252,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Target Market */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.targetMarket")}
             </label>
@@ -261,7 +270,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Packaging */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.packaging")}
             </label>
@@ -276,7 +285,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Quantity */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.quantity")}
             </label>
@@ -291,7 +300,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Certifications */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.certifications")}
             </label>
@@ -306,7 +315,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Shelf Life */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.shelfLife")}
             </label>
@@ -321,7 +330,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Budget */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.budget")}
             </label>
@@ -336,7 +345,7 @@ export default function RegistrationPage() {
           </div>
 
           {/* Timeline */}
-          <div>
+          <div className="col-span-1 max-[767px]:col-span-2">
             <label className="block text-sm font-medium text-[#003D99]">
               {t("form.timeline")}
             </label>
