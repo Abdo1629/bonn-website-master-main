@@ -298,5 +298,28 @@
       "secondary": "Learn More"
     }
   },
-  "OurClients": "Our Clients"
+  "OurClients": "Our Clients",
+   "form": {
+    "title": "Registration Form",
+    "subtitle": "Fill out the form below to start your private label / contract manufacturing journey with us.",
+    "companyName": "Company / Individual Name",
+    "contactPerson": "Contact Person",
+    "email": "Business Email",
+    "phone": "Phone Number",
+    "country": "Country",
+    "productCategory": "Product Category",
+    "productForm": "Product Form",
+    "targetMarket": "Target Market",
+    "packaging": "Packaging Preference",
+    "quantity": "Estimated Quantity",
+    "certifications": "Required Certifications",
+    "shelfLife": "Expected Shelf Life",
+    "budget": "Budget Range",
+    "timeline": "Desired Launch Timeline",
+    "message": "Message / Product Details",
+    "submit": "Submit Registration",
+    "selectOption": "Select an option",
+    "other": "Other",
+    "successMessage": "Thank you! Our team will contact you shortly."
+  }
 }
