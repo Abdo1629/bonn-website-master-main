@@ -208,8 +208,9 @@ export default function FullClientEvaluationForm() {
     <section className="relative min-h-screen flex justify-center items-center overflow-hidden bg-gradient-to-b from-[#F8FBFF] to-white px-4 md:px-0">
       {/* Floating interactive circles */}
       {circles.map((circle, i) => {
-        const circleX = (window.innerWidth * parseFloat(circle.x)) / 100;
-        const circleY = (window.innerHeight * parseFloat(circle.y)) / 100;
+const circleX = typeof window !== "undefined" ? (window.innerWidth * parseFloat(circle.x)) / 100 : 0;
+const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat(circle.y)) / 100 : 0;
+
 
         const dx = mousePos.x - circleX;
         const dy = mousePos.y - circleY;
