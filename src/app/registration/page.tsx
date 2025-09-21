@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import type { OptionProps, SingleValueProps } from "react-select";
 import ReactCountryFlag from "react-country-flag";
 import { components } from "react-select";
-
 
 const countries = [
   { value: "EG", label: "Egypt", flag: "/flags/eg.svg" },
@@ -19,10 +18,19 @@ const countries = [
 
 type CountryOption = { value: string; label: string; flag: string };
 
+const circles = [
+  { size: 120, color: "#DCEEFF", x: "10%", y: "20%" },
+  { size: 160, color: "#99C2FF", x: "80%", y: "30%" },
+  { size: 100, color: "#B3D9FF", x: "20%", y: "70%" },
+  { size: 140, color: "#CCE5FF", x: "70%", y: "75%" },
+  { size: 180, color: "#A3CCFF", x: "50%", y: "10%" },
+];
+
 export default function RegistrationPage() {
   const { t } = useTranslation();
   const [successMessage, setSuccessMessage] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<CountryOption | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -42,13 +50,20 @@ export default function RegistrationPage() {
     message: "",
   });
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Country Change
   const handleCountryChange = (option: CountryOption | null) => {
     setSelectedCountry(option);
     setFormData({ ...formData, country: option ? option.value : "" });
@@ -57,10 +72,7 @@ export default function RegistrationPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-
     setSuccessMessage(true);
-
-    // Reset form
     setFormData({
       companyName: "",
       contactPerson: "",
@@ -79,53 +91,107 @@ export default function RegistrationPage() {
       message: "",
     });
     setSelectedCountry(null);
-
-    // Hide success message
     setTimeout(() => {
       setSuccessMessage(false);
     }, 5000);
   };
 
- // ✅ Custom Option
-const customOption = (props: OptionProps<CountryOption, false>) => {
-  const { data } = props;
-  return (
-    <components.Option {...props}>
-      <div className="flex items-center gap-2">
-        <ReactCountryFlag
-          countryCode={data.value}
-          svg
-          title={data.label}
-          style={{ width: "1.5em", height: "1em" }}
-        />
-        <span>{data.label}</span>
-      </div>
-    </components.Option>
-  );
-};
+  // ✅ Custom Option
+  const customOption = (props: OptionProps<CountryOption, false>) => {
+    const { data } = props;
+    return (
+      <components.Option {...props}>
+        <div className="flex items-center gap-2">
+          <ReactCountryFlag
+            countryCode={data.value}
+            svg
+            title={data.label}
+            style={{ width: "1.5em", height: "1em" }}
+          />
+          <span>{data.label}</span>
+        </div>
+      </components.Option>
+    );
+  };
 
-// ✅ Custom Selected Value
-const customSingleValue = (props: SingleValueProps<CountryOption, false>) => {
-  const { data } = props;
-  return (
-    <components.SingleValue {...props}>
-      <div className="flex items-center gap-2">
-        <ReactCountryFlag
-          countryCode={data.value}
-          svg
-          title={data.label}
-          style={{ width: "1.5em", height: "1em" }}
-        />
-        <span>{data.label}</span>
-      </div>
-    </components.SingleValue>
-  );
-};
+  const customSingleValue = (props: SingleValueProps<CountryOption, false>) => {
+    const { data } = props;
+    return (
+      <components.SingleValue {...props}>
+        <div className="flex items-center gap-2">
+          <ReactCountryFlag
+            countryCode={data.value}
+            svg
+            title={data.label}
+            style={{ width: "1.5em", height: "1em" }}
+          />
+          <span>{data.label}</span>
+        </div>
+      </components.SingleValue>
+    );
+  };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#DCEEFF]/60 to-white px-6 py-16 flex justify-center items-center">
+    <section className="relative min-h-screen flex justify-center items-center overflow-hidden bg-gradient-to-b from-[#F8FBFF] to-white">
+      {/* ✅ Interactive Circles */}
+{circles.map((circle, i) => {
+  const circleX = (window.innerWidth * parseFloat(circle.x)) / 100;
+  const circleY = (window.innerHeight * parseFloat(circle.y)) / 100;
+
+  const dx = mousePos.x - circleX;
+  const dy = mousePos.y - circleY;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  const repelRadius = 150;
+  let offsetX = 0;
+  let offsetY = 0;
+  let isRepelling = false;
+
+  if (dist < repelRadius) {
+    isRepelling = true;
+    const angle = Math.atan2(dy, dx);
+    const force = (repelRadius - dist) * 2;
+    offsetX = -Math.cos(angle) * force;
+    offsetY = -Math.sin(angle) * force;
+  }
+
+  return (
+    <motion.div
+      key={i}
+      className="absolute rounded-full shadow-lg"
+      style={{
+        width: circle.size,
+        height: circle.size,
+        backgroundColor: circle.color,
+        top: circle.y,
+        left: circle.x,
+      }}
+      animate={
+        isRepelling
+          ? {
+              x: offsetX,
+              y: offsetY,
+              transition: { type: "spring", stiffness: 200, damping: 18 },
+            }
+          : {
+              x: 0,
+              y: [0, -15, 0, 15, 0], // floating motion
+              transition: {
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+            }
+      }
+      transition={{ type: "spring", stiffness: 80, damping: 18 }}
+    />
+  );
+})}
+
+
+      {/* Form Card */}
       <motion.div
-        className="w-full max-w-5xl bg-white shadow-2xl rounded-2xl p-8 md:p-12 border border-[#E0E7FF]"
+        className="mt-20 relative w-full max-w-5xl bg-white/95 backdrop-blur-lg rounded-2xl p-10 md:p-14 border border-[#E0E7FF] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -133,9 +199,7 @@ const customSingleValue = (props: SingleValueProps<CountryOption, false>) => {
         <h2 className="text-3xl md:text-4xl font-extrabold text-[#003D99] text-center mb-6">
           {t("form.title")}
         </h2>
-        <p className="text-center text-gray-600 mb-10">
-          {t("form.subtitle")}
-        </p>
+        <p className="text-center text-gray-600 mb-10">{t("form.subtitle")}</p>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Company Name */}
