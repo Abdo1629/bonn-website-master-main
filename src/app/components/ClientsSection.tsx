@@ -7,7 +7,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const clients = [
-  { name: "Company One", logo: "/images/saudia.svg" },
+  { name: "saudia", logo: "/images/saudia.svg" },
   { name: "HAUT", logo: "/images/Haut.png" },
   { name: "Sheild", logo: "/images/Shield.png" },
   { name: "Vert", logo: "/images/Vert.png" },
