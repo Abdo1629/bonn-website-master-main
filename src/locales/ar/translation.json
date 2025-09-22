@@ -402,6 +402,23 @@
   "declarationTitle": "الإقرار",
   "declarationText": "أقر بأن المعلومات المقدمة صحيحة وكاملة. وأوافق على الالتزام بجميع المتطلبات التنظيمية والجودة والتجارية الخاصة بشركة Bonn Medical Industries.",
   "signature": "التوقيع",
-  "date": "التاريخ"
+  "date": "التاريخ",
+  "telephone": "الهاتف",
+  "agreeTerms": "أوافق على ",
+  "countryOfRegistration": "دولة التسجيل",
+  "selectCountry": "اختر الدولة",
+  "tradeLicense": "رخصة تجارية",
+  "launchDatePlaceholder": "اختر التاريخ",
+  "customFormulation": "تركيبة مخصصة",
+  "sampleQty": "كمية العينة",
+  "testingRequirements": "متطلبات الاختبار",
+  "packagingDetails": "تفاصيل التغليف",
+  "localLanguage": "اللغة المحلية",
+  "serialization": "التسلسل",
+  "deliveryLeadTime": "مدة التسليم",
+  "authorizedDistributors": "الموزعون المعتمدون",
+  "storageConditions": "شروط التخزين",
+  "additionalNotes": "ملاحظات إضافية",
+  "formTermsAndConditions": "الشروط والأحكام"
   }
 }

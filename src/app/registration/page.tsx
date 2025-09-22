@@ -11,7 +11,7 @@ import { components } from "react-select";
 /* Countries list (add/remove as needed) */
 const countries = [
   { value: "SA", label: "Saudi Arabia", code: "SA" },
-    { value: "EG", label: "Egypt", code: "EG" },
+  { value: "EG", label: "Egypt", code: "EG" },
   { value: "US", label: "United States", code: "US" },
   { value: "AE", label: "UAE", code: "AE" },
   { value: "FR", label: "France", code: "FR" },
@@ -31,7 +31,7 @@ const circles = [
 
 
 
-// ✅ Custom Option
+// Custom Option
   const customOption = (props: OptionProps<CountryOption, false>) => {
     const { data } = props;
     return (
@@ -120,7 +120,7 @@ export default function FullClientEvaluationForm() {
     otherNotes: string;
     signature: string;
     date: string;
-    agreeTerms: boolean; // ✅ جديد: checkbox
+    agreeTerms: boolean; // checkbox
   }
 
   const [formData, setFormData] = useState<FormData>({
@@ -164,7 +164,7 @@ export default function FullClientEvaluationForm() {
     otherNotes: "",
     signature: "",
     date: "",
-    agreeTerms: false, // ✅ جديد
+    agreeTerms: false,
   });
 
   const [selectedCountry, setSelectedCountry] = useState<CountryOption | null>(null);
