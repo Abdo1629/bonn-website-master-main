@@ -6,27 +6,31 @@ export async function generateClientPDF(clientData) {
   const { width, height } = page.getSize();
 
   // --- Colors ---
-  const primaryBlue = rgb(11/255, 91/255, 211/255);
-  const white = rgb(1, 1, 1);
+  const primaryBlue = rgb(11 / 255, 91 / 255, 211 / 255);
   const black = rgb(0, 0, 0);
+  const gray = rgb(0.4, 0.4, 0.4);
 
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-  let y = height - 80;
+  // --- Logo ---
+  const logoUrl = 'https://res.cloudinary.com/dbgdvnkev/image/upload/v1758742395/logo_v8yfcx.png';
+  const logoBytes = await fetch(logoUrl).then(res => res.arrayBuffer());
+  const logoImage = await pdfDoc.embedPng(logoBytes);
+  const logoDims = logoImage.scale(0.17); // Adjust scale if needed
 
   // ---- HEADER ----
-  page.drawRectangle({
-    x: 0, y: height - 100, width, height: 100, color: primaryBlue
+  page.drawImage(logoImage, {
+    x: width - 100,
+    y: height - 100,
+    width: logoDims.width,
+    height: logoDims.height
   });
 
-  page.drawText("Bonn Medical Industries", {
-    x: 200, y: height - 65, size: 22, font, color: white
-  });
-
-  y -= 50;
+  let y = height - 65;
 
   // ---- Intro ----
-  page.drawText("Introduction", { x: 50, y, size: 16, font, color: primaryBlue });
+  page.drawText("Introduction", { x: 50, y, size: 16, font: boldFont, color: primaryBlue });
   y -= 24;
 
   const introText = [
@@ -45,7 +49,7 @@ export async function generateClientPDF(clientData) {
   y -= 20;
 
   // ---- Rules ----
-  page.drawText("Rules & Guidelines", { x: 50, y, size: 16, font, color: primaryBlue });
+  page.drawText("Rules & Guidelines", { x: 50, y, size: 16, font: boldFont, color: primaryBlue });
   y -= 24;
 
   const rules = [
@@ -58,14 +62,14 @@ export async function generateClientPDF(clientData) {
 
   rules.forEach(line => {
     if (y < 50) { page = pdfDoc.addPage([595, 842]); y = height - 50; }
-    page.drawText(line, { x: 60, y, size: 12, font, color: black });
+    page.drawText(line, { x: 60, y, size: 12, font, color: gray });
     y -= 18;
   });
 
   y -= 25;
 
   // ---- Client Data ----
-  page.drawText("Client Information", { x: 50, y, size: 16, font, color: primaryBlue });
+  page.drawText("Client Information", { x: 50, y, size: 16, font: boldFont, color: primaryBlue });
   y -= 24;
 
   const clientFields = [
@@ -83,7 +87,6 @@ export async function generateClientPDF(clientData) {
     ["Team Size", clientData["Team Size"]],
     ["Partner Brands", clientData["Partner Brands"]],
     ["References", clientData["References"]],
-    ["Competitors", clientData["Competitors"]],
     ["Requested Products", clientData["Requested Products"]],
     ["Target Profile", clientData["Target Profile"]],
     ["Product Category", clientData["Product Category"]],
@@ -112,7 +115,7 @@ export async function generateClientPDF(clientData) {
 
   clientFields.forEach(([label, value]) => {
     if (y < 60) { page = pdfDoc.addPage([595, 842]); y = height - 50; }
-    page.drawText(`${label}:`, { x: 50, y, size: 12, font, color: primaryBlue });
+    page.drawText(`${label}:`, { x: 50, y, size: 12, font: boldFont, color: primaryBlue });
     page.drawText(`${value || "-"}`, { x: 200, y, size: 12, font, color: black });
     y -= 18;
   });
@@ -120,7 +123,7 @@ export async function generateClientPDF(clientData) {
   // ---- Footer ----
   page.drawLine({ start: { x: 50, y: 40 }, end: { x: width - 50, y: 40 }, thickness: 1, color: primaryBlue });
   page.drawText("© Bonn Medical Industries - Confidential", {
-    x: 50, y: 25, size: 10, font, color: black
+    x: 50, y: 25, size: 10, font, color: gray
   });
 
   const pdfBytes = await pdfDoc.save();

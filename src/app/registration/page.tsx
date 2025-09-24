@@ -488,7 +488,7 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
               {/* Team size */}
               <div className="col-span-2 md:grid-cols-1">
                 <label className="block text-sm font-medium text-[#003D99]">{t("form.teamSize")}</label>
-                <select name="businessType" value={formData.businessType} onChange={handleChange} className={inputClass}>
+                <select name="teamSize" value={formData.businessType} onChange={handleChange} className={inputClass}>
                   <option value="">{t("form.selectOption")}</option>
                   <option value="1-10">{t("form.size_small")}</option>
                   <option value="11-50">{t("form.size_medium")}</option>

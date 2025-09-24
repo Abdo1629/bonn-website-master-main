@@ -170,26 +170,6 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-5xl mt-12 mx-auto px-4 py-10">
-      {/* ======= تقارير العملاء ======= */}
-      <div className="mt-12">
-        <h1 className="text-2xl font-bold mb-6">Client Reports</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {pdfs.map((pdf) => (
-            <div key={pdf.name} className="border rounded shadow p-4">
-              <h2 className="font-semibold mb-2">{pdf.name}</h2>
-              <iframe src={pdf.url} width="100%" height="400px" className="mb-2"></iframe>
-              <a
-                href={pdf.url}
-                download={`${pdf.name}-Report.pdf`}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                Download PDF
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* ======= إدارة المنتجات ======= */}
       {!showForm ? (
         <div className="grid gap-4">
@@ -257,6 +237,36 @@ export default function AdminPage() {
               </div>
             </div>
           ))}
+            {/* ======= تقارير العملاء ======= */}
+<div className="mt-12">
+  <h1 className="text-4xl font-bold text-center mb-10 text-[rgb(11,91,211)]">
+    Client Reports
+  </h1>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {pdfs.map((pdf) => (
+      <div
+        key={pdf.name}
+        className="border rounded-xl shadow-lg p-6 bg-white hover:shadow-2xl transition-shadow duration-300"
+      >
+        <h2 className="font-semibold mb-3 text-lg text-blue-800">{pdf.name}</h2>
+        <iframe
+          src={pdf.url}
+          width="100%"
+          height="400px"
+          className="mb-4 border rounded"
+        ></iframe>
+        <a
+          href={pdf.url}
+          download={`${pdf.name}-Report.pdf`}
+          className="inline-block bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+        >
+          Download PDF
+        </a>
+      </div>
+    ))}
+  </div>
+</div>
+
         </div>
       ) : (
         <form
