@@ -36,9 +36,15 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const { slug } = params; 
+// ✅ خلي params Object عادي
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
   const product = await getProductBySlug(slug);
+
   if (!product) return notFound();
 
   return (
@@ -59,7 +65,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
           {product.brand && (
             <p className="text-sm text-gray-700">
-              <span className="font-medium text-gray-800">Brand:</span> {product.brand}
+              <span className="font-medium text-gray-800">Brand:</span>{" "}
+              {product.brand}
             </p>
           )}
 
