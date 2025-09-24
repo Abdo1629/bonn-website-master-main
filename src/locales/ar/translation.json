@@ -404,7 +404,7 @@
   "signature": "التوقيع",
   "date": "التاريخ",
   "telephone": "الهاتف",
-  "agreeTerms": "أوافق على ",
+  "agreeTerms": "أوافق على جميع ",
   "countryOfRegistration": "دولة التسجيل",
   "selectCountry": "اختر الدولة",
   "tradeLicense": "رخصة تجارية",
@@ -418,7 +418,12 @@
   "deliveryLeadTime": "مدة التسليم",
   "authorizedDistributors": "الموزعون المعتمدون",
   "storageConditions": "شروط التخزين",
-  "additionalNotes": "ملاحظات إضافية",
-  "formTermsAndConditions": "الشروط والأحكام"
+  "otherNotes": "ملاحظات إضافية",
+  "termsAndConditions": "الشروط والأحكام",
+  "size_small": "صغيرة (1-10)",
+  "size_medium": "متوسطة (11-50)",
+  "size_large": "كبيرة (51-200)",
+  "size_enterprise": "مؤسسة (200+)",
+  "selected_quantity": "الكمية المختارة"
   }
 }

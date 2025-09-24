@@ -69,6 +69,15 @@ const circles = [
 
 export default function FullClientEvaluationForm() {
   const { t } = useTranslation();
+    const languageOptions = [
+    { value: "ar", label: "Arabic" },
+    { value: "en", label: "English" },
+    { value: "fr", label: "French" },
+    { value: "es", label: "Spanish" },
+    { value: "de", label: "German" },
+    { value: "zh", label: "Chinese" },
+    { value: "ru", label: "Russian" },
+  ];
 
   /* mouse pos for repelling circles */
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -190,22 +199,100 @@ export default function FullClientEvaluationForm() {
     setFormData((prev: FormData) => ({ ...prev, country: option?.value || "" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.agreeTerms) {
-      alert(t("form.mustAgreeTerms"));
+const [isSubmitting, setIsSubmitting] = useState(false);
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!formData.agreeTerms) {
+    alert(t("form.mustAgreeTerms"));
+    return;
+  }
+
+  // تمنع الارسال المتكرر
+  if (isSubmitting) return;
+
+  setIsSubmitting(true);
+
+  try {
+    const payload = { ...formData };
+
+    const res = await fetch("/api/sheet", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Submit failed:", err);
+      alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+      setIsSubmitting(false);
       return;
     }
-    console.log("Form submitted:", formData);
+
+    // نجاح
     setSuccessMessage(true);
     setTimeout(() => setSuccessMessage(false), 4000);
-  };
+
+    // لو عايز تمسح الحقول بعد الارسال
+    setFormData({
+      companyName: "",
+      contactPerson: "",
+      telephone: "",
+      email: "",
+      website: "",
+      postalAddress: "",
+      country: "",
+      tradeLicense: "",
+      yearEstablished: "",
+      owners: "",
+      businessType: "",
+      presence: "",
+      turnover: "",
+      teamSize: "",
+      partnerBrands: "",
+      references: "",
+      competitors: "",
+      requestedProducts: "",
+      targetProfile: "",
+      productCategory: "",
+      launchDate: "",
+      customFormulation: "",
+      formulationDetails: "",
+      sampleQty: "",
+      sampleDeadline: "",
+      testingRequirements: "",
+      packagingRequirements: "",
+      packagingDetails: "",
+      artwork: "",
+      barcode: "",
+      localLanguage: "",
+      logisticsNeeds: "",
+      incoterms: "",
+      serialization: "",
+      deliveryLeadTime: "",
+      authorizedDistributors: "",
+      storageConditions: "",
+      otherNotes: "",
+      signature: "",
+      date: "",
+      agreeTerms: false,
+    });
+
+  } catch (error) {
+    console.error("Submit exception:", error);
+    alert("حدث خطأ غير متوقع. شوف الـ console.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   /* Helper to disable submit button if required fields are empty */
   const isSubmitDisabled = !formData.companyName || !formData.email || !formData.agreeTerms;
 
   return (
-    <section className="relative min-h-screen flex justify-center items-center overflow-hidden bg-gradient-to-b from-[#F8FBFF] to-white px-4 md:px-0">
+    <section className="relative min-h-screen flex justify-center items-center overflow-hidden bg-gradient-to-b from-[#F8FBFF] to-white">
       {/* Floating interactive circles */}
       {circles.map((circle, i) => {
 const circleX = typeof window !== "undefined" ? (window.innerWidth * parseFloat(circle.x)) / 100 : 0;
@@ -264,7 +351,7 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
 
       {/* Form Card */}
       <motion.div
-        className="mt-20 relative w-full max-w-6xl bg-white/95 backdrop-blur-lg rounded-2xl p-10 md:p-14 border border-[#E0E7FF] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+        className="mt-20 relative w-full max-w-6xl bg-white/95 backdrop-blur-lg rounded-2xl py-10 px-1 md:px-10 md:py-14 border border-[#E0E7FF] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -401,7 +488,13 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
               {/* Team size */}
               <div className="col-span-2 md:grid-cols-1">
                 <label className="block text-sm font-medium text-[#003D99]">{t("form.teamSize")}</label>
-                <input type="number" name="teamSize" value={formData.teamSize} onChange={handleChange} className={inputClass} />
+                <select name="businessType" value={formData.businessType} onChange={handleChange} className={inputClass}>
+                  <option value="">{t("form.selectOption")}</option>
+                  <option value="1-10">{t("form.size_small")}</option>
+                  <option value="11-50">{t("form.size_medium")}</option>
+                  <option value="51-200">{t("form.size_large")}</option>
+                  <option value="200+">{t("form.size_enterprise")}</option>
+                </select>
               </div>
 
               {/* Partner brands */}
@@ -481,7 +574,7 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
 
               <div className="col-span-2 md:grid-cols-1">
                 <label className="block text-sm font-medium text-[#003D99]">{t("form.sampleQty")}</label>
-                <input type="text" name="sampleQty" value={formData.sampleQty} onChange={handleChange} className={inputClass} />
+                <input type="number" name="sampleQty" value={formData.sampleQty} onChange={handleChange} className={inputClass} />
               </div>
 
               <div className="col-span-2 md:grid-cols-1">
@@ -520,10 +613,24 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
                 <input type="text" name="barcode" value={formData.barcode} onChange={handleChange} className={inputClass} />
               </div>
 
-              <div className="col-span-2 md:grid-cols-1">
-                <label className="block text-sm font-medium text-[#003D99]">{t("form.localLanguage")}</label>
-                <input type="text" name="localLanguage" value={formData.localLanguage} onChange={handleChange} className={inputClass} />
-              </div>
+             <div className="col-span-2 md:grid-cols-1">
+  <label className="block text-sm font-medium text-[#003D99]">
+    {t("form.localLanguage")}
+  </label>
+
+  <Select
+    options={languageOptions}
+    value={languageOptions.filter(opt =>
+      formData.localLanguage?.includes(opt.value)
+    )}
+    onChange={(selected) =>
+      setFormData((prev: FormData) => ({
+        ...prev,
+        localLanguage: (selected as { value: string } | null)?.value || ""
+      }))
+    }
+  />
+</div>
             </div>
           </div>
 

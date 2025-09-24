@@ -404,7 +404,12 @@
   "customFormulation": "Custom Formulation",
   "testingRequirements": "Testing Requirements",
   "agreeTerms": "I agree to the ",
-  "termsAndConditions": "terms and conditions"
+  "termsAndConditions": "terms and conditions",
+  "size_small": "Small (1-10)",
+  "size_medium": "Medium (11-50)",
+  "size_large": "Large (51-200)",
+  "size_enterprise": "Enterprise (200+)",
+  "selected_quantity": "Selected Quantity"
 
   }
 }
