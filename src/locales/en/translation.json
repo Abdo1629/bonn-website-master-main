@@ -409,7 +409,9 @@
   "size_medium": "Medium (11-50)",
   "size_large": "Large (51-200)",
   "size_enterprise": "Enterprise (200+)",
-  "selected_quantity": "Selected Quantity"
+  "selected_quantity": "Selected Quantity",
+  "addNew": "Add New",
+  "delete": "Delete"
 
   }
 }
