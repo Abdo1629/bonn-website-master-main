@@ -5,6 +5,7 @@ import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firesto
 import { db } from "../lib/firebaseConfig";
 import { useTranslation } from "react-i18next";
 import { brandsInfo, BRAND_NAMES, BrandKey } from "../lib/Brands";
+import { generateClientPDF } from "../lib/pdf";
 
 type Product = {
   id: string;
@@ -56,7 +57,29 @@ export default function AdminPage() {
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [outlets, setOutlets] = useState<string[]>([]);
+  const [pdfs, setPdfs] = useState<{ name: string; url: string }[]>([]);
 
+  // توليد تقارير العملاء PDF
+  useEffect(() => {
+    const createPDFs = async () => {
+      const tempPdfs: { name: string; url: string }[] = [];
+      const res = await fetch("/api/getClients");
+      const clients = await res.json();
+
+      for (const client of clients) {
+        const pdfBytes = await generateClientPDF(client); // Uint8Array
+        const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        tempPdfs.push({ name: client.contactPerson || client.companyName, url });
+      }
+
+      setPdfs(tempPdfs);
+    };
+
+    createPDFs();
+  }, []);
+
+  // جلب المنتجات من Firestore
   useEffect(() => {
     const fetchProducts = async () => {
       const productsCol = collection(db, "products");
@@ -70,6 +93,7 @@ export default function AdminPage() {
     fetchProducts();
   }, []);
 
+  // ضبط الـ outlets حسب المنتج الحالي
   useEffect(() => {
     setOutlets(product.outlets ?? [""]);
   }, [product]);
@@ -79,12 +103,10 @@ export default function AdminPage() {
   ) => {
     const target = e.target;
     const { name, value, type } = target;
-
     let newValue: string | boolean = value;
     if (type === "checkbox" && target instanceof HTMLInputElement) {
       newValue = target.checked;
     }
-
     setProduct((prev) => ({
       ...prev,
       [name]: newValue,
@@ -93,22 +115,22 @@ export default function AdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const brandKey = product.brand as BrandKey;
     const brandInfo = brandsInfo[brandKey] ?? {
       logo: "/brands/default.png",
       name: product.brand || "",
     };
-
     const slug = generateSlug(product.name_en || `product-${Date.now()}`);
     const finalProduct = { ...product, outlets, slug, brand: brandInfo.name };
 
-    const res = await fetch(isEditing ? `/api/products/edit/${product.id}` : "/api/products/add", {
-      method: isEditing ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(finalProduct),
-    });
-
+    const res = await fetch(
+      isEditing ? `/api/products/edit/${product.id}` : "/api/products/add",
+      {
+        method: isEditing ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalProduct),
+      }
+    );
     const data = await res.json();
     alert(data.message || (isEditing ? t("updated") : t("added")));
     window.location.reload();
@@ -147,77 +169,96 @@ export default function AdminPage() {
   });
 
   return (
-  <div className="max-w-5xl mt-12 mx-auto px-4 py-10">
-    {!showForm ? (
-      <div className="grid gap-4">
-        {/* زرار Add New فوق المنتجات */}
-        <button
-          onClick={() => {
-            setProduct({
-              id: "",
-              name_en: "",
-              name_ar: "",
-              price: "",
-              description_en: "",
-              description_ar: "",
-              image: "",
-              brand: BRAND_NAMES[0],
-              bestSelling: false,
-              featured: false,
-              newArrival: false,
-              inStock: false,
-              disabled: false,
-            });
-            setShowForm(true);
-            setIsEditing(false);
-          }}
-          className="mb-6 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
-        >
-          + {t("addNew")}
-        </button>
+    <div className="max-w-5xl mt-12 mx-auto px-4 py-10">
+      {/* ======= تقارير العملاء ======= */}
+      <div className="mt-12">
+        <h1 className="text-2xl font-bold mb-6">Client Reports</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {pdfs.map((pdf) => (
+            <div key={pdf.name} className="border rounded shadow p-4">
+              <h2 className="font-semibold mb-2">{pdf.name}</h2>
+              <iframe src={pdf.url} width="100%" height="400px" className="mb-2"></iframe>
+              <a
+                href={pdf.url}
+                download={`${pdf.name}-Report.pdf`}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Download PDF
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* عرض المنتجات */}
-        {sortedProducts.map((p) => (
-          <div
-            key={p.id}
-            className="border rounded-lg p-4 shadow flex justify-between items-start"
+      {/* ======= إدارة المنتجات ======= */}
+      {!showForm ? (
+        <div className="grid gap-4">
+          <button
+            onClick={() => {
+              setProduct({
+                id: "",
+                name_en: "",
+                name_ar: "",
+                price: "",
+                description_en: "",
+                description_ar: "",
+                image: "",
+                brand: BRAND_NAMES[0],
+                bestSelling: false,
+                featured: false,
+                newArrival: false,
+                inStock: false,
+                disabled: false,
+              });
+              setShowForm(true);
+              setIsEditing(false);
+            }}
+            className="mb-6 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
           >
-            <div>
-              <h2 className="text-xl font-semibold mb-1">{p.name_en}</h2>
-              <p className="text-sm text-gray-600">{p.price} SAR</p>
-              <p className="text-sm text-gray-500 mt-1">{p.description_en}</p>
-              <div className="flex gap-2 mt-2 text-xs">
-                {p.bestSelling && <span className="text-yellow-600">🔥 {t("bestSelling")}</span>}
-                {p.featured && <span className="text-indigo-600">⭐ {t("featured")}</span>}
-                {p.newArrival && <span className="text-green-600">🆕 {t("newArrival")}</span>}
-                {p.inStock && <span className="text-blue-600">📦 {t("inStock")}</span>}
-                {p.disabled && <span className="text-red-600">⛔ {t("disabled")}</span>}
+            + {t("addNew")}
+          </button>
+
+          {sortedProducts.map((p) => (
+            <div
+              key={p.id}
+              className="border rounded-lg p-4 shadow flex justify-between items-start"
+            >
+              <div>
+                <h2 className="text-xl font-semibold mb-1">{p.name_en}</h2>
+                <p className="text-sm text-gray-600">{p.price} SAR</p>
+                <p className="text-sm text-gray-500 mt-1">{p.description_en}</p>
+                <div className="flex gap-2 mt-2 text-xs">
+                  {p.bestSelling && <span className="text-yellow-600">🔥 {t("bestSelling")}</span>}
+                  {p.featured && <span className="text-indigo-600">⭐ {t("featured")}</span>}
+                  {p.newArrival && <span className="text-green-600">🆕 {t("newArrival")}</span>}
+                  {p.inStock && <span className="text-blue-600">📦 {t("inStock")}</span>}
+                  {p.disabled && <span className="text-red-600">⛔ {t("disabled")}</span>}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <button
+                  onClick={() => handleEdit(p)}
+                  className="btn bg-yellow-400 text-black hover:bg-yellow-500"
+                >
+                  {t("edit")}
+                </button>
+                <button
+                  onClick={() => handleDelete(p.id)}
+                  className="btn bg-red-500 text-white hover:bg-red-600"
+                >
+                  {t("delete")}
+                </button>
+                <button
+                  onClick={() => toggleStatus(p.id, "disabled")}
+                  className={`btn ${p.disabled ? "bg-red-600" : "bg-gray-300"} text-white`}
+                >
+                  {t("disabled")}
+                </button>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <button
-                onClick={() => handleEdit(p)}
-                className="btn bg-yellow-400 text-black hover:bg-yellow-500"
-              >
-                {t("edit")}
-              </button>
-              <button
-                onClick={() => handleDelete(p.id)}
-                className="btn bg-red-500 text-white hover:bg-red-600"
-              >
-                {t("delete")}
-              </button>
-              <button
-                onClick={() => toggleStatus(p.id, "disabled")}
-                className={`btn ${p.disabled ? "bg-red-600" : "bg-gray-300"} text-white`}
-              >
-                {t("disabled")}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    ) : (
+          ))}
+        </div>
+      ) : (
         <form
           onSubmit={handleSubmit}
           className="space-y-6 mt-10 bg-white p-6 rounded-xl shadow"

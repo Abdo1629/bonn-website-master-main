@@ -186,7 +186,7 @@ export default function RandDPage() {
             <div className="flex justify-center gap-4 md:flex-row flex-col gap-y-3">
               <Link
                 href="/#contact"
-                className="bg-white text-[#0B5BD3] px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition shadow-md"
+                className="bg-white text-[rgb(11,91,211)] px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition shadow-md"
               >
                 {t("rnd.cta.primary")}
               </Link>
