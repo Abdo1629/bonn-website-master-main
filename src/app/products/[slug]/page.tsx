@@ -3,6 +3,8 @@ import { db } from "@/app/lib/firebaseConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
+type Params = Promise<{ slug: string }>;
+
 interface ProductType {
   id: string;
   slug: string;
@@ -36,8 +38,8 @@ async function getProductBySlug(slug: string): Promise<ProductType | null> {
   } as ProductType;
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const { slug } = params; 
+export default async function ProductPage({ params }: { params: Params }) {
+  const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return notFound();
 
