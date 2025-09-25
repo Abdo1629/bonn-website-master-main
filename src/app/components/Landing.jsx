@@ -9,22 +9,24 @@ import Link from "next/link";
 export default function HeroVideo() {
   const { t } = useTranslation();
   const isArabic = i18n.language === "ar";
-  const controls = useAnimation();
 
-  const handleHoverStart = () => {
+  // controls مستقل لكل زرار
+  const servicesControls = useAnimation();
+  const registerControls = useAnimation();
+
+  const handleHoverStart = (controls) => {
     controls.start({
       x: isArabic ? [0, -25, 14, 0] : [0, 25, -14, 0],
       transition: { duration: 0.8 },
     });
   };
 
-  const handleHoverEnd = () => {
+  const handleHoverEnd = (controls) => {
     controls.start({ x: 0 });
   };
 
   return (
-    <>
-    <div className="relative w-full h-[40vh] min-[768px]:h-[60vh] overflow-hidden mt-[65px]">
+    <div className="relative w-full h-[50vh] min-[768px]:h-[60vh] max-[375]:h-[60vh] overflow-hidden mt-[65px]">
       <video
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
         src="/promo1.mp4"
@@ -37,7 +39,6 @@ export default function HeroVideo() {
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10" />
 
       <div className="relative z-20 h-full flex flex-row items-center max-[768px]:justify-center px-6 gap-10 text-white">
-    
         <motion.div
           className="w-full items-center justify-center flex flex-col max-[768px]:text-center"
           initial={{ opacity: 0, y: 40 }}
@@ -59,29 +60,63 @@ export default function HeroVideo() {
               : "Bonn factory specializes in producing cosmetics with top global quality standards. We use advanced technologies to ensure safety and performance."}
           </p>
 
-          <motion.button
-            onHoverStart={handleHoverStart}
-            onHoverEnd={handleHoverEnd}
-            className="w-fit relative group overflow-hidden border-2 border-[#4ca1ff] text-[#4ca1ff] px-6 py-2 rounded-lg backdrop-blur-md cursor-pointer hover:bg-[#4ca1ff] hover:text-white transition-colors duration-300"
-          >
-            <Link href="/services" className="flex items-center justify-center">
-            <motion.div
-              className="absolute -z-10 w-[200%] h-[200%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gradient-to-r from-[#4ca1ff44] to-[#0056d244] blur-2xl opacity-30"
-              animate={{ x: ["-50%", "50%", "-50%"] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.span
-              animate={controls}
-              className="flex items-center justify-center gap-2 font-semibold"
+          {/* الزرارين */}
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+            {/* زرار الخدمات */}
+            <motion.button
+              onHoverStart={() => handleHoverStart(servicesControls)}
+              onHoverEnd={() => handleHoverEnd(servicesControls)}
+              className="w-full relative group overflow-hidden border-2 border-[#4ca1ff] text-[#4ca1ff] px-6 py-2 rounded-lg backdrop-blur-md cursor-pointer hover:bg-[#4ca1ff] hover:text-white transition-colors duration-300"
             >
-              {t("button")}
-              {isArabic ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
-            </motion.span>
-            </Link>
-          </motion.button>
+              <Link href="/services" className="flex items-center justify-center">
+                <motion.div
+                  className="absolute -z-10 w-[200%] h-[200%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gradient-to-r from-[#4ca1ff44] to-[#0056d244] blur-2xl opacity-30"
+                  animate={{ x: ["-50%", "50%", "-50%"] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.span
+                  animate={servicesControls}
+                  className="flex items-center justify-center gap-2 font-semibold"
+                >
+                  {t("button")}
+                  {isArabic ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+                </motion.span>
+              </Link>
+            </motion.button>
+
+            {/* زرار التسجيل */}
+            <motion.button
+              onHoverStart={() => handleHoverStart(registerControls)}
+              onHoverEnd={() => handleHoverEnd(registerControls)}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+              boxShadow: [
+      "0 0 0px rgba(34,197,94,0.6)",
+      "0 0 20px rgba(34,197,94,0.6)",
+      "0 0 0px rgba(34,197,94,0.6)",
+    ]
+  }}
+    transition={{ duration: 2.5, repeat: Infinity, repeatType: "mirror" }}
+              className="group w-full whitespace-nowrap relative group overflow-hidden border-2 border-green-500 text-green-500 px-5 md:px-10 py-2 rounded-lg backdrop-blur-md cursor-pointer hover:bg-green-500 hover:text-white transition-colors duration-300"
+            >
+              <Link href="/registration" className="flex items-center justify-center">
+                <motion.div
+                  className="absolute -z-10 w-[200%] h-[200%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gradient-to-r from-green-500/30 to-green-700/30 blur-2xl opacity-30"
+                  animate={{ x: ["-50%", "50%", "-50%"] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.span
+                  animate={registerControls}
+                  className="flex items-center justify-center gap-2 font-semibold"
+                >
+                  {isArabic ? "سجل للتصنيع معانا" : "Register for Manufacturing"}
+                  {isArabic ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+                </motion.span>
+              </Link>
+            </motion.button>
+          </div>
         </motion.div>
       </div>
     </div>
-    </>
   );
 }

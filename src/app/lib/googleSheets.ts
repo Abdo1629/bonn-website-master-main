@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import serviceAccount from "../../../service-account.json";
 
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(

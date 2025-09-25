@@ -6,6 +6,7 @@ import { db } from "../lib/firebaseConfig";
 import { useTranslation } from "react-i18next";
 import { brandsInfo, BRAND_NAMES, BrandKey } from "../lib/Brands";
 import { generateClientPDF } from "../lib/pdf";
+import { Edit3, Trash2, Ban, Search } from "lucide-react";
 
 type Product = {
   id: string;
@@ -54,6 +55,8 @@ export default function AdminPage() {
     disabled: false,
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [reportSearch, setReportSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [outlets, setOutlets] = useState<string[]>([]);
@@ -199,43 +202,42 @@ export default function AdminPage() {
           </button>
 
           {sortedProducts.map((p) => (
-            <div
-              key={p.id}
-              className="border rounded-lg p-4 shadow flex justify-between items-start"
-            >
-              <div>
-                <h2 className="text-xl font-semibold mb-1">{p.name_en}</h2>
-                <p className="text-sm text-gray-600">{p.price} SAR</p>
-                <p className="text-sm text-gray-500 mt-1">{p.description_en}</p>
-                <div className="flex gap-2 mt-2 text-xs">
-                  {p.bestSelling && <span className="text-yellow-600">🔥 {t("bestSelling")}</span>}
-                  {p.featured && <span className="text-indigo-600">⭐ {t("featured")}</span>}
-                  {p.newArrival && <span className="text-green-600">🆕 {t("newArrival")}</span>}
-                  {p.inStock && <span className="text-blue-600">📦 {t("inStock")}</span>}
-                  {p.disabled && <span className="text-red-600">⛔ {t("disabled")}</span>}
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <button
-                  onClick={() => handleEdit(p)}
-                  className="btn bg-yellow-400 text-black hover:bg-yellow-500"
-                >
-                  {t("edit")}
-                </button>
-                <button
-                  onClick={() => handleDelete(p.id)}
-                  className="btn bg-red-500 text-white hover:bg-red-600"
-                >
-                  {t("delete")}
-                </button>
-                <button
-                  onClick={() => toggleStatus(p.id, "disabled")}
-                  className={`btn ${p.disabled ? "bg-red-600" : "bg-gray-300"} text-white`}
-                >
-                  {t("disabled")}
-                </button>
-              </div>
-            </div>
+<div
+  key={p.id}
+  className="border rounded-xl p-6 shadow-lg bg-white hover:shadow-2xl transition-shadow duration-300 flex justify-between items-center"
+>
+  {/* صورة المنتج */}
+  <div className="flex items-center gap-4">
+    <img
+      src={p.image || "/placeholder.png"}
+      alt={p.name_en}
+      className="w-16 h-16 object-cover rounded-lg border"
+    />
+    <div>
+      <h2 className="text-lg font-semibold text-gray-900">{p.name_en}</h2>
+      <p className="text-sm text-gray-600">{p.price} SAR</p>
+      <div className="flex gap-2 mt-1 flex-wrap">
+        {p.bestSelling && <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded">🔥 {t("bestSelling")}</span>}
+        {p.featured && <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded">⭐ {t("featured")}</span>}
+        {p.newArrival && <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">🆕 {t("newArrival")}</span>}
+        {p.inStock && <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">📦 {t("inStock")}</span>}
+        {p.disabled && <span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded">⛔ {t("disabled")}</span>}
+      </div>
+    </div>
+  </div>
+
+  <div className="flex gap-2">
+    <button onClick={() => handleEdit(p)} className="p-2 bg-yellow-100 text-yellow-600 rounded hover:bg-yellow-200">
+      Edit
+    </button>
+    <button onClick={() => handleDelete(p.id)} className="p-2 bg-red-100 text-red-600 rounded hover:bg-red-200">
+      Delete
+    </button>
+    <button onClick={() => toggleStatus(p.id, "disabled")} className={`p-2 rounded ${p.disabled ? "bg-red-600 text-white" : "bg-gray-200 text-gray-700"} hover:opacity-80`}>
+      {t("disabled")}
+    </button>
+  </div>
+</div>
           ))}
             {/* ======= تقارير العملاء ======= */}
 <div className="mt-12">
@@ -255,6 +257,14 @@ export default function AdminPage() {
           height="400px"
           className="mb-4 border rounded"
         ></iframe>
+        <a
+          href={pdf.url}
+          className="mr-2 inline-block bg-cyan-600 hover:bg-cyan-800 text-white px-5 py-2 rounded-lg transition-colors duration-300"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View
+        </a>
         <a
           href={pdf.url}
           download={`${pdf.name}-Report.pdf`}
@@ -283,7 +293,7 @@ export default function AdminPage() {
               value={product.id}
               onChange={handleChange}
               placeholder="ID"
-              className="border border-[#0056D2] rounded hover:bg-[#0058d210] transition"
+className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
             />
             <input
               name="price"
