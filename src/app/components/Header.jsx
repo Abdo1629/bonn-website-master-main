@@ -461,8 +461,6 @@ const factories = [
     </span>
   </Link>
 ))}
-
-
 <div className="grid grid-cols-2 gap-3 mt-4">
   {factories.map((factory) => (
     <Link
@@ -471,7 +469,6 @@ const factories = [
       className={`text-white text-sm text-center py-2 rounded-md relative overflow-hidden flex flex-col items-center justify-center ${factory.bg} ${factory.glow}`}
       onClick={() => setIsOpen(false)}
     >
-      {/* ثابت للوجو */}
       <div className="w-12 h-10 flex items-center justify-center">
         <Image
           src={factory.logo}

@@ -5,12 +5,98 @@ import i18n from "../i18n";
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Bonn Medical Industry",
+      "alternateName": "Bonn Medical Industries (BMI)",
+      "url": "https://www.bonnmed.com",
+      "logo": "https://www.bonnmed.com/images/logo.png",
+      "description":
+        "Bonn Medical Industry is a GMP & ISO certified cosmetics, skincare, haircare & medical product manufacturer in Saudi Arabia.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "6833",
+        "addressLocality": "Riyadh",
+        "postalCode": "14326",
+        "addressCountry": "SA",
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+966580347173",
+          "contactType": "Customer Service",
+          "areaServed": ["SA", "Middle East", "Global"],
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "marketing@bonnmed.com",
+          "contactType": "Customer Service",
+        },
+      ],
+      "sameAs": [
+        "https://www.facebook.com/bonnmedical",
+        "https://www.instagram.com/bonnmedical",
+        "https://www.linkedin.com/company/bonnmedical",
+      ],
+      "foundingDate": "2018",
+      "founders": [
+        {
+          "@type": "Person",
+          "name": "Bonn Medical Founders",
+        },
+      ],
+      "makesOffer": {
+        "@type": "OfferCatalog",
+        "name": "Manufacturing & OEM Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Skincare & Cosmetics Manufacturing",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Haircare Manufacturing",
+            },
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Medical Product Manufacturing",
+            },
+          },
+        ],
+      },
+      "hasPOS": {
+        "@type": "Place",
+        "name": "Bonn Medical Factory",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Riyadh",
+          "addressCountry": "SA",
+        },
+      },
+    }),
+  }}
+/>
+
+
+
 export const metadata: Metadata = {
   title: "Bonn Medical Industry | GMP & ISO Certified Cosmetics Manufacturer in Saudi Arabia",
   description:
     "Bonn Medical Industry (BMI) is a Saudi GMP & ISO certified factory specializing in cosmetics, skincare, haircare, and medical products manufacturing. We provide private label, OEM, packaging, and SFDA registration support for local and international brands.",
   keywords: [
-    // Existing
+
     "Bonn Medical Industry",
     "Bonn Med",
     "Saudi Arabia manufacturing",
@@ -124,6 +210,34 @@ export default function RootLayout({
 }) {
   return (
     <html lang={i18n.language} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+      <head>
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="Bonn Medical Industry - Certified Manufacturer"
+        />
+        <meta
+          property="og:description"
+          content="GMP & ISO certified cosmetics and medical manufacturer in Saudi Arabia."
+        />
+        <meta
+          property="og:image"
+          content="https://www.bonnmed.com/images/logo.png"
+        />
+        <meta property="og:url" content="https://www.bonnmed.com" />
+
+        {/* ✅ Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Bonn Medical Industry" />
+        <meta
+          name="twitter:description"
+          content="GMP & ISO certified cosmetics and medical manufacturer in Saudi Arabia."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.bonnmed.com/images/logo.png"
+        />
+      </head>
       <body className={`font-din antialiased.className antialiased`}>
         <I18nProvider>
           <Header />

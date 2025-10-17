@@ -24,6 +24,17 @@ import {
   FaBalanceScale,
 } from "react-icons/fa";
 
+      <Head>
+        <title>About Bonn Medical Industries</title>
+        <meta
+          name="description"
+          content="Bonn is a contract manufacturer located in Riyadh, Saudi Arabia. Equipped with the latest and up to date machines and equipment, we are confident that we are able to provide the latest and novel formulations under cGMP regulations, either for standard formulations as well as bespoke preparations when required. Our highly qualified staff is continuously improving and actualizing their knowledge to attend the constant advances in the sector."
+        />
+        <meta name="keywords" content="cosmetics manufacturer, skincare saudi arabia, oem, bonn medical" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.bonnmed.com/about" />
+      </Head>
+
 // Typing Effect for Story
 function TypingStory({ text }: { text: string }) {
   const [displayed, setDisplayed] = useState("");
