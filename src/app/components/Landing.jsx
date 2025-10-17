@@ -67,7 +67,8 @@ export default function HeroVideo() {
               onHoverStart={() => handleHoverStart(servicesControls)}
               onHoverEnd={() => handleHoverEnd(servicesControls)}
               className="w-full relative group overflow-hidden border-2 border-[#4ca1ff] text-[#4ca1ff] px-6 py-2 rounded-lg backdrop-blur-md cursor-pointer hover:bg-[#4ca1ff] hover:text-white transition-colors duration-300"
-            >
+              aria-label="Explore Services"
+           >
               <Link href="/services" className="flex items-center justify-center">
                 <motion.div
                   className="absolute -z-10 w-[200%] h-[200%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gradient-to-r from-[#4ca1ff44] to-[#0056d244] blur-2xl opacity-30"
@@ -84,7 +85,6 @@ export default function HeroVideo() {
               </Link>
             </motion.button>
 
-            {/* زرار التسجيل */}
             <motion.button
               onHoverStart={() => handleHoverStart(registerControls)}
               onHoverEnd={() => handleHoverEnd(registerControls)}
@@ -97,6 +97,7 @@ export default function HeroVideo() {
     ]
   }}
     transition={{ duration: 2.5, repeat: Infinity, repeatType: "mirror" }}
+    aria-label="Register for Manufacturing"
               className="group w-full whitespace-nowrap relative group overflow-hidden border-2 border-green-500 text-green-500 px-5 md:px-10 py-2 rounded-lg backdrop-blur-md cursor-pointer hover:bg-green-500 hover:text-white transition-colors duration-300"
             >
               <Link href="/registration" className="flex items-center justify-center">

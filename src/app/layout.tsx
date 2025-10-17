@@ -180,7 +180,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://www.bonnmed.com/og-cover.jpg",
+        url: "https://www.bonnmed.com/logo.jpg",
         width: 1200,
         height: 630,
         alt: "Bonn Medical Industry Facility",
@@ -193,7 +193,7 @@ export const metadata: Metadata = {
     description:
       "GMP & ISO certified cosmetics manufacturer in Saudi Arabia. Private label, OEM, skincare, haircare, and SFDA compliance support.",
     creator: "@bonnmed",
-    images: ["https://www.bonnmed.com/og-cover.jpg"],
+    images: ["https://www.bonnmed.com/logo.png"],
   },
 };
 

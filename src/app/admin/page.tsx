@@ -6,7 +6,7 @@ import { db } from "../lib/firebaseConfig";
 import { useTranslation } from "react-i18next";
 import { brandsInfo, BRAND_NAMES, BrandKey } from "../lib/Brands";
 import { generateClientPDF } from "../lib/pdf";
-import { Edit3, Trash2, Ban, Search } from "lucide-react";
+import Image from "next/image";
 
 type Product = {
   id: string;
@@ -55,14 +55,11 @@ export default function AdminPage() {
     disabled: false,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [reportSearch, setReportSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [outlets, setOutlets] = useState<string[]>([]);
   const [pdfs, setPdfs] = useState<{ name: string; url: string }[]>([]);
 
-  // توليد تقارير العملاء PDF
   useEffect(() => {
     const createPDFs = async () => {
       const tempPdfs: { name: string; url: string }[] = [];
@@ -197,6 +194,7 @@ export default function AdminPage() {
               setIsEditing(false);
             }}
             className="mb-6 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
+            aria-label="Add New Product"
           >
             + {t("addNew")}
           </button>
@@ -208,7 +206,7 @@ export default function AdminPage() {
 >
   {/* صورة المنتج */}
   <div className="flex items-center gap-4">
-    <img
+    <Image
       src={p.image || "/placeholder.png"}
       alt={p.name_en}
       className="w-16 h-16 object-cover rounded-lg border"
@@ -227,13 +225,13 @@ export default function AdminPage() {
   </div>
 
   <div className="flex gap-2">
-    <button onClick={() => handleEdit(p)} className="p-2 bg-yellow-100 text-yellow-600 rounded hover:bg-yellow-200">
+    <button onClick={() => handleEdit(p)} className="p-2 bg-yellow-100 text-yellow-600 rounded hover:bg-yellow-200" aria-label="Edit">
       Edit
     </button>
-    <button onClick={() => handleDelete(p.id)} className="p-2 bg-red-100 text-red-600 rounded hover:bg-red-200">
+    <button onClick={() => handleDelete(p.id)} className="p-2 bg-red-100 text-red-600 rounded hover:bg-red-200" aria-label="Delete">
       Delete
     </button>
-    <button onClick={() => toggleStatus(p.id, "disabled")} className={`p-2 rounded ${p.disabled ? "bg-red-600 text-white" : "bg-gray-200 text-gray-700"} hover:opacity-80`}>
+    <button onClick={() => toggleStatus(p.id, "disabled")} className={`p-2 rounded ${p.disabled ? "bg-red-600 text-white" : "bg-gray-200 text-gray-700"} hover:opacity-80`} aria-label="Toggle Disabled Status">
       {t("disabled")}
     </button>
   </div>
@@ -373,6 +371,7 @@ className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:
               type="button"
               onClick={() => setOutlets([...outlets, ""])}
               className="text-sm text-blue-600 underline"
+              aria-label="Add Outlet"
             >
               + {t("addOutlet")}
             </button>
@@ -396,6 +395,7 @@ className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:
             <button
               type="submit"
               className="bg-blue-600 text-white font-semibold py-2 px-6 rounded hover:bg-blue-700"
+              aria-label={isEditing ? "Update Product" : "Add Product"}
             >
               {isEditing ? t("update") : t("add")}
             </button>
@@ -403,6 +403,7 @@ className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:
               type="button"
               onClick={() => setShowForm(false)}
               className="bg-gray-300 text-black py-2 px-6 rounded hover:bg-gray-400"
+              aria-label="Cancel"
             >
               {t("cancel")}
             </button>

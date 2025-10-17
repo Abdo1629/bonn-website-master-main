@@ -146,7 +146,9 @@ export default function About() {
                   i === activeIndex
                     ? "w-6 bg-[#0056D2]"
                     : "w-3 bg-gray-300 hover:bg-gray-400"
+                    
                 )}
+                aria-label={`Go to slide ${i + 1}`}
               />
             ))}
           </div>

@@ -734,6 +734,7 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
             className={`w-full py-3 bg-[#0056D2] text-white font-bold rounded-lg shadow-lg hover:scale-[1.02] transition-transform ${
               isSubmitDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
+            aria-label="Submit Registration Form"
           >
             {t("form.submit")}
           </button>

@@ -245,6 +245,7 @@ export default function AboutUsPage() {
                 onClick={() => setShowStory(true)}
                 className="px-8 py-4 bg-gradient-to-r from-[#0056D2] to-[#003D99] text-white font-semibold rounded-lg shadow-md hover:scale-105 transition-transform"
                 whileHover={{ y: -2 }}
+                aria-label="See Our Story"
               >
                 {t("seeOurStory")}
               </motion.button>
@@ -275,6 +276,7 @@ export default function AboutUsPage() {
                     <button
                       onClick={() => setShowStory(false)}
                       className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                      aria-label="Close Story Modal"
                     >
                       ✕
                     </button>
