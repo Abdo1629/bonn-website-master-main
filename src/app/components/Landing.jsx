@@ -10,7 +10,6 @@ export default function HeroVideo() {
   const { t } = useTranslation();
   const isArabic = i18n.language === "ar";
 
-  // controls مستقل لكل زرار
   const servicesControls = useAnimation();
   const registerControls = useAnimation();
 
@@ -29,7 +28,7 @@ export default function HeroVideo() {
     <div className="relative w-full h-[50vh] min-[768px]:h-[60vh] max-[375]:h-[60vh] overflow-hidden mt-[65px]">
       <video
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        src="/promo1.mp4"
+        src="https://res.cloudinary.com/dbgdvnkev/video/upload/v1760711233/WhatsApp_Video_2025-10-17_at_17.24.45_uqrhah.webm"
         autoPlay
         muted
         loop
