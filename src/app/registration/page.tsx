@@ -7,6 +7,7 @@ import Select from "react-select";
 import type { OptionProps, SingleValueProps } from "react-select";
 import ReactCountryFlag from "react-country-flag";
 import { components } from "react-select";
+import Link from "next/link";
 
 /* Countries list (add/remove as needed) */
 const countries = [
@@ -708,9 +709,9 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
             />
             <label htmlFor="agreeTerms" className="text-sm text-gray-700">
               {t("form.agreeTerms")}{" "}
-              <a href="/terms" className="text-blue-600 underline">
+              <Link href="/terms" className="text-blue-600 underline">
                 {t("form.termsAndConditions")}
-              </a>
+              </Link>
             </label>
           </div>
 

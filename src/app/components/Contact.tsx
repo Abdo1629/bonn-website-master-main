@@ -111,6 +111,7 @@ export default function ContactUs() {
             className="w-full border rounded-md px-4 py-2"
             dir={isArabic ? "rtl" : "ltr"}
           />
+          <label htmlFor="subject" className="sr-only">{t("subject")}</label>
           <select
             name="subject"
             value={formData.subject}
@@ -154,6 +155,8 @@ export default function ContactUs() {
           className="w-full h-full rounded-xl"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3627.877538141653!2d46.8650137!3d24.5934222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2fa6d811694f33%3A0x80ba3dbcf1f625f7!2z2YXYtdmG2Lkg2KjZiNmGINmE2YTYtdmG2KfYudin2Kog2KfZhNi32KjZitipIEJvbm4gTWVkaWNhbCBJbmR1c3RyaWVz!5e0!3m2!1sen!2seg!4v1753894716909!5m2!1sen!2seg"
           allowFullScreen
+            title="Bonn Medical Industries location on Google Maps"
+          referrerPolicy="no-referrer-when-downgrade"
           loading="lazy"
         ></iframe>
       </motion.div>

@@ -2,6 +2,8 @@
 
 import { useTranslation } from "react-i18next";
 import { FaEye, FaDownload } from "react-icons/fa";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function CertificatesPage() {
   const { t } = useTranslation();
@@ -49,7 +51,7 @@ export default function CertificatesPage() {
             >
               {/* Preview Image */}
               <div className="relative w-full h-60 overflow-hidden">
-                <img
+                <Image
                   src={cert.preview}
                   alt={cert.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
@@ -65,23 +67,23 @@ export default function CertificatesPage() {
                 {/* Buttons */}
                 <div className="flex items-center justify-center gap-4 mt-auto">
                   {/* View */}
-                  <a
+                  <Link
                     href={cert.file}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 rounded-full bg-[#0056D2] text-white hover:bg-[#003D99] transition"
                   >
                     <FaEye className="text-lg" />
-                  </a>
+                  </Link>
 
                   {/* Download */}
-                  <a
+                  <Link
                     href={cert.file}
                     download
                     className="p-3 rounded-full bg-[#0056D2] text-white hover:bg-[#003D99] transition"
                   >
                     <FaDownload className="text-lg" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

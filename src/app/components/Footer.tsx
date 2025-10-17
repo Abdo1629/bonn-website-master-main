@@ -40,15 +40,15 @@ export default function Footer() {
         <div className="flex flex-col gap-4">
           <h3 className="text-[#0056D2] font-semibold text-lg">{t("footer.followUs", "Follow Us")}</h3>
           <div className="flex gap-4 text-white">
-            <a href="https://www.facebook.com/bonnmedical" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+            <Link href="https://www.facebook.com/bonnmedical" aria-label="Visit Our Facebook" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaFacebookF />
-            </a>
-            <a href="https://instagram.com/bonnmedical" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+            </Link>
+            <Link href="https://instagram.com/bonnmedical" aria-label="Visit Our Instagram" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaInstagram />
-            </a>
-            <a href="https://www.linkedin.com/company/bonnmedical" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+            </Link>
+            <Link href="https://www.linkedin.com/company/bonnmedical" aria-label="Visit Our Linkedin" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaLinkedinIn />
-            </a>
+            </Link>
           </div>
         </div>
       </motion.div>

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { brandsInfo, BRAND_NAMES, BrandKey } from "../lib/Brands";
 import { generateClientPDF } from "../lib/pdf";
 import Image from "next/image";
+import Link from "next/link";
 
 type Product = {
   id: string;
@@ -253,23 +254,24 @@ export default function AdminPage() {
           src={pdf.url}
           width="100%"
           height="400px"
+          title={`PDF report for ${pdf.name}`}
           className="mb-4 border rounded"
         ></iframe>
-        <a
+        <Link
           href={pdf.url}
           className="mr-2 inline-block bg-cyan-600 hover:bg-cyan-800 text-white px-5 py-2 rounded-lg transition-colors duration-300"
           target="_blank"
           rel="noopener noreferrer"
         >
           View
-        </a>
-        <a
+        </Link>
+        <Link
           href={pdf.url}
           download={`${pdf.name}-Report.pdf`}
           className="inline-block bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300"
         >
           Download PDF
-        </a>
+        </Link>
       </div>
     ))}
   </div>
@@ -314,6 +316,9 @@ className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:
               placeholder={t("nameAr")}
               className="border border-[#0056D2] rounded hover:bg-[#0058d210] transition"
             />
+            <label className="flex flex-col">
+              {t("selectBrand")}
+            </label>
             <select
               name="brand"
               value={product.brand}
