@@ -175,7 +175,7 @@ const factories = [
     className="fixed inset-0 bg-white z-[999] flex flex-col justify-center items-center"
   >
     <motion.img
-      src="/images/logo.png"
+      src="/images/logo.webp"
       alt="logo"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
@@ -204,7 +204,7 @@ const factories = [
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center relative">
         <div className="flex items-center gap-4 lg:gap-18">
           <Link href="/" className="text-2xl font-bold text-[#0056D2]">
-            <Image src="/images/logo.png" alt="company logo" width="70" height="70" />
+            <Image src="/images/logo.webp" alt="company logo" width="70" height="70" />
           </Link>
 
           {/* ✅ Search Bar */}

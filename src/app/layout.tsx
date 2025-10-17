@@ -14,7 +14,7 @@ import Footer from './components/Footer';
       "name": "Bonn Medical Industry",
       "alternateName": "Bonn Medical Industries (BMI)",
       "url": "https://www.bonnmed.com",
-      "logo": "https://www.bonnmed.com/images/logo.png",
+      "logo": "https://www.bonnmed.com/images/logo.webp",
       "description":
         "Bonn Medical Industry is a GMP & ISO certified cosmetics, skincare, haircare & medical product manufacturer in Saudi Arabia.",
       "address": {
@@ -193,7 +193,7 @@ export const metadata: Metadata = {
     description:
       "GMP & ISO certified cosmetics manufacturer in Saudi Arabia. Private label, OEM, skincare, haircare, and SFDA compliance support.",
     creator: "@bonnmed",
-    images: ["https://www.bonnmed.com/logo.png"],
+    images: ["https://www.bonnmed.com/logo.webp"],
   },
 };
 
@@ -222,7 +222,7 @@ export default function RootLayout({
         />
         <meta
           property="og:image"
-          content="https://www.bonnmed.com/images/logo.png"
+          content="https://www.bonnmed.com/images/logo.webp"
         />
         <meta property="og:url" content="https://www.bonnmed.com" />
 
@@ -235,7 +235,7 @@ export default function RootLayout({
         />
         <meta
           name="twitter:image"
-          content="https://www.bonnmed.com/images/logo.png"
+          content="https://www.bonnmed.com/images/logo.webp"
         />
       </head>
       <body className={`font-din antialiased.className antialiased`}>

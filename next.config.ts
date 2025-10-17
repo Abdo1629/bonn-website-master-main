@@ -6,6 +6,12 @@ const nextConfig = {
   images: {
     domains: ['res.cloudinary.com'],
   },
+  experimental: {
+  legacyBrowsers: false,
+  browsersListForSwc: true,
+},
+compiler: { removeConsole: true },
+
 };
 
 module.exports = nextConfig;

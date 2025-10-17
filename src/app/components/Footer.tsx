@@ -20,7 +20,7 @@ export default function Footer() {
       >
         {/* Logo & About */}
         <div className="flex flex-col gap-4">
-          <Image src="/images/logo.png" alt="company logo" width={80} height={80} />
+          <Image src="/images/logo.webp" alt="company logo" width={80} height={80} />
           <p className="text-sm leading-relaxed">
             {t("footer.description", "Your trusted partner in quality healthcare and cosmetics manufacturing.")}
           </p>
@@ -31,7 +31,7 @@ export default function Footer() {
           <h3 className="text-[#0056D2] font-semibold text-lg">{t("footer.links", "Quick Links")}</h3>
           <Link href="/" className="hover:text-[#0056D2] transition">{t("home")}</Link>
           <Link href="/about" className="hover:text-[#0056D2] transition">{t("about")}</Link>
-          <Link href="/products" className="hover:text-[#0056D2] transition">{t("services")}</Link>
+          <Link href="/services" className="hover:text-[#0056D2] transition">{t("services")}</Link>
           <Link href="/certifications" className="hover:text-[#0056D2] transition">{t("certifications")}</Link>
           <Link href="/contact" className="hover:text-[#0056D2] transition">{t("contact")}</Link>
         </div>
