@@ -291,6 +291,59 @@ export default function AboutUsPage() {
             </AnimatePresence>
           </div>
 
+{/* Cinematic Video Section */}
+<motion.section
+  className="relative w-full py-24 px-6 md:px-20 overflow-hidden"
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.8 }}
+>
+  {/* خلفية فخمة */}
+  <div className="absolute inset-0 bg-gradient-to-b from-[#DCEEFF]/60 via-white/60 to-[#f9fbff] -z-10"></div>
+
+  {/* العنوان والوصف */}
+  <div className="text-center mb-12">
+    <motion.h2
+      className="text-4xl md:text-5xl font-extrabold text-[#003D99] mb-4"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      {t("whyChooseUs")}
+    </motion.h2>
+    <motion.p
+      className="text-lg text-[#1A3351]/80 max-w-3xl mx-auto"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ delay: 0.3 }}
+    >
+      {t("whyChooseUsDesc")}
+    </motion.p>
+  </div>
+
+  {/* الفيديو */}
+  <motion.div
+    className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-[0_10px_60px_-10px_rgba(0,61,153,0.3)] hover:shadow-[0_10px_80px_-10px_rgba(0,61,153,0.4)] transition-shadow duration-500"
+    whileHover={{ scale: 1.01, rotateX: 2, rotateY: -1 }}
+    transition={{ type: "spring", stiffness: 120, damping: 12 }}
+  >
+    <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent z-10 pointer-events-none" />
+    <video
+      src="https://res.cloudinary.com/dbgdvnkev/video/upload/v1761160485/whiteboard_final_v_1_nujzk5.webm"
+      controls
+      className="w-full h-auto object-cover rounded-3xl"
+      autoPlay
+      muted
+      loop
+    />
+  </motion.div>
+
+  {/* Reflection effect */}
+  <div className="max-w-5xl mx-auto h-16 mt-[-8px] bg-gradient-to-t from-[#003D99]/10 to-transparent blur-2xl opacity-60 rounded-b-3xl"></div>
+</motion.section>
+
+
           {/* Responsibilities Section */}
           <motion.div
             className="flex flex-col-reverse md:grid md:grid-cols-2 items-center md:gap-8"
