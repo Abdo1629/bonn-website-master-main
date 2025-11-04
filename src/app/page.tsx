@@ -4,6 +4,7 @@ import About from "./components/About"
 import ContactUs from './components/Contact';
 import StatsCarousel from './components/StatCards';
 import ClientsSection from './components/ClientsSection';
+import ArtVid from './components/ArtVid';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <About />
       <Products />
       <ClientsSection />
+      <ArtVid />
       <ContactUs />
     </>
   );
