@@ -1,22 +1,20 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://www.bonnmed.com', 
+  siteUrl: 'https://www.bonnmed.com',
   generateRobotsTxt: true,
-  outDir: './public', 
-  sitemapSize: 7000,
+  outDir: 'public',
   changefreq: 'weekly',
   priority: 0.7,
-  exclude: ['/404', '/server-sitemap.xml', '/admin/*'],
-  
-  additionalPaths: async (config) => {
+  sitemapSize: 7000,
+
+  additionalPaths: async () => {
     const paths = [
       '/',
       '/about',
       '/services',
       '/registration',
       '/contact',
-      '/products[slug]',
-      'covix%20care',
+      '/covix-care',
     ];
 
     return paths.map((path) => ({
