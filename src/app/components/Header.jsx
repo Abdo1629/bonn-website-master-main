@@ -174,14 +174,20 @@ const factories = [
     exit={{ opacity: 0 }}
     className="fixed inset-0 bg-white z-[999] flex flex-col justify-center items-center"
   >
-    <motion.img
-      src="/images/logo.webp"
-      alt="logo"
+    <motion.div
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ duration: 1 }}
       className="w-[120px] h-[120px] object-contain"
-    />
+    >
+      <Image
+      src="/images/logo.webp"
+      alt="logo"
+      width="120"
+      height="120"
+      className="object-contain"
+      />
+      </motion.div>
 
     <motion.h1
       initial={{ opacity: 0, y: 20 }}
@@ -245,10 +251,12 @@ const factories = [
                       dir={i18n.language === "ar" ? "rtl" : "ltr"}
                       className="flex items-center p-2 hover:bg-gray-100 transition"
                     >
-                      <img
+                      <Image
                         src={product.image}
                         alt={i18n.language === "ar" ? product.name_ar : product.name_en}
-                        className="w-10 h-10 rounded object-cover mr-2"
+                        className="rounded object-cover mr-2"
+                        width="40"
+                        height="40"
                       />
                       <div className="text-sm pr-5 pl-5">
                         <div className="font-medium text-gray-900">{i18n.language === "ar" ? product.name_ar : product.name_en}</div>
@@ -407,10 +415,12 @@ const factories = [
               href={`/products/${product.slug}`}
               className="flex items-center p-2 hover:bg-gray-100 transition"
             >
-              <img
+              <Image
                 src={product.image}
                 alt={product.name[i18n.language]}
                 className="w-10 h-10 rounded object-cover mr-2"
+                width="40"
+                height="40"
               />
               <div className="text-sm pr-5 pl-5">
                 <div className="font-medium text-gray-900">{product.name[i18n.language]}</div>

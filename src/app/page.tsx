@@ -11,10 +11,10 @@ export default function Home() {
     <>
       <HeroSlider />
       <StatsCarousel/>
+      <ArtVid />
       <About />
       <Products />
       <ClientsSection />
-      <ArtVid />
       <ContactUs />
     </>
   );

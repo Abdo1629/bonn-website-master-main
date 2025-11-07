@@ -8,7 +8,7 @@ export default function ArtVid() {
 
   return (
     <motion.section
-      className="relative w-full py-28 px-6 md:px-16 overflow-hidden bg-gradient-to-b from-[#eff2ff] via-[#F6F9FF] to-[#fbfbff]"
+      className="relative w-full py-28 px-6 md:px-16 overflow-hidden bg-gradient-to-b from-[#eff2ff] via-[#F6F9FF] to-[#0056D2]"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
