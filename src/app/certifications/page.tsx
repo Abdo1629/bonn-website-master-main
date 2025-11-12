@@ -32,6 +32,12 @@ export default function CertificatesPage() {
       file: "/certificates/SA55116H.pdf",
       preview: "/certificates/cert4.png",
     },
+    {
+      id: 5,
+      title: "Saudi Food & Drugs Authority",
+      file: "https://www.sfda.gov.sa/ar/node/87914",
+      preview: "/certificates/Food&Drug.png",
+    },
   ];
 
   return (
