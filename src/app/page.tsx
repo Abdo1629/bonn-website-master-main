@@ -5,10 +5,12 @@ import ContactUs from './components/Contact';
 import StatsCarousel from './components/StatCards';
 import ClientsSection from './components/ClientsSection';
 import ArtVid from './components/ArtVid';
+import CTAButton from './components/CTAButton';
 
 export default function Home() {
   return (
     <>
+      <CTAButton />
       <HeroSlider />
       <StatsCarousel/>
       <ArtVid />

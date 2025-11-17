@@ -4,13 +4,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useRef, useMemo } from "react";
 
-// عدد الخطوط في الخلفية
 const LINE_COUNT = 3;
 
 function Lines() {
   const linesRef = useRef<THREE.Line[]>([]);
 
-  // نولد خطوط مستقيمة عشوائية
   const geometries = useMemo(() => {
     return new Array(LINE_COUNT).fill(null).map(() => {
       const p1 = new THREE.Vector3((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, 0);
@@ -30,7 +28,6 @@ function Lines() {
         let x = posAttr.getX(i);
         let y = posAttr.getY(i);
 
-        // احسب المسافة بين نقطة والخلفية (المحور من -1 لـ 1، فنضرب عشان نحوله)
         const dx = x - mouse.x * 10;
         const dy = y - mouse.y * 10;
         const dist = Math.sqrt(dx * dx + dy * dy);

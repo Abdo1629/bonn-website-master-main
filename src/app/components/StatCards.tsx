@@ -19,7 +19,7 @@ function StatCard({ value, label, suffix = "" }: StatCardProps) {
     setStartCount(true);
     const timer = setTimeout(() => setStartCount(false), 2200);
     return () => clearTimeout(timer);
-  }, [value, i18n.language]); // 👈 أجبر الكومبوننت يعيد الرندر مع كل تغيير للغة
+  }, [value, i18n.language]);
 
   return (
     <div className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-center py-8">
@@ -31,7 +31,7 @@ function StatCard({ value, label, suffix = "" }: StatCardProps) {
         )}
       </h3>
       <p className="text-xl bg-clip-text text-transparent bg-white/75 backdrop-blur-sm">
-        {t(label)} {/* هتتغير مع اللغة أوتوماتيك */}
+        {t(label)}
       </p>
     </div>
   );
@@ -101,7 +101,6 @@ export default function StatsCarousel() {
       >
         {stats.map((stat) => (
           <StatCard key={stat.id + "-" + i18n.language} {...stat} />
-          // 👆 key مرتبط باللغة كمان عشان يرندر تاني مع تغيير اللغة
         ))}
       </div>
     </div>
