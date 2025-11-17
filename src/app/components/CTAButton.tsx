@@ -39,7 +39,13 @@ export default function FloatingCTA() {
         md:w-auto md:${isArabic ? "left-6" : "right-[110px]"}
       `}
     >
-      <Link href="/registration">
+              <div
+        className={`
+        md:bottom-4
+          ${isArabic ? "md:left-6" : "md:right-6"}
+        `}
+      >
+<Link href="/registration">
         <motion.button
           whileHover={{
             boxShadow: "0px 6px 18px rgba(34,197,94,0.35)",
@@ -53,7 +59,7 @@ export default function FloatingCTA() {
             hover:bg-green-700
             max-[375px]:px-3 max-[375px]:py-2 
             max-[375px]:text-sm max-[375px]:h-12 
-
+            cursor-pointer
           "
         >
           <Pencil size={isArabic ? 16 : 16} className="max-[375px]:w-4 max-[375px]:h-4" />
@@ -69,6 +75,7 @@ export default function FloatingCTA() {
           )}
         </motion.button>
       </Link>
+      </div>
     </motion.div>
   );
 }
