@@ -110,6 +110,7 @@ export default function ServicesPage() {
     <div className="w-full">
 
       {/* 2. Main Services */}
+      {/* 
       <section className="py-20 px-6 md:px-12 bg-[#F4F8FF]">
         <h2 className="text-4xl mt-5 font-bold text-[#0056D2] mb-14 text-center">
           {t("services") || "الخدمات الأساسية"}
@@ -128,12 +129,12 @@ export default function ServicesPage() {
               <s.Icon className="text-[#0056D2] text-5xl mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" />
               <h3 className="font-bold mb-2 text-lg">{s.title}</h3>
               <p className="text-gray-600 text-sm">{s.desc}</p>
-              {/* underline animation */}
               <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-[#0056D2] group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
             </div>
           ))}
         </div>
-      </section>
+      </section> 
+      */}
 
       {/* 3. How We Work */}
       <section className="py-20 px-6 md:px-12 bg-white">
@@ -174,9 +175,7 @@ export default function ServicesPage() {
         </div>
       </section>
             {/* 4. Products Section */}
-
-{/* 
-      <section className="py-20 px-4 md:px-12 bg-[#F4F8FF] w-full">
+      {/* <section className="py-20 px-4 md:px-12 bg-[#F4F8FF] w-full">
         <h2 className="text-2xl font-bold text-[#0056D2] mb-12 text-center">
           {t("all_products_title") || "منتجاتنا"}
         </h2>
@@ -204,6 +203,8 @@ export default function ServicesPage() {
                     src={brandInfo.logo}
                     alt={brandInfo.name}
                     className="w-14 h-14 object-contain"
+                    width={56}
+                    height={56}
                   />
                   <h3 className="text-xl font-bold text-[#003D99]">{brandInfo.name}</h3>
                 </div>
@@ -222,10 +223,10 @@ export default function ServicesPage() {
                         )}
                         <Image
                           src={product.image}
-                          alt={product.name_ar || product.name_en}
-                          className="w-full h-40 object-cover rounded-lg mb-4 shadow-sm"
-                          width={200}
-                          height={160}
+                          alt={isArabic ? product.name_ar : product.name_en}
+                          width={300}
+                          height={200}
+                          className="w-full h-40 object-cover rounded-md mb-4"
                         />
                         <h3 className="text-base font-semibold text-[#0056D2] mb-1 truncate">
                           {isArabic ? product.name_ar : product.name_en}
@@ -233,20 +234,6 @@ export default function ServicesPage() {
                         <p className="text-xs text-gray-600 mb-2 line-clamp-2">
                           {isArabic ? product.description_ar : product.description_en}
                         </p>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            toggleLike(product.id, likedProducts[product.id] || false);
-                          }}
-                          className="flex items-center gap-2 text-sm text-red-600 hover:scale-110 transition"
-                        >
-                          {likedProducts[product.id] ? (
-                            <FaHeart className="text-red-600" />
-                          ) : (
-                            <FaRegHeart className="text-red-600" />
-                          )}
-                          <span>{product.likes || 0}</span>
-                        </button>
                       </div>
                     </Link>
                   ))}
@@ -255,8 +242,7 @@ export default function ServicesPage() {
             );
           })
         )}
-      </section>
-       */}
+      </section> */}
     </div>
   );
 }
