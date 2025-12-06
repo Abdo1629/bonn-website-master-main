@@ -1,4 +1,3 @@
-import type { NextConfig } from "next";
 import "dotenv/config";
 
 /** @type {import('next').NextConfig} */
@@ -8,7 +7,6 @@ const nextConfig = {
   },
   experimental: {
   legacyBrowsers: false,
-  browsersListForSwc: true,
 },
 compiler: { removeConsole: true },
 
