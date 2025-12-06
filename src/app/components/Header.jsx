@@ -77,7 +77,7 @@ export default function FactoryHeader() {
 const factories = [
   { 
     logo: "/images/covix.png", 
-    name: "Covix Care", 
+    name: "Covix-Care", 
     bg: "bg-gray-100", 
     glow: "shadow-[0_0_15px_rgba(255,69,0,0.7)]", // برتقالي/أحمر
     w: 70, h: 20 
@@ -210,11 +210,11 @@ const factories = [
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center relative">
         <div className="flex items-center gap-4 lg:gap-18">
           <Link href="/" className="text-2xl font-bold text-[#0056D2]">
-            <Image src="/images/logo.webp" alt="company logo" width="70" height="70" />
+            <Image src="/images/logo.webp"className="min-w-15" alt="Bonn Medical Industries Logo" width="70" height="70" />
           </Link>
 
           {/* ✅ Search Bar */}
-          <div className="max-[768px]:hidden relative">
+          <div className="max-[917px]:hidden relative">
             <div className="flex items-center gap-2">
               <div className="relative">
                 <FaSearch
@@ -272,7 +272,7 @@ const factories = [
             )}
           </div>
         </div>
-<nav className="hidden md:flex items-center lg:gap-6 md:gap-3">
+<nav className="hidden min-[916px]:flex items-center lg:gap-6 md:gap-3">
   {navItems.map((item, index) => (
     <motion.div
       key={item.key}
@@ -294,7 +294,7 @@ const factories = [
     </motion.div>
   ))}
 
-  {/* زر الماركات */}
+  {/* Brands */}
   <motion.div
     initial={{ opacity: 0, y: -10 }}
     animate={{ opacity: 1, y: 0 }}
@@ -358,7 +358,7 @@ const factories = [
 </AnimatePresence>
 <button
   onClick={() => setIsOpen(!isOpen)}
-  className="md:hidden text-gray-800 absolute top-6 right-4 z-50"
+  className="min-[916px]:hidden text-gray-800 absolute top-6 right-4 z-50"
   aria-label="Toggle Menu"
 >
   <motion.div

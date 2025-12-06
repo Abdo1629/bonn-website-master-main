@@ -5,7 +5,6 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import Image from "next/image";
 import {
   Globe,
   ShieldCheck,
@@ -20,6 +19,42 @@ import {
   Calendar,
 } from "lucide-react";
 import CountUp from "react-countup";
+
+type NumberBoxProps = {
+  value: string | number;
+  label: string;
+  delay?: number;
+  color?: string;
+};
+
+function NumberBox({ value, label, delay, color }: NumberBoxProps) {
+  const numeric = parseInt(String(value).replace(/[^0-9]/g, "")) || 0;
+  const showPlus = String(value).includes("+");
+
+  const [start, setStart] = React.useState(false);
+
+  return (
+    <motion.div
+      className="p-8 rounded-xl bg-white shadow"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      onViewportEnter={() => setStart(true)}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ delay }}
+    >
+      <div className="text-3xl font-extrabold" style={{ color }}>
+        {start ? (
+          <CountUp start={0} end={numeric} duration={2} separator="," />
+        ) : (
+          0
+        )}
+        {showPlus ? "+" : ""}
+      </div>
+
+      <div className="text-gray-600 mt-2">{label}</div>
+    </motion.div>
+  );
+}
 
 const ORANGE = "#F68A28";
 
@@ -239,16 +274,35 @@ export default function CovixCarePage() {
           </div>
         </section>
 
-        {/* WHO WE ARE */}
-        <section aria-labelledby="who-title" className="py-12 bg-white/60">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.h2 {...fadeUp} id="who-title" className="text-4xl font-bold mb-4 text-[#f36f1a]">{t.whoTitle}</motion.h2>
-            <div className="flex flex-col md:flex-row items-center gap-8">
-            <motion.p {...fadeUp} className="text-xl text-gray-700 whitespace-pre-line">{t.whoText}</motion.p>
-            <Image src="/images/covix.png" className="object-fit mt-12" width="400" height="80" alt="Covix Care Logo"/>
-            </div>
-          </div>
-        </section>
+{/* WHO WE ARE */}
+<section
+  aria-labelledby="who-title"
+  className="relative py-20 bg-white"
+>
+  {/* Background logo with opacity */}
+  <div
+    className="absolute inset-0 mt-20 mb-5 bg-center bg-no-repeat bg-contain opacity-40"
+    style={{ backgroundImage: "url('/images/covix.png')" }}
+  ></div>
+
+  <div className="absolute inset-0 bg-white/20 backdrop-blur-xs"></div>
+
+  <div className="relative max-w-7xl mx-auto px-6">
+    <motion.h2
+      {...fadeUp}
+      id="who-title"
+      className="text-4xl font-bold mb-4 text-[#f36f1a]"
+    >
+      {t.whoTitle}
+    </motion.h2>
+
+    <div className="flex flex-col md:flex-row items-center gap-8">
+      <motion.p {...fadeUp} className="text-xl text-gray-700 whitespace-pre-line">
+        {t.whoText}
+      </motion.p>
+    </div>
+  </div>
+</section>
 
         {/* FEATURES / VALUES */}
         <section className="py-12" style={{ background: "#fff" }}>
@@ -294,70 +348,74 @@ export default function CovixCarePage() {
           </div>
         </section>
 
-        {/* NUMBERS */}
-        <section aria-labelledby="numbers-title" className="py-12">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <motion.h3 {...fadeUp} id="numbers-title" className="text-2xl font-bold mb-6">
-              {t.numbersTitle}
-            </motion.h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {t.numbers.map((n, i) => {
-                const numeric = parseInt(String(n.value).replace(/[^0-9]/g, "")) || 0;
-                const showPlus = String(n.value).includes("+");
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.12 }}
-                    className="p-8 rounded-xl bg-white shadow"
-                  >
-                    <div className="text-3xl font-extrabold" style={{ color: ORANGE }}>
-                      <CountUp start={0} end={numeric} duration={2} separator="," />
-                      {showPlus ? "+" : ""}
-                    </div>
-                    <div className="text-gray-600 mt-2">{n.label}</div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+{/* NUMBERS */}
+<section aria-labelledby="numbers-title" className="py-12">
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    <motion.h3 {...fadeUp} id="numbers-title" className="text-2xl font-bold mb-6">
+      {t.numbersTitle}
+    </motion.h3>
 
-        {/* TIMELINE */}
-        <section className="py-20" style={{ background: "#fff" }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-3xl font-bold mb-12">{t.timelineTitle}</h2>
-            <div className="relative md:flex md:items-center md:gap-12">
-              <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gray-200 z-0"></div>
-              {t.timelineSteps.map((step, i) => {
-                const icons = [Globe, Wrench, Rocket, CheckCircle, Calendar];
-                const Icon = icons[i] || Globe;
-                return (
-                  <motion.div
-                    key={i}
-                    className="relative z-10 mb-12 md:mb-0 md:flex-1 text-center"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                  >
-                    <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-white shadow">
-                      <Icon size={28} color={ORANGE} />
-                    </div>
-                    <span className="font-semibold">{step}</span>
-                  </motion.div>
-                );
-              })}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {t.numbers.map((n, i) => (
+        <NumberBox
+          key={i}
+          value={n.value}
+          label={n.label}
+          delay={i * 0.12}
+          color={ORANGE}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+
+{/* TIMELINE */}
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-6">
+    <h2 className="text-3xl font-bold mb-12">{t.timelineTitle}</h2>
+    <div className="relative md:flex md:items-center md:gap-12">
+      {/* Vertical line for mobile */}
+      <div className="absolute top-0 bottom-0 left-1/2 w-1 bg-gray-100 md:hidden transform -translate-x-1/2"></div>
+      {/* Horizontal line for desktop */}
+      <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gray-200"></div>
+      {t.timelineSteps.map((step, i) => {
+        const icons = [Globe, Wrench, Rocket, CheckCircle, Calendar];
+        const Icon = icons[i] || Globe;
+
+        return (
+          <motion.div
+            key={i}
+            className="relative z-10 mb-12 md:mb-0 md:flex-1 text-center"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+          >
+            {/* ELEMENTS (centered on mobile) */}
+            <div className="flex flex-col items-center">
+              {/* Circle */}
+              <div className="relative w-16 h-16 flex items-center justify-center rounded-full bg-white shadow mb-4">
+                <Icon size={28} color={ORANGE} />
+              </div>
+              {/* Title/text */}
+              <span className="font-semibold">{step}</span>
             </div>
-          </div>
-        </section>
+
+          </motion.div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+
 
         {/* CTA */}
         <section className="py-12 bg-white/60" aria-labelledby="final-cta">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <motion.h3 {...fadeUp} id="final-cta" className="text-2xl font-bold mb-4">{t.ctaTitle}</motion.h3>
             <div className="flex items-center justify-center gap-4">
-              <Link href="/products" className="px-10 py-3 rounded-full bg-gradient-to-r from-[#ff9a49] to-[#f36f1a] text-white font-semibold" aria-label={t.ctaBtn}>
+              <Link href="/services" className="px-10 py-3 rounded-full bg-gradient-to-r from-[#ff9a49] to-[#f36f1a] text-white font-semibold" aria-label={t.ctaBtn}>
                 {t.ctaBtn}
               </Link>
             </div>

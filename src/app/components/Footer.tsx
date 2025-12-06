@@ -10,7 +10,7 @@ export default function Footer() {
   const { t, i18n } = useTranslation();
 
   return (
-    <footer className="bg-white border-t border-gray-200 mt-10" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+    <footer className="bg-white border-t border-gray-200 mt-0" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
