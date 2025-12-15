@@ -236,7 +236,7 @@ export default function CovixCarePage() {
         <section
           aria-labelledby="hero-title"
           className="relative overflow-hidden bg-cover bg-center mt-10"
-          // style={{ backgroundImage: "url('/images/covixproducts.png')" }}
+          style={{ backgroundImage: "url('/images/covixproducts.jpeg')" }}
         >
           <div className="absolute inset-0 bg-black/45 z-10" />
           <div className="max-w-7xl mx-auto px-6 py-30 flex flex-col-reverse md:flex-row items-center gap-10 relative z-10">
