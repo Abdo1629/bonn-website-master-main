@@ -415,15 +415,16 @@
   "countries": "Countries",
   "productionLines": "Production Lines",
   "contactUs": {
-  "title": "تواصل معنا",
-  "name": "الاسم",
-  "email": "البريد الإلكتروني",
-  "phone": "رقم الهاتف",
-  "message": "الرسالة",
-  "namePlaceholder": "اكتب اسمك الكامل",
+  "title": "Contact Us",
+  "name": "Full Name",
+  "email": "Email Address",
+  "phone": "Phone Number",
+  "message": "Your Message",
+  "namePlaceholder": "John Doe",
   "emailPlaceholder": "example@email.com",
   "phonePlaceholder": "+96000000000",
-  "messagePlaceholder": "اكتب رسالتك هنا...",
-  "submit": "إرسال"
-}
+  "messagePlaceholder": "Type your message here...",
+  "submit": "Send"
+},
+  "ourbrands": "Our Brands"
 }

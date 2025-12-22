@@ -1,108 +1,85 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { useTranslation } from "react-i18next";
-import i18n from "../../i18n";
+
+import "swiper/css";
+
+const stats = [
+  { value: 500, suffix: "+", label: "products" },
+  { value: 10, suffix: "+", label: "clients" },
+  { value: 100, suffix: "%", label: "satisfaction" },
+  { value: 25, suffix: "+", label: "tonsPerDay" },
+  { value: 9, suffix: "+", label: "countries" },
+  { value: 7, suffix: "+", label: "productionLines" },
+];
 
 type StatCardProps = {
   value: number;
+  suffix: string;
   label: string;
-  suffix?: string;
 };
 
-function StatCard({ value, label, suffix = "" }: StatCardProps) {
-  const [startCount, setStartCount] = useState(true);
-  const { t, i18n } = useTranslation();
-
-  useEffect(() => {
-    setStartCount(true);
-    const timer = setTimeout(() => setStartCount(false), 2200);
-    return () => clearTimeout(timer);
-  }, [value, i18n.language]);
+function StatCard({ value, suffix, label }: StatCardProps) {
+  const { t } = useTranslation();
 
   return (
-    <div className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center justify-center py-8">
-      <h3 className="text-7xl font-extrabold mb-2 text-white drop-shadow-lg">
-        {startCount ? (
-          <CountUp end={value} duration={2} suffix={suffix} />
-        ) : (
-          value + suffix
-        )}
+ <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="relative mx-3 rounded-2xl p-8 text-center shadow-xl"
+    >
+      {/* Glow */}
+      <div className="absolute inset-0 rounded-2xl bg-white/5 blur-xl opacity-20 -z-10" />
+
+      <h3 className="text-6xl md:text-7xl font-extrabold text-white">
+        <CountUp
+          end={value}
+          duration={2}
+          suffix={suffix}
+          enableScrollSpy
+        />
       </h3>
-      <p className="text-xl bg-clip-text text-transparent bg-white/75 backdrop-blur-sm">
+
+      <p className="mt-3 text-lg text-white/80 tracking-wide">
         {t(label)}
       </p>
-    </div>
+    </motion.div>
   );
 }
 
 export default function StatsCarousel() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const [stats, setStats] = useState([
-    { id: 1, value: 500, suffix: "+", label: "products" },
-    { id: 2, value: 10, suffix: "+", label: "clients" },
-    { id: 3, value: 100, suffix: "%", label: "satisfaction" },
-    { id: 4, value: 25, suffix: "+", label: "tonsPerDay" },
-    { id: 5, value: 9, suffix: "+", label: "countries" },
-    { id: 6, value: 7, suffix: "+", label: "productionLines" },
-  ]);
-
-  const getVisibleCards = () => {
-    if (window.innerWidth < 640) return 1;
-    if (window.innerWidth < 1024) return 2;
-    return 3;
-  };
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let visibleCards = getVisibleCards();
-    let cardWidth = scrollContainer.clientWidth / visibleCards;
-
-    const handleResize = () => {
-      visibleCards = getVisibleCards();
-      cardWidth = scrollContainer.clientWidth / visibleCards;
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    const loop = () => {
-      scrollContainer.scrollBy({ left: cardWidth, behavior: "smooth" });
-
-      setTimeout(() => {
-        setStats((prev) => {
-          const [first, ...rest] = prev;
-          return [...rest, first];
-        });
-
-        scrollContainer.scrollLeft -= cardWidth;
-
-        loop();
-      }, 2500);
-    };
-
-    const timer = setTimeout(loop, 2000);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
-    <div className="w-full bg-[#0056D2] py-12 overflow-hidden" dir="ltr">
-      <div
-        ref={scrollRef}
-        className="flex flex-nowrap overflow-x-scroll no-scrollbar"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {stats.map((stat) => (
-          <StatCard key={stat.id + "-" + i18n.language} {...stat} />
-        ))}
-      </div>
-    </div>
+<section className="relative py-20 overflow-hidden bg-gradient-to-br from-[#0056D2] via-[#0046b0] to-[#003a8c]">
+  
+  {/* background blobs */}
+  <div className="absolute -top-20 -left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+  <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+
+  <Swiper
+    modules={[Autoplay]}
+    loop
+    autoplay={{ delay: 3000, disableOnInteraction: false }}
+    speed={900}
+    slidesPerView={1}
+    breakpoints={{
+      640: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    }}
+    className="relative max-w-7xl mx-auto px-4"
+  >
+    {stats.map((stat, index) => (
+      <SwiperSlide key={index}>
+        <StatCard {...stat} />
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</section>
+
   );
 }

@@ -65,59 +65,30 @@ export default function FactoryHeader() {
   }, []);
 
 
-  const navItems = [
-    { key: "home", path: "/" },
-    { key: "about", path: "/about" },
-    { key: "services", path: "/services" },
-    { key: "certifications", path: "/certifications" },
-    { key: "operation", path: "/Operations" },
-    { key: "contact", path: "/#contact" },
-  ];
+const navItems = [
+  { key: "home", path: "/" },
+  { key: "about", path: "/about" },
+  { key: "brands", type: "dropdown" }, 
+  { key: "services", path: "/services" },
+  { key: "certifications", path: "/certifications" },
+  { key: "operation", path: "/Operations" },
+  { key: "contact", path: "/#contact" },
+];
 
-const factories = [
-  { 
-    logo: "/images/covix.png", 
-    name: "Covix-Care", 
-    bg: "bg-gray-100", 
-    glow: "shadow-[0_0_15px_rgba(255,69,0,0.7)]", // برتقالي/أحمر
-    w: 70, h: 20 
+
+const brands = [
+  {
+    name: "Covix Care",
+    slug: "covix-care",
+    logo: "/images/covix.png",
   },
-  { 
-    logo: "/images/Vert.png", 
-    name: "Vert", 
-    bg: "bg-gray-100", 
-    glow: "shadow-[0_0_15px_rgba(34,197,94,0.7)]", // أخضر
-    w: 40, h: 20 
-  },
-  { 
-    logo: "/images/B1.png", 
-    name: "B1Care", 
-    bg: "bg-gray-100", 
-    glow: "shadow-[0_0_15px_rgba(30,64,175,0.7)]", // كحلي
-    w: 40, h: 20 
-  },
-  { 
-    logo: "/images/Visage.png", 
-    name: "Le Visage Plus", 
-    bg: "bg-gray-100", 
-    glow: "shadow-[0_0_15px_rgba(239,68,68,0.7)]", // أحمر فاتح
-    w: 70, h: 20 
-  },
-  { 
-    logo: "/images/Shield.png", 
-    name: "Shield", 
-    bg: "bg-gray-100", 
-    glow: "shadow-[0_0_15px_rgba(59,130,246,0.7)]", // أزرق
-    w: 40, h: 20 
-  },
-  { 
-    logo: "/images/Haut.png", 
-    name: "Haut", 
-    bg: "bg-gray-100", 
-    glow: "shadow-[0_0_20px_rgba(255,215,0,0.8)]", // دهبي
-    w: 50, h: 20 
+  {
+    name: "Le Visage Plus",
+    slug: "le-visage-plus",
+    logo: "/images/Visage.png",
   },
 ];
+
 
 
 
@@ -273,13 +244,69 @@ const factories = [
           </div>
         </div>
 <nav className="hidden min-[916px]:flex items-center lg:gap-6 md:gap-3">
-  {navItems.map((item, index) => (
-    <motion.div
-      key={item.key}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 + index * 0.15, duration: 0.4 }} 
-    >
+{navItems.map((item, index) => (
+  <motion.div
+    key={item.key}
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 + index * 0.15, duration: 0.4 }}
+    className="relative"
+  >
+    {item.type === "dropdown" ? (
+      <>
+        {/* Brands Button */}
+        <button
+          onClick={() => setBrandsOpen(!brandsOpen)}
+          className={`flex items-center gap-1 font-medium transition ${
+            brandsOpen
+              ? "text-[#0056D2]"
+              : "text-gray-700 hover:text-[#0056D2]"
+          }`}
+        >
+          {t("ourbrands")}
+          <motion.span
+            animate={{ rotate: brandsOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-xs"
+          >
+            ▼
+          </motion.span>
+        </button>
+
+        {/* Dropdown */}
+        <AnimatePresence>
+          {brandsOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="absolute top-full mt-3 left-0 bg-white rounded-xl shadow-lg p-3 w-56 z-50"
+            >
+              {brands.map((brand) => (
+                <Link
+                  key={brand.slug}
+                  href={`/brands/${brand.slug}`}
+                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
+                  onClick={() => setBrandsOpen(false)}
+                >
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={40}
+                    height={20}
+                    className="object-contain"
+                  />
+                  <span className="text-sm font-medium text-gray-800">
+                    {brand.name}
+                  </span>
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </>
+    ) : (
       <Link
         href={item.path}
         className={`relative font-medium transition-colors ${
@@ -291,71 +318,12 @@ const factories = [
         <span className="relative z-10">{t(item.key)}</span>
         <span className="absolute bottom-[-4] left-0 w-0 h-[2px] bg-[#0056D2] group-hover:w-full transition-all duration-300"></span>
       </Link>
-    </motion.div>
-  ))}
-
-  {/* Brands */}
-  <motion.div
-    initial={{ opacity: 0, y: -10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3 + navItems.length * 0.15, duration: 0.4 }}
-    className="relative flex items-center cursor-pointer"
-    onClick={() => setBrandsOpen(!brandsOpen)}
-  >
-    <div className="flex flex-col items-center justify-center gap-[3px]">
-      {[0, 1, 2].map((i) => (
-        <motion.div
-          key={i}
-          className={`w-1.5 h-1.5 rounded-full ${brandsOpen ? "bg-[#0056D2]" : "bg-gray-700"}`}
-          animate={
-            brandsOpen
-              ? {
-                  y: [0, -4, 0],
-                  transition: { delay: i * 0.1, repeat: Infinity, duration: 0.6 },
-                }
-              : {}
-          }
-        />
-      ))}
-    </div>
+    )}
   </motion.div>
+))}
 </nav>
 
-        <AnimatePresence>
-  {brandsOpen && (
-    <motion.div
-       initial={{ opacity: 0, y: -10, scaleY: 0 }}
-      animate={{ opacity: 1, y: 0, scaleY: 1 }}
-      exit={{ opacity: 0, y: -10, scaleY: 0 }}
-      transition={{ duration: 0.3 }}
-      style={{ originY: 0 }}
-      className="absolute right-[-20px] top-full z-40 bg-white/90 p-4 rounded-xl shadow-xl w-[100%] mx-5"
-    >
-<div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-  {factories.map((factory) => (
-    <Link
-      key={factory.name}
-      href={`/brands/${factory.name.toLowerCase()}`}
-      className={`text-white flex flex-col items-center justify-center text-sm text-center py-4 rounded-md relative gap-2 overflow-hidden ${factory.bg} ${factory.glow}`}
-      onClick={() => setIsOpen(false)}
-    >
-      {/* ثابت للوجو */}
-      <div className="w-25 h-20 flex items-center justify-center">
-        <Image
-          src={factory.logo}
-          alt={factory.name}
-          width={factory.w}
-          height={factory.h}
-          className="object-contain w-full h-full"
-        />
-      </div>
-    </Link>
-  ))}
-</div>
 
-    </motion.div>
-  )}
-</AnimatePresence>
 <button
   onClick={() => setIsOpen(!isOpen)}
   className="min-[916px]:hidden text-gray-800 absolute top-6 right-4 z-50"
@@ -440,57 +408,84 @@ const factories = [
 
 
             <div className="flex flex-col p-6 space-y-4">
-{navItems.map((item) => (
-  <Link
+{navItems.map((item, index) => (
+  <motion.div
     key={item.key}
-    href={item.path}
-    dir={i18n.language === "ar" ? "rtl" : "ltr"}
-    className={`relative font-medium transition-colors flex items-center ${
-      pathname === item.path
-        ? "text-[#0056D2]"
-        : "text-gray-700 hover:text-[#0056D2]"
-    }`}
-     onClick={() => setIsOpen(false)}
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 + index * 0.15, duration: 0.4 }}
+    className="relative"
   >
-    <span className="relative z-10">
-      {t(item.key)}
-      {pathname === item.path && (
-        <span
-          className={`absolute h-[2px] bg-[#0056D2] bottom-0 ${
-            i18n.language === "ar" ? "right-0" : "left-0"
-          } w-full`}
-        ></span>
-      )}
-      {pathname !== item.path && (
-        <span
-          className={`absolute h-[2px] bg-[#0056D2] bottom-0 w-0 group-hover:w-full transition-all duration-300 ${
-            i18n.language === "ar" ? "right-0" : "left-0"
+    {item.type === "dropdown" ? (
+      <>
+        {/* Brands Button */}
+        <button
+          onClick={() => setBrandsOpen(!brandsOpen)}
+          className={`flex items-center gap-1 font-medium transition ${
+            brandsOpen
+              ? "text-[#0056D2]"
+              : "text-gray-700 hover:text-[#0056D2]"
           }`}
-        ></span>
-      )}
-    </span>
-  </Link>
+        >
+          {t("ourbrands")}
+          <motion.span
+            animate={{ rotate: brandsOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-xs"
+          >
+            ▼
+          </motion.span>
+        </button>
+
+        {/* Dropdown */}
+        <AnimatePresence>
+          {brandsOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="absolute top-full mt-3 left-0 bg-white rounded-xl shadow-lg p-3 w-56 z-50"
+            >
+              {brands.map((brand) => (
+                <Link
+                  key={brand.slug}
+                  href={`/brands/${brand.slug}`}
+                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
+                  onClick={() => setBrandsOpen(false)}
+                >
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={40}
+                    height={20}
+                    className="object-contain"
+                  />
+                  <span className="text-sm font-medium text-gray-800">
+                    {brand.name}
+                  </span>
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </>
+    ) : (
+      <Link
+        href={item.path}
+        className={`relative font-medium transition-colors ${
+          pathname === item.path
+            ? "text-[#0056D2] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-[#0056D2]"
+            : "text-gray-700 hover:text-[#0056D2]"
+        } group`}
+      >
+        <span className="relative z-10">{t(item.key)}</span>
+        <span className="absolute bottom-[-4] left-0 w-0 h-[2px] bg-[#0056D2] group-hover:w-full transition-all duration-300"></span>
+      </Link>
+    )}
+  </motion.div>
 ))}
-<div className="grid grid-cols-2 gap-3 mt-4">
-  {factories.map((factory) => (
-    <Link
-      key={factory.name}
-      href={`/brands/${factory.name.toLowerCase()}`}
-      className={`text-white text-sm text-center py-2 rounded-md relative overflow-hidden flex flex-col items-center justify-center ${factory.bg} ${factory.glow}`}
-      onClick={() => setIsOpen(false)}
-    >
-      <div className="w-12 h-10 flex items-center justify-center">
-        <Image
-          src={factory.logo}
-          alt={factory.name}
-          width={factory.w}
-          height={factory.h}
-          className="object-contain max-w-full max-h-full"
-        />
-      </div>
-    </Link>
-  ))}
-</div>
+
             </div>
           </motion.div>
         )}
