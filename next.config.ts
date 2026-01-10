@@ -4,6 +4,13 @@ import "dotenv/config";
 const nextConfig = {
   images: {
     domains: ['res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'vdxlzjspsvykqrzgcyvo.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
   },
   experimental: {
   legacyBrowsers: false,
