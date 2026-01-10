@@ -16,6 +16,8 @@ import {
   EyeOff
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+
 
 
 type Product = {
@@ -41,13 +43,13 @@ export default function AdminProductsPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [search, setSearch] = useState("");
+  const { t, i18n } = useTranslation();
   const stats = {
   total: products.length,
   best: products.filter(p => p.bestSelling).length,
   disabled: products.filter(p => p.disabled).length,
   inStock: products.filter(p => p.inStock).length,
 };
-
   const [product, setProduct] = useState<Product>({
     id: "",
     name_en: "",
@@ -62,6 +64,15 @@ export default function AdminProductsPage() {
     inStock: false,
     disabled: false,
   });
+
+  const isArabic = i18n.language === "ar";
+
+const getName = (p: Product) =>
+  isArabic ? p.name_ar : p.name_en;
+
+const getDescription = (p: Product) =>
+  isArabic ? p.description_ar : p.description_en;
+
 
   // 🔹 Fetch products
   useEffect(() => {
@@ -154,9 +165,9 @@ export default function AdminProductsPage() {
       error = insertError;
     }
 
-    if (error) toast.error("Failed to add/update product: " + error.message);
+    if (error) toast.error(t("toast.deleteError") + error.message);
     else {
-      toast.success(isEditing ? "Updated!" : "Added!");
+      toast.success(isEditing ? t("toast.updated") : t("toast.added"));
       setShowForm(false);
       window.location.reload();
     }
@@ -196,22 +207,29 @@ const handleImageUpload = async (file: File) => {
   if (loading) return <div className="p-6">Loading products...</div>;
 
   return (
-    <div className="p-6 space-y-6  mt-16">
-      <h1 className="text-3xl font-bold">Products</h1>
+<div
+  className="p-6 space-y-6 mt-16"
+  dir={i18n.language === "ar" ? "rtl" : "ltr"}
+>
+<h1 className="text-3xl font-bold">
+  {t("products.title")}
+</h1>
 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
   <div className="relative w-full md:w-1/3">
     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-    <input
-      type="text"
-      placeholder="Search products..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      className="pl-10 pr-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-black/10"
-    />
+<input
+  type="text"
+  placeholder={t("products.search")}
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="pl-10 pr-4 py-2 w-full border rounded-lg"
+/>
+
   </div>
 
 {/* ===== Add Product Button ===== */}
   <button
+    dir={i18n.language === "ar" ? "ltr" : "rtl"}
     onClick={() => {
       setIsEditing(false);
       setShowForm(true);
@@ -219,7 +237,7 @@ const handleImageUpload = async (file: File) => {
     className="flex items-center hover:cursor-pointer gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800"
   >
     <Plus size={18} />
-    Add Product
+    {t("products.add")}
   </button>
 </div>
 {/* ===== Form ===== */}
@@ -232,7 +250,7 @@ const handleImageUpload = async (file: File) => {
             name="name_en"
             value={product.name_en}
             onChange={handleChange}
-            placeholder="Name EN"
+            placeholder={t("admin-form.nameEn")}
             className="border p-2 rounded w-full"
             required
           />
@@ -240,7 +258,7 @@ const handleImageUpload = async (file: File) => {
             name="name_ar"
             value={product.name_ar}
             onChange={handleChange}
-            placeholder="Name AR"
+            placeholder={t("admin-form.nameAr")}
             className="border p-2 rounded w-full"
             required
           />
@@ -248,14 +266,14 @@ const handleImageUpload = async (file: File) => {
             name="description_en"
             value={product.description_en}
             onChange={handleChange}
-            placeholder="Description EN"
+            placeholder={t("admin-form.descriptionEn")}
             className="border p-2 rounded w-full"
           />
           <textarea
             name="description_ar"
             value={product.description_ar}
             onChange={handleChange}
-            placeholder="Description AR"
+            placeholder={t("admin-form.descriptionAr")}
             className="border p-2 rounded w-full"
           />
 
@@ -286,7 +304,7 @@ const handleImageUpload = async (file: File) => {
               htmlFor="product-image-input"
               className="inline-block px-4 py-2 bg-gray-200 rounded cursor-pointer"
             >
-              {uploadingImage ? "Uploading..." : "Upload Image"}
+              {uploadingImage ? t("admin-form.uploading") : t("admin-form.upload")}
             </label>
 
             {product.image && (
@@ -338,14 +356,14 @@ const handleImageUpload = async (file: File) => {
                 uploadingImage ? "bg-gray-400" : "bg-blue-600"
               }`}
             >
-              {isEditing ? "Update" : "Add"}
+              {isEditing ? t("update") : t("add")}
             </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
               className="bg-gray-300 px-4 py-2 rounded hover:cursor-pointer"
             >
-              Cancel
+              {t("cancel")}
             </button>
           </div>
         </form>
@@ -355,7 +373,7 @@ const handleImageUpload = async (file: File) => {
   <div className="bg-white border rounded-xl p-4 flex items-center gap-4">
     <Package className="text-gray-600" />
     <div>
-      <p className="text-sm text-gray-500">Total Products</p>
+      <p className="text-sm text-gray-500">{t("stats.total")}</p>
       <p className="text-xl font-semibold">{stats.total}</p>
     </div>
   </div>
@@ -363,7 +381,7 @@ const handleImageUpload = async (file: File) => {
   <div className="bg-white border rounded-xl p-4 flex items-center gap-4">
     <Star className="text-yellow-500" />
     <div>
-      <p className="text-sm text-gray-500">Best Selling</p>
+      <p className="text-sm text-gray-500">{t("stats.bestSelling")}</p>
       <p className="text-xl font-semibold">{stats.best}</p>
     </div>
   </div>
@@ -371,7 +389,7 @@ const handleImageUpload = async (file: File) => {
   <div className="bg-white border rounded-xl p-4 flex items-center gap-4">
     <Ban className="text-red-500" />
     <div>
-      <p className="text-sm text-gray-500">Disabled</p>
+      <p className="text-sm text-gray-500">{t("stats.disabled")}</p>
       <p className="text-xl font-semibold">{stats.disabled}</p>
     </div>
   </div>
@@ -379,7 +397,7 @@ const handleImageUpload = async (file: File) => {
   <div className="bg-white border rounded-xl p-4 flex items-center gap-4">
     <CheckCircle className="text-green-600" />
     <div>
-      <p className="text-sm text-gray-500">In Stock</p>
+      <p className="text-sm text-gray-500">{t("stats.inStock")}</p>
       <p className="text-xl font-semibold">{stats.inStock}</p>
     </div>
   </div>
@@ -420,7 +438,7 @@ const handleImageUpload = async (file: File) => {
   <div className="relative h-48">
     <Image
       src={p.image || "/placeholder.png"}
-      alt={p.name_en}
+      alt={getName(p)}
       fill
       className="object-cover"
     />
@@ -434,7 +452,14 @@ const handleImageUpload = async (file: File) => {
 
   <div className="p-4  flex justify-between gap-4">
     <div>
-      <h2 className="font-medium">{p.name_en}</h2>
+        <h2 className="font-medium">
+  {getName(p)}
+</h2>
+<p className="text-xs text-gray-500 line-clamp-2">
+  {getDescription(p)}
+</p>
+
+
       <p className="text-xs text-gray-500">{p.brand}</p>
     </div>
 
@@ -449,6 +474,7 @@ const handleImageUpload = async (file: File) => {
     {/* Actions */}
     <div className="flex justify-end gap-2 pt-2">
       <button
+        title={t("actions.edit")}
         onClick={() => handleEdit(p)}
         className="p-2 rounded hover:bg-gray-100 hover:cursor-pointer"
       >
@@ -456,6 +482,7 @@ const handleImageUpload = async (file: File) => {
       </button>
 
       <button
+        title={t("actions.disable")}
         onClick={() => toggleFlag(p.id, "disabled")}
         className="p-2 rounded hover:bg-gray-100 hover:cursor-pointer"
       >
@@ -463,6 +490,7 @@ const handleImageUpload = async (file: File) => {
       </button>
 
       <button
+        title={t("actions.delete")}
         onClick={() => handleDelete(p.id)}
         className="p-2 rounded hover:bg-red-50 text-red-600 hover:cursor-pointer"
       >
