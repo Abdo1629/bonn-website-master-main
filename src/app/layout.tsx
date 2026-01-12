@@ -18,7 +18,7 @@ import { Toaster } from "sonner";
       "url": "https://www.bonnmed.com",
       "logo": "https://www.bonnmed.com/images/cover.png",
       "description":
-        "Bonn Medical Industry is a GMP & ISO certified cosmetics, skincare, haircare & medical product manufacturer in Saudi Arabia.",
+        "Bonn Medical Industries is a GMP & ISO certified cosmetics, skincare, haircare & medical product manufacturer in Saudi Arabia.",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "6833",
@@ -94,12 +94,12 @@ import { Toaster } from "sonner";
 
 
 export const metadata: Metadata = {
-  title: "Bonn Medical Industry | GMP & ISO Certified Cosmetics Manufacturer in Saudi Arabia",
+  title: "Bonn Medical Industries | GMP & ISO Certified Cosmetics Manufacturer in Saudi Arabia",
   description:
-    "Bonn Medical Industry (BMI) is a Saudi GMP & ISO certified factory specializing in cosmetics, skincare, haircare, and medical products manufacturing. We provide private label, OEM, packaging, and SFDA registration support for local and international brands.",
+    "Bonn Medical Industries (BMI) is a Saudi GMP & ISO certified factory specializing in cosmetics, skincare, haircare, and medical products manufacturing. We provide private label, OEM, packaging, and SFDA registration support for local and international brands.",
   keywords: [
 
-    "Bonn Medical Industry",
+    "Bonn Medical Industries",
     "Bonn Med",
     "Saudi Arabia manufacturing",
     "Medical manufacturer Riyadh",
@@ -170,12 +170,12 @@ export const metadata: Metadata = {
     "Full-service cosmetic development and filling plant",
     "Small batch beauty production for startups",
   ],
-  authors: [{ name: "Bonn Medical Industry" }],
-  creator: "Bonn Medical Industry",
+  authors: [{ name: "Bonn Medical Industries" }],
+  creator: "Bonn Medical Industries",
   openGraph: {
-    title: "Bonn Medical Industry | Certified Cosmetics & Medical Manufacturer",
+    title: "Bonn Medical Industries | Certified Cosmetics & Medical Manufacturer",
     description:
-      "Bonn Medical Industry is a GMP & ISO certified factory in Saudi Arabia specializing in skincare, cosmetics, and health products. Private label & SFDA registration support.",
+      "Bonn Medical Industries is a GMP & ISO certified factory in Saudi Arabia specializing in skincare, cosmetics, and health products. Private label & SFDA registration support.",
     url: "https://www.bonnmed.com",
     siteName: "Bonn Medical Industries",
     locale: "en_US",
@@ -191,7 +191,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bonn Medical Industry | Cosmetics Manufacturer in Saudi Arabia",
+    title: "Bonn Medical Industries | Cosmetics Manufacturer in Saudi Arabia",
     description:
       "GMP & ISO certified cosmetics manufacturer in Saudi Arabia. Private label, OEM, skincare, haircare, and SFDA compliance support.",
     creator: "@bonnmed",
@@ -213,34 +213,28 @@ export default function RootLayout({
 
   return (
     <html lang={i18n.language} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
-      <head>
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content="Bonn Medical Industry - Certified Manufacturer"
-        />
-        <meta
-          property="og:description"
-          content="GMP & ISO certified cosmetics and medical manufacturer in Saudi Arabia."
-        />
-        <meta
-          property="og:image"
-          content="https://www.bonnmed.com/images/cover.png"
-        />
-        <meta property="og:url" content="https://www.bonnmed.com" />
+<head>
+  {/* Open Graph for WhatsApp / Facebook */}
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Bonn Medical Industries | Cosmetics Manufacturer in Saudi Arabia" />
+  <meta property="og:description" content="Bonn Medical Industries (BMI) is a Saudi GMP & ISO certified factory specializing in cosmetics, skincare, haircare, and medical products manufacturing. We provide private label, OEM, packaging, and SFDA registration support for local and international brands." />
+  <meta property="og:image" content="https://www.bonnmed.com/images/cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://www.bonnmed.com" />
+  <meta property="og:site_name" content="Bonn Medical Industries" />
 
-        {/* ✅ Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Bonn Medical Industry" />
-        <meta
-          name="twitter:description"
-          content="GMP & ISO certified cosmetics and medical manufacturer in Saudi Arabia."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.bonnmed.com/images/cover.png"
-        />
-      </head>
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bonn Medical Industries | Cosmetics Manufacturer in Saudi Arabia" />
+  <meta name="twitter:description" content="GMP & ISO certified cosmetics manufacturer in Saudi Arabia. Private label, OEM, skincare, haircare, and SFDA compliance support." />
+  <meta name="twitter:image" content="https://www.bonnmed.com/images/cover.png" />
+
+  {/* Optional for SEO */}
+  <title>Bonn Medical Industries | Cosmetics Manufacturer in Saudi Arabia</title>
+  <meta name="description" content="Bonn Medical Industries (BMI) is a Saudi GMP & ISO certified factory specializing in cosmetics, skincare, haircare, and medical products manufacturing. We provide private label, OEM, packaging, and SFDA registration support for local and international brands." />
+</head>
+
       <body className={`font-din antialiased`}>
         <I18nProvider>
           <Header />
