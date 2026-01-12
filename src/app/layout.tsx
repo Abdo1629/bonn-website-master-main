@@ -16,7 +16,7 @@ import { Toaster } from "sonner";
       "name": "Bonn Medical Industry",
       "alternateName": "Bonn Medical Industries (BMI)",
       "url": "https://www.bonnmed.com",
-      "logo": "https://www.bonnmed.com/images/logo.webp",
+      "logo": "https://www.bonnmed.com/images/cover.png",
       "description":
         "Bonn Medical Industry is a GMP & ISO certified cosmetics, skincare, haircare & medical product manufacturer in Saudi Arabia.",
       "address": {
@@ -238,7 +238,7 @@ export default function RootLayout({
         />
         <meta
           name="twitter:image"
-          content="https://www.bonnmed.com/images/logo.webp"
+          content="https://www.bonnmed.com/images/cover.png"
         />
       </head>
       <body className={`font-din antialiased`}>
