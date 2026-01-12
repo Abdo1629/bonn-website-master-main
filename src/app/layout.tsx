@@ -195,7 +195,7 @@ export const metadata: Metadata = {
     description:
       "GMP & ISO certified cosmetics manufacturer in Saudi Arabia. Private label, OEM, skincare, haircare, and SFDA compliance support.",
     creator: "@bonnmed",
-    images: ["https://www.bonnmed.com/logo.webp"],
+    images: ["https://www.bonnmed.com/cover.png"],
   },
 };
 
