@@ -1,35 +1,21 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import i18n from "../../i18n";
 import Link from "next/link";
 
-export default function HeroVideo() {
+export default function Hero() {
   const { t } = useTranslation();
   const isArabic = i18n.language === "ar";
 
-  const servicesControls = useAnimation();
-  const registerControls = useAnimation();
-
-  const handleHoverStart = (controls) => {
-    controls.start({
-      x: isArabic ? [0, -18, 10, 0] : [0, 18, -10, 0],
-      transition: { duration: 0.55 },
-    });
-  };
-
-  const handleHoverEnd = (controls) => {
-    controls.start({ x: 0 });
-  };
-
   return (
-    <section className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden mt-[65px]">
-      
+    <section className="relative w-full h-[65vh] overflow-hidden mt-[65px]">
+
       {/* Background Video */}
       <video
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 w-full h-full object-cover scale-105"
         src="https://res.cloudinary.com/dbgdvnkev/video/upload/v1760711233/WhatsApp_Video_2025-10-17_at_17.24.45_uqrhah.webm"
         autoPlay
         muted
@@ -37,93 +23,72 @@ export default function HeroVideo() {
         playsInline
       />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/45 z-10" />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#050b18]/90 via-[#050b18]/70 to-[#050b18]/95" />
 
-      {/* CONTENT */}
-      <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 text-white">
+      {/* Content */}
+      <div className="relative z-20 h-full flex items-center justify-center px-6">
+        <div className="max-w-4xl text-center text-white">
 
-        {/* Title */}
-        <h4
-            className="text-sm md:text-lg uppercase tracking-widest text-[#4ca1ff] font-semibold mb-2"
-            style={{ willChange: "transform, opacity" }}
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-block mb-4 px-4 py-1 rounded-full border border-[#4ca1ff]/40 text-[#4ca1ff] text-xs md:text-sm tracking-wide"
           >
             {isArabic
-              ? "رواد تصنيع مستحضرات التجميل الطبية في السعودية"
-              : "Leaders in Cosmetic & Medical Manufacturing in Saudi Arabia"}
-          </h4>
+              ? "تصنيع طبي معتمد في السعودية"
+              : "Certified Medical Manufacturing – Saudi Arabia"}
+          </motion.div>
 
+          {/* Headline */}
           <motion.h1
-            className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight"
-            style={{ willChange: "transform, opacity" }}
             initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-extrabold leading-tight mb-6"
           >
             {isArabic
-              ? "نحوّل فكرتك إلى منتج جاهز للسوق"
-              : "Transforming Your Vision into Market-Ready Products"}
+              ? "نحوّل الأفكار الطبية إلى منتجات تنافس عالميًا"
+              : "We Transform Medical Ideas Into Globally Competitive Products"}
           </motion.h1>
 
-        {/* Short Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-sm md:text-lg text-gray-200 max-w-2xl mb-8"
-        >
-          {isArabic
-            ? "مصنع سعودي معتمد لتصنيع مستحضرات التجميل والعناية والمستلزمات الطبية بخبرة تتجاوز 5 سنوات."
-            : "A certified Saudi manufacturer specializing in cosmetics, care products, and medical supplies with over 5 years of experience."}
-        </motion.p>
-
-        {/* Buttons */}
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-
-          {/* Services Button */}
-          <motion.button
-            onHoverStart={() => handleHoverStart(servicesControls)}
-            onHoverEnd={() => handleHoverEnd(servicesControls)}
-            className="relative border-2 border-[#4ca1ff] text-[#4ca1ff] px-8 py-2 rounded-lg hover:bg-[#4ca1ff] hover:text-white transition-all duration-300 font-semibold text-sm md:text-base"
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-300 max-w-2xl mx-auto mb-10 text-sm md:text-lg"
           >
-            <Link href="/services" className="flex items-center justify-center gap-2">
-              <motion.span animate={servicesControls}
-                  className="flex items-center gap-2" 
->
-                {isArabic ? "خدماتنا" : "Our Services"}
+            {isArabic
+              ? "شريكك في تصنيع مستحضرات التجميل الطبية والمستلزمات الصحية من الفكرة وحتى السوق."
+              : "Your trusted partner for manufacturing cosmetic, healthcare, and medical products — from concept to market."}
+          </motion.p>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link
+              href="/registration"
+              className="group relative inline-flex items-center justify-center px-8 py-3 rounded-xl bg-[#4ca1ff] text-black font-semibold transition-all duration-300 hover:scale-[1.03]"
+            >
+              {isArabic ? "ابدأ مشروعك" : "Start Your Project"}
+              <span className="ml-2 group-hover:translate-x-1 transition-transform">
                 {isArabic ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
-              </motion.span>
+              </span>
             </Link>
-          </motion.button>
 
-          {/* Register Button */}
-          <motion.button
-            onHoverStart={() => handleHoverStart(registerControls)}
-            onHoverEnd={() => handleHoverEnd(registerControls)}
-            whileTap={{ scale: 0.96 }}
-            animate={{
-              boxShadow: [
-                "0 0 0px rgba(34,197,94,0.5)",
-                "0 0 14px rgba(34,197,94,0.5)",
-                "0 0 0px rgba(34,197,94,0.5)",
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity, repeatType: "mirror" }}
-            className="flex border-2 border-green-500 text-green-500 px-8 py-2 rounded-lg hover:bg-green-500 hover:text-white transition-all duration-300 font-semibold text-sm md:text-base"
-          >
-<Link 
-  href="/registration" 
-  className="flex items-center justify-center gap-2"
->
-  <motion.span 
-    className="flex items-center gap-2" 
-    animate={registerControls}
-  >
-    {isArabic ? "ابدأ الآن" : "Start Now"}
-    {isArabic ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
-  </motion.span>
-</Link>
-          </motion.button>
+            <Link
+              href="/services"
+              className="inline-flex items-center justify-center px-8 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition"
+            >
+              {isArabic ? "استكشف خدماتنا" : "Explore Services"}
+            </Link>
+          </motion.div>
         </div>
       </div>
     </section>

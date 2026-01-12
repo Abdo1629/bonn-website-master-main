@@ -11,10 +11,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import { TbWorld } from "react-icons/tb";
 import Image from "next/image";
-import { db } from "../lib/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { supabase } from "../lib/supabaseClient";
 
 export default function FactoryHeader() {
   const [showIntro, setShowIntro] = useState(true);
@@ -27,13 +25,21 @@ export default function FactoryHeader() {
   const [searchError, setSearchError] = useState("");
   const [products, setProducts] = useState([]);
   const [setLoading] = useState(true);
+  const [langOpen, setLangOpen] = useState(false);
+  
+  useEffect(() => {
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*");
 
-  const switchLanguage = () => {
-    const newLang = i18n.language === "en" ? "ar" : "en";
-    i18n.changeLanguage(newLang);
-    document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
+    if (!error && data) {
+      setProducts(data);
+    }
   };
 
+  fetchProducts();
+}, []);
 
   useEffect(() => {
   const timer = setTimeout(() => {
@@ -175,7 +181,8 @@ const brands = [
   initial={{ opacity: 1 , y: -50 }}
   animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? -50 : 0 }}
   transition={{ delay: 0.5, duration: 0.6 }}
-  className="w-full fixed top-0 left-0  z-50 bg-white/90 backdrop-blur-md shadow-md"
+  className="w-full fixed top-0 left-0  z-50 bg-white/80 backdrop-blur-xl border-b border-[#4CA1FF]/10
+ shadow-md"
   dir="ltr"
 >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center relative">
@@ -202,13 +209,58 @@ const brands = [
                 />
               </div>
 
-              <button
-                onClick={switchLanguage}
-                className="rounded-sm text-[#0056D290] cursor-pointer hover:text-[#0056d2] transition"
-                aria-label="Switch Language"
-              >
-                <TbWorld className="w-7 h-7"/>
-              </button>
+<div className="relative">
+  <button
+    onClick={() => setLangOpen(!langOpen)}
+    className="flex items-center gap-2 px-2 h-8 rounded-lg border border-[#4CA1FF]/40 text-sm hover:bg-[#4CA1FF]/10 transition"
+  >
+    {/* <Image
+      src={i18n.language === "ar" ? "/flags/sa.svg" : "/flags/gb.svg"}
+      alt="lang"
+      width={16}
+      height={8}
+    /> */}
+    <span className="text-[#4CA1FF] font-medium">
+      {i18n.language === "ar" ? "العربية" : "English"}
+    </span>
+  </button>
+
+  <AnimatePresence>
+    {langOpen && (
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        className="absolute right-0 mt-2 bg-white rounded-xl shadow-lg w-36 overflow-hidden z-50"
+      >
+        <button
+          onClick={() => {
+            i18n.changeLanguage("ar");
+            document.documentElement.dir = "rtl";
+            setLangOpen(false);
+          }}
+          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
+        >
+          <Image src="/flags/sa.svg" alt="" width={18} height={12} />
+          العربية
+        </button>
+
+        <button
+          onClick={() => {
+            i18n.changeLanguage("en");
+            document.documentElement.dir = "ltr";
+            setLangOpen(false);
+          }}
+          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
+        >
+          <Image src="/flags/gb.svg" alt="" width={18} height={12} />
+          English
+        </button>
+      </motion.div>
+    )}
+  </AnimatePresence>
+</div>
+
             </div>
 
             {/* ✅ Search Results Dropdown */}
@@ -232,7 +284,6 @@ const brands = [
                       <div className="text-sm pr-5 pl-5">
                         <div className="font-medium text-gray-900">{i18n.language === "ar" ? product.name_ar : product.name_en}</div>
                         <div className="text-gray-500">{i18n.language === "ar" ? product.description_ar : product.description_en}</div>
-                        <div className="text-[#0056D2] font-bold mt-1">{parseFloat(product.price).toFixed(2)} {i18n.language === "ar" ? "ر.س" : "SAR"}</div>
                       </div>
                     </Link>
                   ))
@@ -259,8 +310,8 @@ const brands = [
           onClick={() => setBrandsOpen(!brandsOpen)}
           className={`flex items-center gap-1 font-medium transition ${
             brandsOpen
-              ? "text-[#0056D2]"
-              : "text-gray-700 hover:text-[#0056D2]"
+              ? "text-[#4CA1FF]"
+              : "text-gray-700 hover:text-[#4CA1FF]"
           }`}
         >
           {t("ourbrands")}
@@ -311,12 +362,12 @@ const brands = [
         href={item.path}
         className={`relative font-medium transition-colors ${
           pathname === item.path
-            ? "text-[#0056D2] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-[#0056D2]"
-            : "text-gray-700 hover:text-[#0056D2]"
+            ? "text-[#4CA1FF] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-[#4CA1FF]"
+            : "text-gray-700 hover:text-[#4CA1FF]"
         } group`}
       >
         <span className="relative z-10">{t(item.key)}</span>
-        <span className="absolute bottom-[-4] left-0 w-0 h-[2px] bg-[#0056D2] group-hover:w-full transition-all duration-300"></span>
+        <span className="absolute bottom-[-4] left-0 w-0 h-[2px] bg-[#4CA1FF] group-hover:w-full transition-all duration-300"></span>
       </Link>
     )}
   </motion.div>
@@ -351,13 +402,58 @@ const brands = [
           >
 <div className="flex items-center gap-3 px-6 pt-4">
   {/* Language Button */}
-              <button
-                onClick={switchLanguage}
-                className="rounded-sm text-[#0056D2] cursor-pointer transition"
-                aria-label="Switch Language"
-              >
-                <TbWorld className="w-7 h-7"/>
-              </button>
+<div className="relative">
+  <button
+    onClick={() => setLangOpen(!langOpen)}
+    className="flex items-center gap-2 px-3 h-8 rounded-lg border border-[#4CA1FF]/40 text-sm hover:bg-[#4CA1FF]/10 transition"
+  >
+    {/* <Image
+      src={i18n.language === "ar" ? "/flags/sa.svg" : "/flags/gb.svg"}
+      alt="lang"
+      width={20}
+      height={14}
+    /> */}
+    <span className="text-[#4CA1FF] font-medium">
+      {i18n.language === "ar" ? "العربية" : "English"}
+    </span>
+  </button>
+
+  <AnimatePresence>
+    {langOpen && (
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        className="absolute right-0 mt-2 bg-white rounded-xl shadow-lg w-36 overflow-hidden z-50"
+      >
+        <button
+          onClick={() => {
+            i18n.changeLanguage("ar");
+            document.documentElement.dir = "rtl";
+            setLangOpen(false);
+          }}
+          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
+        >
+          <Image src="/flags/sa.svg" alt="" width={18} height={12} />
+          العربية
+        </button>
+
+        <button
+          onClick={() => {
+            i18n.changeLanguage("en");
+            document.documentElement.dir = "ltr";
+            setLangOpen(false);
+          }}
+          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
+        >
+          <Image src="/flags/gb.svg" alt="" width={18} height={12} />
+          English
+        </button>
+      </motion.div>
+    )}
+  </AnimatePresence>
+</div>
+
 
   {/* Search Input */}
   <div className="relative flex-1">
@@ -393,7 +489,6 @@ const brands = [
               <div className="text-sm pr-5 pl-5">
                 <div className="font-medium text-gray-900">{product.name[i18n.language]}</div>
                 <div className="text-gray-500">{product.description[i18n.language]}</div>
-                <div className="text-[#0056D2] font-bold mt-1">{product.price}  {i18n.language === "ar" ? "ر.س" : "SAR"}</div>
               </div>
             </Link>
           ))

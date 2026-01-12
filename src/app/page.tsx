@@ -14,10 +14,10 @@ export default function Home() {
       <CTAButton />
       <HeroSlider />
       <StatsCarousel/>
-      <ArtVid />
       <About />
       <Products />
       <ClientsSection />
+      <ArtVid />
       {/* <OurMap /> */}
       <ContactUs />
     </>

@@ -5,6 +5,7 @@ import i18n from "../i18n";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Toaster } from "sonner";
+import { useState , useEffect } from "react";
 
 
 <script
@@ -177,12 +178,12 @@ export const metadata: Metadata = {
     description:
       "Bonn Medical Industry is a GMP & ISO certified factory in Saudi Arabia specializing in skincare, cosmetics, and health products. Private label & SFDA registration support.",
     url: "https://www.bonnmed.com",
-    siteName: "Bonn Medical Industry",
+    siteName: "Bonn Medical Industries",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "https://www.bonnmed.com/logo.jpg",
+        url: "https://www.bonnmed.com/images/cover.png",
         width: 1200,
         height: 630,
         alt: "Bonn Medical Industry Facility",
@@ -210,8 +211,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
+
+  useEffect(() => {
+  setDir(i18n.language === "ar" ? "rtl" : "ltr");
+}, []);
+
+
   return (
-    <html lang="en" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+    <html lang={i18n.language} dir={dir}>
       <head>
         <meta property="og:type" content="website" />
         <meta
@@ -224,7 +233,7 @@ export default function RootLayout({
         />
         <meta
           property="og:image"
-          content="https://www.bonnmed.com/images/logo.webp"
+          content="https://www.bonnmed.com/images/cover.png"
         />
         <meta property="og:url" content="https://www.bonnmed.com" />
 
@@ -240,7 +249,7 @@ export default function RootLayout({
           content="https://www.bonnmed.com/images/logo.webp"
         />
       </head>
-      <body className={`font-din antialiased.className antialiased`}>
+      <body className={`font-din antialiased`}>
         <I18nProvider>
           <Header />
            <div className="margin-top"></div>

@@ -35,8 +35,7 @@ export default function FloatingCTA() {
       animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
       transition={{ duration: 0.4 }}
       className={`
-        fixed bottom-4 z-[9999] w-full flex justify-center
-        md:w-auto md:${isArabic ? "left-6" : "right-[110px]"}
+fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999]
       `}
     >
               <div

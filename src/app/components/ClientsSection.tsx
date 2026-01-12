@@ -11,10 +11,13 @@ const clients = [
   { name: "HAUT", logo: "/images/Haut.png" },
   { name: "Sheild", logo: "/images/Shield.png" },
   { name: "Vert", logo: "/images/Vert.png" },
+  { name: "SENSA", logo: "/images/SENSA.png" },
   { name: "Visage", logo: "/images/Visage.png" },
   { name: "B1 Care", logo: "/images/B1.png" },
   { name: "Four Seasons Hotels", logo: "/images/four.png" },
   { name: "Covix Care", logo: "/images/covix.png" },
+  { name: "ZENDA", logo: "/images/ZENDA.png" },
+  { name: "Havera", logo: "/images/Havera.png" },
 
 ];
 
@@ -50,7 +53,7 @@ export default function ClientsSection() {
                   className={`w-full max-w-[160px] sm:max-w-[200px] md:max-w-[220px] lg:max-w-[240px] aspect-[4/3] flex items-center justify-center transition-all duration-500 ${
                     isActive
                       ? "scale-120 grayscale-0"
-                      : "scale-90 grayscale" 
+                      : "scale-90 grayscale opacity-60" 
                   }`}
                 >
                   <Image

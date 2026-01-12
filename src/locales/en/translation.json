@@ -468,5 +468,11 @@
     "search": "Search PDFs...",
     "view": "View",
     "download": "Download"
-  }
+  },
+  "manufacturingFacility": "Manufacturing Facility",
+  "manufacturingFacilityDesc": "Our production environment reflects our commitment to quality, precision, and international medical standards.",
+  "facilityTitle": "Built for Medical-Grade Production",
+  "facilityDesc1": "Our facility operates under strict quality control systems, ensuring consistent output that meets both local and international requirements.",
+  "facilityDesc2": "Every stage of production is monitored to guarantee safety, reliability, and scalability for global distribution.",
+  "item": "Item"
 }
