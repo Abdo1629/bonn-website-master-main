@@ -1,3 +1,5 @@
+"use client";
+
 import I18nProvider from "./i18n-provider";
 import type { Metadata } from "next";
 import "./globals.css";
