@@ -1,5 +1,3 @@
-"use client";
-
 import I18nProvider from "./i18n-provider";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -7,7 +5,6 @@ import i18n from "../i18n";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Toaster } from "sonner";
-import { useState , useEffect } from "react";
 
 
 <script
@@ -214,15 +211,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
-  const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
-
-  useEffect(() => {
-  setDir(i18n.language === "ar" ? "rtl" : "ltr");
-}, []);
-
-
   return (
-    <html lang={i18n.language} dir={dir}>
+    <html lang={i18n.language} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
       <head>
         <meta property="og:type" content="website" />
         <meta
