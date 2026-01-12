@@ -11,12 +11,11 @@ export default function Hero() {
   const isArabic = i18n.language === "ar";
 
   return (
-    <section className="relative w-full h-[65vh] overflow-hidden mt-[65px]">
-
+    <section className="relative w-full h-[65vh] max-[450px]:h-[75svh] overflow-hidden mt-[65px]">
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover scale-105"
-        src="https://res.cloudinary.com/dbgdvnkev/video/upload/v1760711233/WhatsApp_Video_2025-10-17_at_17.24.45_uqrhah.webm"
+        src="https://res.cloudinary.com/dbgdvnkev/video/upload/v1768245923/Promo_-_V2-2-2_xa4zoc.webm"
         autoPlay
         muted
         loop
@@ -46,7 +45,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-extrabold leading-tight mb-6"
+            className="text-4xl md:text-6xl max-[450px]:text-3xl font-extrabold leading-tight mb-6"
           >
             {isArabic
               ? "نحوّل الأفكار الطبية إلى منتجات تنافس عالميًا"
