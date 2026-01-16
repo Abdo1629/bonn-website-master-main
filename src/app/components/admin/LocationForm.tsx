@@ -108,16 +108,20 @@ export default function LocationForm({ initialData, onClose, onSaved }: Props) {
   };
 
   /* ===================== CLICK OUTSIDE ===================== */
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const el = document.getElementById("location-form-wrapper");
-      if (el && !el.contains(e.target as Node)) onClose();
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
+useEffect(() => {
+  if (typeof document === "undefined") return;
+  
+  const handleClickOutside = (e: MouseEvent) => {
+    const el = document.getElementById("location-form-wrapper");
+    if (el && !el.contains(e.target as Node)) onClose();
+  };
 
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, [onClose]);
+
+
+    /* ===================== SELECTED BRAND ===================== */
   const selectedBrand = brands.find(
     (b) => b.id === form.brand_key
   );

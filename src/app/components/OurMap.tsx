@@ -73,8 +73,10 @@ export default function OurMap() {
   const [resetMap, setResetMap] = useState(false);
 
   /* ================= PIN ================= */
-const createPin = (color: string, isActive = false) =>
-  new L.DivIcon({
+const createPin = (color: string, isActive = false) => {
+  if (typeof window === "undefined") return null; // SSR safety
+
+  return new L.DivIcon({
     html: `<div style="
       width:16px;
       height:16px;
@@ -91,6 +93,7 @@ const createPin = (color: string, isActive = false) =>
     iconAnchor: [8, 8],
     className: "",
   });
+};
 
 
   /* ================= FETCH LOCATIONS ================= */
@@ -148,17 +151,19 @@ const createPin = (color: string, isActive = false) =>
           >
             <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
             <MapController active={active} reset={resetMap} />
-            {locations.map((loc) => (
-              <Marker
-                key={loc.id}
-                position={[loc.lat, loc.lng]}
-                icon={createPin(
-                loc.brand_color || "#0056D2",
-                active?.id === loc.id
-                )}
-                eventHandlers={{ click: () => setActive(loc) }}
-              />
-            ))}
+{locations.map((loc) => {
+  const icon = createPin(loc.brand_color || "#0056D2", active?.id === loc.id);
+  if (!icon) return null; 
+  return (
+    <Marker
+      key={loc.id}
+      position={[loc.lat, loc.lng]}
+      icon={icon}
+      eventHandlers={{ click: () => setActive(loc) }}
+    />
+  );
+})}
+
           </MapContainer>
 
           {/* ===== Overlay (click outside) ===== */}
