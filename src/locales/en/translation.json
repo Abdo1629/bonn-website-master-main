@@ -474,5 +474,19 @@
   "facilityTitle": "Built for Medical-Grade Production",
   "facilityDesc1": "Our facility operates under strict quality control systems, ensuring consistent output that meets both local and international requirements.",
   "facilityDesc2": "Every stage of production is monitored to guarantee safety, reliability, and scalability for global distribution.",
-  "item": "Item"
+  "item": "Item",
+  "location": "Location",
+  "coordinates": "Coordinates",
+  "status": "Status",
+  "admin-actions": "Actions",
+  "active": "Active",
+  "disabled": "Disabled",
+  "edit": "Edit",
+  "delete": "Delete",
+  "noLocations": "No locations added yet",
+  "confirmDeleteLocation": "Are you sure you want to delete this location?",
+   "globalPresenceTitle": "Global Presence",
+  "globalPresenceDesc": "Our manufacturing facilities and partners across different countries around the world.",
+  "city": "City",
+  "close": "Close"
 }

@@ -2,129 +2,270 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { supabase } from "../lib/supabaseClient";
-import { motion, AnimatePresence } from "framer-motion";
 import L from "leaflet";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
+import { supabase } from "../lib/supabaseClient";
+import { useMap } from "react-leaflet";
+import { X } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 
-type Location = {
-  id: number;
+/* ================= TYPES ================= */
+type LocationData = {
+  id: string;
+  name_en: string;
+  name_ar: string;
+  brand_name?: string;
+  brand_logo?: string;
+  description?: string;
+  city?: string;
+  address?: string;
+  website?: string;
+  instagram?: string;
+  linkedin?: string;
   lat: number;
   lng: number;
-  name_ar?: string;
-  name_en?: string;
-  active?: boolean;
-  info?: string;
+  active: boolean;
+  brand_color?: string;
 };
 
-// Dynamic imports for Leaflet
-const MapContainer = dynamic(() => import("react-leaflet").then(mod => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import("react-leaflet").then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import("react-leaflet").then(mod => mod.Popup), { ssr: false });
+/* ================= LEAFLET ================= */
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((m) => m.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((m) => m.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((m) => m.Marker),
+  { ssr: false }
+);
 
-// Custom futuristic Pin
-const futuristicIcon = new L.DivIcon({
-  className: "futuristic-pin",
-  html: `
-    <div class="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#00f6ff] via-[#0075ff] to-[#002fff] flex items-center justify-center shadow-xl hover:scale-125 transition-transform duration-300">
-      <span class="absolute w-3 h-3 rounded-full bg-white animate-ping"></span>
-      <span class="absolute w-3 h-3 rounded-full bg-white"></span>
-    </div>
-  `,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
-export default function FuturisticMap() {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [selected, setSelected] = useState<Location | null>(null);
+/* ================= MAP CONTROLLER ================= */
+function MapController({ active, reset }: { active: LocationData | null; reset: boolean }) {
+  const map = useMap();
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      const { data } = await supabase
-        .from("locations")
-        .select("*")
-        .eq("active", true);
-      setLocations(data ?? []);
-    };
-    fetchLocations();
+    if (active) {
+      map.flyTo([active.lat, active.lng], 6, { duration: 1.4, easeLinearity: 0.25 });
+    }
+  }, [active, map]);
+
+  useEffect(() => {
+    if (reset) {
+      map.flyTo([22, 10], 2, { duration: 1 });
+    }
+  }, [reset, map]);
+
+  return null;
+}
+
+/* ================= COMPONENT ================= */
+export default function OurMap() {
+  const { t } = useTranslation();
+  const isArabic = i18n.language === "ar";
+
+  const [locations, setLocations] = useState<LocationData[]>([]);
+  const [active, setActive] = useState<LocationData | null>(null);
+  const [resetMap, setResetMap] = useState(false);
+
+  /* ================= PIN ================= */
+const createPin = (color: string, isActive = false) =>
+  new L.DivIcon({
+    html: `<div style="
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:${color};
+      box-shadow:
+        0 0 ${isActive ? "14px" : "6px"} ${color}99,
+        0 0 0 ${isActive ? "20px" : "14px"} ${color}33;
+      border:2px solid white;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor:pointer;
+    " class="map-pin"></div>`,
+    iconSize: [16, 16],
+    iconAnchor: [8, 8],
+    className: "",
+  });
+
+
+  /* ================= FETCH LOCATIONS ================= */
+  useEffect(() => {
+    supabase
+      .from("locations")
+      .select("*")
+      .eq("active", true)
+      .then(({ data }) => setLocations(data || []));
   }, []);
 
+  const closePanel = () => {
+    setActive(null);
+    setResetMap(true);
+    setTimeout(() => setResetMap(false), 100);
+  };
+
   return (
-    <div className="relative w-full max-w-6xl mx-auto my-16 p-4 rounded-2xl shadow-2xl bg-gradient-to-br from-[#001f4d] via-[#002f7d] to-[#0046b0] overflow-hidden">
-      
-      {/* Subtle moving particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          animate={{ x: [0, 20, 0], y: [0, 10, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.05),transparent)]"
-        />
+    <section className="relative py-24 bg-gradient-to-b from-[#0056D2] to-[#003a8c] overflow-hidden">
+      {/* Fix Z-Index */}
+      <style jsx global>{`
+        .leaflet-container {
+          z-index: 0 !important;
+          touch-action: none !important;
+          cursor: default !important;
+        }
+        .map-pin:hover {
+          transform: scale(1.5);
+        }
+        button, a {
+          cursor: pointer;
+        }
+      `}</style>
+
+      {/* ===== Heading ===== */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center mb-14">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white">
+          {t("globalPresenceTitle")}
+        </h2>
+        <p className="mt-4 text-white/80 max-w-2xl mx-auto">{t("globalPresenceDesc")}</p>
       </div>
 
-      <MapContainer
-        center={[20, 0]}
-        zoom={2}
-        style={{ height: "500px", width: "100%" }}
-        scrollWheelZoom={true}
-        className="rounded-xl"
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        {locations.map(loc => (
-          <Marker
-            key={loc.id}
-            position={[loc.lat, loc.lng]}
-            icon={futuristicIcon}
-            eventHandlers={{
-              click: () => setSelected(loc),
-            }}
+      {/* ===== Map Wrapper ===== */}
+      <div className="relative z-0 max-w-7xl mx-auto px-6">
+        <div className="relative h-[520px] rounded-3xl overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+          <MapContainer
+            center={[22, 10]}
+            zoom={2}
+            scrollWheelZoom={false}
+            doubleClickZoom={false}
+            dragging={false}
+            zoomControl={false}
+            attributionControl={false}
+            style={{ height: "100%", width: "100%" }}
           >
-            <Popup>
+            <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+            <MapController active={active} reset={resetMap} />
+            {locations.map((loc) => (
+              <Marker
+                key={loc.id}
+                position={[loc.lat, loc.lng]}
+                icon={createPin(
+                loc.brand_color || "#0056D2",
+                active?.id === loc.id
+                )}
+                eventHandlers={{ click: () => setActive(loc) }}
+              />
+            ))}
+          </MapContainer>
+
+          {/* ===== Overlay (click outside) ===== */}
+          <AnimatePresence>
+            {active && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className="text-white font-bold text-center"
-              >
-                {loc.name_en}
-              </motion.div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+                onClick={closePanel}
+                className="absolute inset-0 bg-black/40 z-[998]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
+            )}
+          </AnimatePresence>
 
-      {/* Modal عند click */}
-      <AnimatePresence>
-        {selected && (
-          <motion.div
-            key="modal"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 flex items-center justify-center bg-black/50 z-50"
-          >
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-[#001f4d] text-white rounded-2xl p-6 max-w-md w-full shadow-2xl"
-            >
-              <h2 className="text-2xl font-bold mb-2">{selected.name_en}</h2>
-              <p className="text-white/80 mb-4">{selected.info || "No additional info"}</p>
-              <button
-                onClick={() => setSelected(null)}
-                className="px-4 py-2 bg-[#00f6ff] text-[#002f7d] rounded-lg font-bold hover:scale-105 transition-transform"
+          {/* ===== SIDE PANEL ===== */}
+          <AnimatePresence>
+            {active && (
+              <motion.aside
+                initial={{ x: "110%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "110%", opacity: 0 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                style={{
+                  borderLeft: `6px solid ${active.brand_color || "#0056D2"}`,
+                }}
+                className="absolute top-0 right-0 h-full w-full sm:w-[440px] z-[999] bg-white p-6 shadow-[0_0_40px_rgba(0,0,0,0.3)] rounded-l-3xl"
               >
-                Close
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+                {/* Close */}
+                <button
+                  onClick={closePanel}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"
+                  aria-label="Close Panel"
+                >
+                  <X size={18} />
+                </button>
+
+                {/* Brand */}
+                <div className="flex items-center gap-3 mb-6">
+                  {active.brand_logo && (
+                    <img
+                      src={active.brand_logo}
+                      alt={active.brand_name || "Brand Logo"}
+                      className="w-12 h-12 object-contain"
+                    />
+                  )}
+                  <div>
+                    <h3
+                      className="text-xl font-bold"
+                      style={{ color: active.brand_color || "#0056D2" }}
+                    >
+                      {active.brand_name}
+                    </h3>
+                    {active.brand_name && (
+                      <span className="text-xs text-gray-500">
+                        {isArabic ? active.name_ar : active.name_en}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Content */}
+                {active.description && (
+                  <p className="text-sm text-gray-700 leading-relaxed mb-4">{active.description}</p>
+                )}
+                <div className="space-y-2 text-sm">
+                  {active.city && (
+                    <p>
+                      <strong>{t("city")}:</strong> {active.city}
+                    </p>
+                  )}
+                  {active.address && (
+                    <p>
+                      <strong>{t("address")}:</strong> {active.address}
+                    </p>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {active.website && (
+                    <a
+                      href={active.website}
+                      target="_blank"
+                      className="px-4 py-2 rounded-lg text-sm text-white font-medium"
+                      style={{ background: active.brand_color || "#0056D2" }}
+                      rel="noopener noreferrer"
+                    >
+                      Website
+                    </a>
+                  )}
+                  {active.linkedin && (
+                    <a
+                      href={active.linkedin}
+                      target="_blank"
+                      className="px-4 py-2 rounded-lg text-sm border font-medium"
+                      rel="noopener noreferrer"
+                    >
+                      LinkedIn
+                    </a>
+                  )}
+                </div>
+              </motion.aside>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
   );
 }

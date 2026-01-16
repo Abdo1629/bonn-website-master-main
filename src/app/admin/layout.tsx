@@ -26,6 +26,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   const router = useRouter();
 
+
   useEffect(() => {
     if (!loading && !user) {
       router.replace("/login");
@@ -33,7 +34,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   }, [user, loading, router]);
 
   if (loading) return null;
-
   return (
     <div className="flex m-0 p-0 h-screen overflow-hidden"   dir="ltr">
       <Sidebar />

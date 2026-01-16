@@ -6,7 +6,7 @@ import StatsCarousel from './components/StatCards';
 import ClientsSection from './components/ClientsSection';
 import ArtVid from './components/ArtVid';
 import CTAButton from './components/CTAButton';
-// import OurMap from './components/OurMap';
+import OurMap from './components/OurMap';
 
 export default function Home() {
   return (
@@ -18,7 +18,7 @@ export default function Home() {
       <Products />
       <ClientsSection />
       <ArtVid />
-      {/* <OurMap /> */}
+      <OurMap />
       <ContactUs />
     </>
   );

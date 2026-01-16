@@ -20,9 +20,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
-
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -85,13 +83,14 @@ export default function AdminLogin() {
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="w-full max-w-md bg-white border rounded-2xl shadow-sm p-8 space-y-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0056D2] to-[#003a8c]">
+  <div className="w-full max-w-md bg-white/95 backdrop-blur border border-white/20 rounded-3xl shadow-2xl p-8 space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="mx-auto w-10 h-10 rounded-full bg-black text-white flex items-center justify-center">
-              <ShieldCheck size={20} />
-            </div>
+            <div className="mx-auto w-12 h-12 rounded-xl bg-[#0056D2] text-white flex items-center justify-center shadow-lg">
+  <ShieldCheck size={22} />
+</div>
+
             <h1 className="text-2xl font-semibold">Admin Panel</h1>
             <p className="text-sm text-gray-500">
               Login with your admin credentials
