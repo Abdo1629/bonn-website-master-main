@@ -1,7 +1,6 @@
 {
   "home": "Home",
   "about": "About Us",
-  "services": "Services",
   "certifications": "Certifications",
   "contact": "Contact",
   "operation": "Operations",
@@ -488,5 +487,34 @@
    "globalPresenceTitle": "Global Presence",
   "globalPresenceDesc": "Our manufacturing facilities and partners across different countries around the world.",
   "city": "City",
-  "close": "Close"
+  "close": "Close",
+"services": {
+  "title": "Our Services",
+  "subtitle": "End-to-end pharmaceutical manufacturing powered by science, precision, and trust.",
+
+  "ideation": {
+    "title": "Product Ideation",
+    "desc": "Data-driven product concepts built on market demand, regulatory feasibility, and medical value."
+  },
+  "formulation": {
+    "title": "Custom Formulation",
+    "desc": "Advanced R&D delivering safe, effective, and scalable pharmaceutical formulas."
+  },
+  "ready": {
+    "title": "Ready Formulas",
+    "desc": "Clinically tested, market-proven formulations ready for fast-track production."
+  },
+  "packaging": {
+    "title": "Packaging & Design",
+    "desc": "Regulatory-compliant packaging engineered for protection and clarity."
+  },
+  "production": {
+    "title": "Production",
+    "desc": "GMP-certified manufacturing with strict quality control."
+  },
+  "registration": {
+    "title": "Registration",
+    "desc": "Complete regulatory documentation and market authorization support."
+  }
+}
 }

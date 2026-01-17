@@ -75,7 +75,7 @@ const navItems = [
   { key: "home", path: "/" },
   { key: "about", path: "/about" },
   { key: "brands", type: "dropdown" }, 
-  { key: "services", path: "/services" },
+  { key: "services.title", path: "/services" },
   { key: "certifications", path: "/certifications" },
   { key: "operation", path: "/Operations" },
   { key: "contact", path: "/#contact" },
