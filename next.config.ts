@@ -12,9 +12,6 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-  legacyBrowsers: false,
-},
 compiler: { removeConsole: true },
 
 };
