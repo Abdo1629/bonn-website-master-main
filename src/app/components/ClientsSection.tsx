@@ -18,7 +18,9 @@ const clients = [
   { name: "Covix Care", logo: "/images/covix.png" },
   { name: "ZENDA", logo: "/images/ZENDA.png" },
   { name: "Havera", logo: "/images/Havera.png" },
-
+  { name: "Koln", logo: "/images/Koln.png" },
+  { name: "Microsure", logo: "/images/Microsure.png" },
+  { name: "Sanita", logo: "/images/Sanita.png" },
 ];
 
 export default function ClientsSection() {
@@ -26,13 +28,14 @@ export default function ClientsSection() {
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-auto px-6 text-center">
+      <div className="mx-auto px-6 text-center"
+        dir="ltr">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0056D2] mb-10">
           {t("OurClients")}
         </h2>
         <Swiper
           modules={[Autoplay]}
-          spaceBetween={30}
+          spaceBetween={0}
           slidesPerView={3}
           centeredSlides={true} 
           loop={true}
@@ -49,21 +52,19 @@ export default function ClientsSection() {
               className="flex justify-center transition-all duration-500"
             >
               {({ isActive }) => (
-                <div
-                  className={`w-full max-w-[160px] sm:max-w-[200px] md:max-w-[220px] lg:max-w-[240px] aspect-[4/3] flex items-center justify-center transition-all duration-500 ${
-                    isActive
-                      ? "scale-120 grayscale-0"
-                      : "scale-90 grayscale opacity-60" 
-                  }`}
-                >
-                  <Image
-                    src={client.logo}
-                    alt={client.name}
-                    width={200}
-                    height={120}
-                    className="object-contain max-h-full max-w-full"
-                  />
-                </div>
+<div
+  className={`w-full max-w-[160px] sm:max-w-[200px] md:max-w-[220px] lg:max-w-[240px] aspect-[4/3] flex items-center justify-center transition-all duration-500 overflow-visible
+    ${ isActive ? "scale-110 grayscale-0" : "scale-80 grayscale opacity-60" }}`}
+>
+  <Image
+    src={client.logo}
+    alt={client.name}
+    width={200}
+    height={120}
+    className="object-contain max-h-full max-w-full"
+  />
+</div>
+
               )}
             </SwiperSlide>
           ))}

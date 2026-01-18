@@ -187,7 +187,7 @@ const brands = [
 >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center relative">
         <div className="flex items-center gap-4 lg:gap-18">
-          <Link href="/" className="text-2xl font-bold text-[#0056D2]">
+          <Link href="/" className="text-2xl font-bold text-[#4CA1FF]">
             <Image src="/images/logo.webp"className="min-w-15" alt="Bonn Medical Industries Logo" width="70" height="70" />
           </Link>
 
@@ -196,7 +196,7 @@ const brands = [
             <div className="flex items-center gap-2">
               <div className="relative">
                 <FaSearch
-                  className="absolute left-2 top-1/2 -translate-y-1/2 text-[#0056D2] cursor-pointer"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 text-[#4CA1FF] cursor-pointer"
                   onClick={handleSearchAction}
                 />
                 <input
@@ -205,7 +205,7 @@ const brands = [
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSearchAction()}
                   placeholder={t("searchProduct")}
-                  className="w-[250px] max-[850px]:w-[190px] pl-8 text-sm px-3 py-1 border border-[#0056D2] rounded hover:bg-[#0058d210] transition"
+                  className="w-[250px] max-[850px]:w-[190px] pl-8 text-sm px-3 py-1 border border-[#4CA1FF] rounded hover:bg-[#0058d210] transition"
                 />
               </div>
 
@@ -214,12 +214,12 @@ const brands = [
     onClick={() => setLangOpen(!langOpen)}
     className="flex items-center gap-2 px-2 h-8 rounded-lg border border-[#4CA1FF]/40 text-sm hover:bg-[#4CA1FF]/10 transition"
   >
-    {/* <Image
-      src={i18n.language === "ar" ? "/flags/sa.svg" : "/flags/gb.svg"}
+     <Image
+      src={i18n.language === "ar" ? "/images/sa.svg" : "/images/gb.svg"}
       alt="lang"
       width={16}
       height={8}
-    /> */}
+    /> 
     <span className="text-[#4CA1FF] font-medium">
       {i18n.language === "ar" ? "العربية" : "English"}
     </span>
@@ -241,7 +241,7 @@ const brands = [
           }}
           className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
         >
-          <Image src="/flags/sa.svg" alt="" width={18} height={12} />
+          <Image src="/images/sa.svg" alt="" width={18} height={12} />
           العربية
         </button>
 
@@ -253,7 +253,7 @@ const brands = [
           }}
           className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
         >
-          <Image src="/flags/gb.svg" alt="" width={18} height={12} />
+          <Image src="/images/gb.svg" alt="" width={18} height={12} />
           English
         </button>
       </motion.div>
@@ -407,12 +407,12 @@ const brands = [
     onClick={() => setLangOpen(!langOpen)}
     className="flex items-center gap-2 px-3 h-8 rounded-lg border border-[#4CA1FF]/40 text-sm hover:bg-[#4CA1FF]/10 transition"
   >
-    {/* <Image
-      src={i18n.language === "ar" ? "/flags/sa.svg" : "/flags/gb.svg"}
+     <Image
+      src={i18n.language === "ar" ? "/images/sa.svg" : "/images/gb.svg"}
       alt="lang"
       width={20}
       height={14}
-    /> */}
+    /> 
     <span className="text-[#4CA1FF] font-medium">
       {i18n.language === "ar" ? "العربية" : "English"}
     </span>
@@ -434,7 +434,7 @@ const brands = [
           }}
           className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
         >
-          <Image src="/flags/sa.svg" alt="" width={18} height={12} />
+          <Image src="/images/sa.svg" alt="" width={18} height={12} />
           العربية
         </button>
 
@@ -446,7 +446,7 @@ const brands = [
           }}
           className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
         >
-          <Image src="/flags/gb.svg" alt="" width={18} height={12} />
+          <Image src="/images/gb.svg" alt="" width={18} height={12} />
           English
         </button>
       </motion.div>
@@ -458,7 +458,7 @@ const brands = [
   {/* Search Input */}
   <div className="relative flex-1">
     <FaSearch
-      className="absolute left-2 top-1/2 -translate-y-1/2 text-[#0056D2] cursor-pointer"
+      className="absolute left-2 top-1/2 -translate-y-1/2 text-[#4CA1FF] cursor-pointer"
       onClick={handleSearchAction}
     />
     <input
@@ -467,7 +467,7 @@ const brands = [
       onChange={(e) => setSearchTerm(e.target.value)}
       onKeyDown={(e) => e.key === "Enter" && handleSearchAction()}
       placeholder={t("searchProduct")}
-      className="w-full pl-8 text-sm px-3 py-1 border border-[#0056D2] rounded hover:bg-[#0058d24b] hover:text-white transition"
+      className="w-full pl-8 text-sm px-3 py-1 border border-[#4CA1FF] rounded hover:bg-[#0058d24b] hover:text-white transition"
     />
     {searchTerm && (
       <div className="absolute z-50 bg-white border border-gray-200 rounded shadow-md mt-1 w-full max-h-60 overflow-auto">
