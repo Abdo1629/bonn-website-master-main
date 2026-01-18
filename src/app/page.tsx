@@ -6,11 +6,7 @@ import StatsCarousel from './components/StatCards';
 import ClientsSection from './components/ClientsSection';
 import ArtVid from './components/ArtVid';
 import CTAButton from './components/CTAButton';
-import dynamic from "next/dynamic";
-
-const OurMap = dynamic(() => import("./components/OurMap"), {
-  ssr: false,
-});
+import OurMap from './components/OurMap';
 
 
 export default function Home() {
