@@ -2,15 +2,14 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import * as L from "leaflet";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import i18n from "../../i18n";
 import { supabase } from "../lib/supabaseClient";
 import { useMap } from "react-leaflet";
 import { X } from "lucide-react";
-import "leaflet/dist/leaflet.css";
 import Image from "next/image";
+import type * as LeafletType from "leaflet";
 
 /* ================= TYPES ================= */
 type LocationData = {
@@ -66,6 +65,14 @@ function MapController({ active, reset }: { active: LocationData | null; reset: 
 
 /* ================= COMPONENT ================= */
 export default function OurMap() {
+    const [L, setL] = useState<typeof LeafletType | null>(null);
+useEffect(() => {
+  import("leaflet").then((leaflet) => {
+    setL(leaflet);
+  });
+}, []);
+
+  
   const { t } = useTranslation();
   const isArabic = i18n.language === "ar";
 
@@ -75,7 +82,7 @@ export default function OurMap() {
 
   /* ================= PIN ================= */
 const createPin = (color: string, isActive = false) => {
-  if (typeof window === "undefined") return null; // SSR safety
+  if (!L) return null;
 
   return new L.DivIcon({
     html: `<div style="
@@ -87,9 +94,7 @@ const createPin = (color: string, isActive = false) => {
         0 0 ${isActive ? "14px" : "6px"} ${color}99,
         0 0 0 ${isActive ? "20px" : "14px"} ${color}33;
       border:2px solid white;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor:pointer;
-    " class="map-pin"></div>`,
+    "></div>`,
     iconSize: [16, 16],
     iconAnchor: [8, 8],
     className: "",

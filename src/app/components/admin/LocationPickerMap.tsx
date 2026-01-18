@@ -1,10 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo } from "react";
-import * as L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import { useEffect, useMemo , useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
+import type * as LeafletType from "leaflet";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((m) => m.MapContainer),
@@ -48,9 +47,15 @@ function ClickHandler({ onPick }: { onPick: Props["onPick"] }) {
 
 /* ================= COMPONENT ================= */
 export default function LocationPickerMap({ lat, lng, onPick }: Props) {
-  const markerIcon = useMemo(
-    () =>
-      new L.DivIcon({
+    const [L, setL] = useState<typeof LeafletType | null>(null);
+    useEffect(() => {
+  import("leaflet").then(setL);
+}, []);
+
+const markerIcon = useMemo(() => {
+  if (!L) return null;
+
+  return new L.DivIcon({
         className: "",
         html: `
           <div style="
@@ -64,9 +69,8 @@ export default function LocationPickerMap({ lat, lng, onPick }: Props) {
         `,
         iconSize: [16, 16],
         iconAnchor: [8, 8],
-      }),
-    []
-  );
+      });
+}, [L]);
 
   return (
     <div className="space-y-2">
@@ -81,7 +85,9 @@ export default function LocationPickerMap({ lat, lng, onPick }: Props) {
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
 
-          <Marker position={[lat, lng]} icon={markerIcon} />
+          {markerIcon && (
+  <Marker position={[lat, lng]} icon={markerIcon} />
+)}
 
           <ClickHandler onPick={onPick} />
           <Recenter lat={lat} lng={lng} />
