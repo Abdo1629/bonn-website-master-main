@@ -10,6 +10,7 @@ import { useMap } from "react-leaflet";
 import { X } from "lucide-react";
 import Image from "next/image";
 import type * as LeafletType from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 /* ================= TYPES ================= */
 type LocationData = {
@@ -114,7 +115,7 @@ const createPin = (color: string, isActive = false) => {
   const closePanel = () => {
     setActive(null);
     setResetMap(true);
-    setTimeout(() => setResetMap(false), 100);
+    setTimeout(() => setResetMap(false), 400);
   };
 
 return (
