@@ -28,8 +28,8 @@ export default function CertificatesPage() {
     },
     {
       id: 4,
-      title: "SA55116H Certification",
-      file: "/certificates/SA55116H.pdf",
+      title: "ISO 13485 Certification",
+      file: "/certificates/ISO13485.pdf",
       preview: "/certificates/cert4.png",
     },
     {
