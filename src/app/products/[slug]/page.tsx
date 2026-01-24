@@ -5,16 +5,37 @@ import ProductDetails from "../../components/ProductDetails";
 export const dynamic = "force-dynamic";
 
 type Product = {
-  slug: string;
+  id: string; // client-generated UUID (or DB-generated if you prefer)
+  brand: string; // brand name shown in UI
   name_en: string;
-  tagline_en?: string | null;
-  image?: string | null;
-  category?: string | null;
-  usage_en?: string | null;
-  compliance?: string[] | null;
-  description_en?: string | null;
-  seo_title?: string | null;
-  seo_description?: string | null;
+  name_ar: string;
+  slug: string;
+  tagline_en: string;
+  tagline_ar: string;
+  description_en: string;
+  description_ar: string;
+  category: string;
+  usage_en: string;
+  usage_ar: string;
+  compliance: string[];
+  image: string;
+  brand_id: string | null;
+  seo_title_en: string;
+  seo_title_ar: string;
+  seo_desc_en: string;
+  seo_desc_ar: string;
+  best_selling: boolean;
+  usage_target_en: string;
+  usage_target_ar: string;
+instructions_en?: string;
+instructions_ar?: string;
+ingredients_en?: string[];
+ingredients_ar?: string[];
+storage_en?: string;
+storage_ar?: string;
+  featured: boolean;
+  new_arrival: boolean;
+  disabled: boolean;
 };
 
 /* ================= SEO ================= */
