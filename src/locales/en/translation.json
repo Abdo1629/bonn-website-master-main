@@ -516,5 +516,26 @@
     "title": "Registration",
     "desc": "Complete regulatory documentation and market authorization support."
   }
-}
+},
+"brandName": "Le Visage Plus",
+  "heroTitle": "LE VISAGE PLUS",
+  "heroSubtitle": "A Saudi beauty brand relying on latest formulations and natural ingredients from KÖLN Naturstoffe",
+  "heroCta": "Explore Products",
+  "whoTitle": "Who We Are",
+  "whoText": "Le Visage Plus provides advanced cosmetic solutions for skin, hair, and body care with full compliance to ISO and global quality standards.",
+  "featuresTitle": "Our Values",
+  "features": [
+    { "title": "Safety First", "desc": "Products undergo strict testing with safe natural ingredients daily." },
+    { "title": "Guaranteed Quality", "desc": "Global manufacturing standards with premium raw materials." },
+    { "title": "Proven Results", "desc": "Visible improvement and true comfort in use." },
+    { "title": "Attention to Detail", "desc": "Customized lines for every skin type for maximum efficacy." }
+  ],
+  "numbersTitle": "By Numbers",
+  "numbers": [
+    { "label": "Served Clients", "value": "650+" },
+    { "label": "Produced Units", "value": "≈ 4,000,000" },
+    { "label": "Markets", "value": "6+" }
+  ],
+  "ctaTitle": "Ready to feel the difference?",
+  "ctaBtn": "Browse Products"
 }

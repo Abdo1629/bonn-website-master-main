@@ -39,6 +39,16 @@ type Product = {
   seo_desc_en: string;
   seo_desc_ar: string;
   best_selling: boolean;
+
+  usage_target_en: string;
+  usage_target_ar: string;
+instructions_en?: string;
+instructions_ar?: string;
+ingredients_en?: string[];
+ingredients_ar?: string[];
+storage_en?: string;
+storage_ar?: string;
+
   featured: boolean;
   new_arrival: boolean;
   disabled: boolean;
@@ -68,6 +78,15 @@ const initialProduct = (): Product => ({
   featured: false,
   new_arrival: false,
   disabled: false,
+    usage_target_en: "",
+    usage_target_ar: "",
+    instructions_en: "",
+    instructions_ar: "",
+    ingredients_en: [],
+    ingredients_ar: [],
+    storage_en: "",
+    storage_ar: "",
+
 });
 
 export default function AdminProductsPage() {
@@ -434,7 +453,73 @@ if (!slugValue) {
               </option>
             ))}
           </select>
+{/* Target Audience */}
+<input
+  name="usage_target_en"
+  value={product.usage_target_en || ""}
+  onChange={handleChange}
+  placeholder="Target Audience (EN)"
+  className="border p-2 rounded w-full"
+/>
 
+<input
+  name="usage_target_ar"
+  value={product.usage_target_ar || ""}
+  onChange={handleChange}
+  placeholder="الفئة المستهدفة (AR)"
+  className="border p-2 rounded w-full"
+/>
+
+{/* Instructions */}
+<textarea
+  name="instructions_en"
+  value={product.instructions_en || ""}
+  onChange={handleChange}
+  placeholder="Instructions (EN)"
+  className="border p-2 rounded w-full"
+/>
+
+<textarea
+  name="instructions_ar"
+  value={product.instructions_ar || ""}
+  onChange={handleChange}
+  placeholder="تعليمات الاستخدام (AR)"
+  className="border p-2 rounded w-full"
+/>
+
+{/* Ingredients */}
+<input
+  name="ingredients_en"
+  value={product.ingredients_en?.join(", ") || ""}
+  onChange={(e) => setProduct((prev) => ({ ...prev, ingredients_en: e.target.value.split(",").map(s => s.trim()) }))}
+  placeholder="Ingredients (EN, comma separated)"
+  className="border p-2 rounded w-full"
+/>
+
+<input
+  name="ingredients_ar"
+  value={product.ingredients_ar?.join(", ") || ""}
+  onChange={(e) => setProduct((prev) => ({ ...prev, ingredients_ar: e.target.value.split(",").map(s => s.trim()) }))}
+  placeholder="المكونات (AR, مفصولة بفاصلة)"
+  className="border p-2 rounded w-full"
+/>
+
+{/* Storage */}
+<input
+  name="storage_en"
+  value={product.storage_en || ""}
+  onChange={handleChange}
+  placeholder="Storage Instructions (EN)"
+  className="border p-2 rounded w-full"
+/>
+
+<input
+  name="storage_ar"
+  value={product.storage_ar || ""}
+  onChange={handleChange}
+  placeholder="تعليمات التخزين (AR)"
+  className="border p-2 rounded w-full"
+/>
           <input name="seo_title_en" value={product.seo_title_en} onChange={handleChange} placeholder="SEO Title (EN)" className="border p-2 rounded w-full" />
 
           <input name="seo_title_ar" value={product.seo_title_ar} onChange={handleChange} placeholder="SEO Title (AR)" className="border p-2 rounded w-full" />

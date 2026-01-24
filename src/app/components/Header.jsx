@@ -24,7 +24,6 @@ export default function FactoryHeader() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchError, setSearchError] = useState("");
   const [products, setProducts] = useState([]);
-  const [setLoading] = useState(true);
   const [langOpen, setLangOpen] = useState(false);
   
   useEffect(() => {
@@ -90,7 +89,7 @@ const brands = [
   },
   {
     name: "Le Visage Plus",
-    slug: "le-visage-plus",
+    slug: "leVisagePlus",
     logo: "/images/Visage.png",
   },
 ];

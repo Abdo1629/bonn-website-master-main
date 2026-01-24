@@ -145,7 +145,7 @@ return (
 
         {/* ===== Map Wrapper ===== */}
         <div className="relative z-0 max-w-7xl mx-auto px-6">
-            <div className="relative h-[520px] rounded-3xl overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+            <div className="relative h-[380px] sm:h-[480px] lg:h-[560px] rounded-3xl overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
                 <MapContainer
                     center={[22, 10]}
                     zoom={2}
@@ -196,7 +196,7 @@ return (
                             style={{
                                 borderLeft: `6px solid ${active.brand_color || "#0056D2"}`,
                             }}
-                            className="absolute top-0 right-0 h-full w-full sm:w-[440px] z-[999] bg-white p-6 shadow-[0_0_40px_rgba(0,0,0,0.3)] rounded-l-3xl"
+                            className="absolute top-0 right-0 h-full w-full sm:w-[420px] z-[999] bg-white p-6 shadow-[0_0_40px_rgba(0,0,0,0.3)]sm:rounded-l-3xl"
                         >
                             {/* Close */}
                             <button

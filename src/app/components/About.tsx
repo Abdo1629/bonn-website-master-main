@@ -39,8 +39,9 @@ function useTypingEffect(texts: string[], typingSpeed = 100, pauseTime = 2000) {
       setDisplayText(currentText.substring(0, subIndex));
     }, typingSpeed);
 
+    
     return () => clearTimeout(timeout);
-  }, [subIndex, deleting]);
+  }, [subIndex, deleting, index, texts, typingSpeed, pauseTime]);
 
   return displayText;
 }
@@ -158,7 +159,7 @@ export default function About() {
         <div className="w-full md:w-1/2 text-[#003D99] space-y-6">
           <h2 className="text-4xl font-extrabold min-h-[48px] drop-shadow-md">
             {typingText}
-            <span className="blinking-cursor">|</span>
+            <span className="blinking-cursor text-gray-400">|</span>
           </h2>
 
           <p className="text-lg leading-relaxed text-[#1A3351]">
