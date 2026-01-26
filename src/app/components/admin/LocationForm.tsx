@@ -120,7 +120,6 @@ useEffect(() => {
   return () => document.removeEventListener("mousedown", handleClickOutside);
 }, [onClose]);
 
-
     /* ===================== SELECTED BRAND ===================== */
   const selectedBrand = brands.find(
     (b) => b.id === form.brand_key

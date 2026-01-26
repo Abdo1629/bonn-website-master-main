@@ -25,6 +25,7 @@ type Product = {
   seo_desc_en: string;
   seo_desc_ar: string;
   best_selling: boolean;
+
   usage_target_en: string;
   usage_target_ar: string;
 instructions_en?: string;
@@ -33,6 +34,7 @@ ingredients_en?: string[];
 ingredients_ar?: string[];
 storage_en?: string;
 storage_ar?: string;
+
   featured: boolean;
   new_arrival: boolean;
   disabled: boolean;
@@ -95,6 +97,13 @@ export default async function Page({ params }: PageProps) {
       </div>
     );
   }
+  const { data: relatedProducts } = await supabaseServer
+    .from("products")
+    .select("id, name_en, name_ar, slug, images, tagline_en, brand")
+    .overlaps("category", product.category)
+    .neq("id", product.id)
+    .limit(4);
 
-  return <ProductDetails product={product} />;
+  return <
+    ProductDetails product={product} relatedProducts={relatedProducts || [] }/>;
 }

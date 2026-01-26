@@ -468,7 +468,8 @@
     "title": "ملفات العملاء",
     "search": "ابحث عن ملف...",
     "view": "عرض",
-    "download": "تحميل"
+    "download": "تحميل",
+    "selectBrand": "اختر العلامة التجارية"
   },
   "manufacturingFacility": "منشأتنا التصنيعية",
   "manufacturingFacilityDesc": "تعكس بيئة الإنتاج لدينا التزامنا بالجودة والدقة والمعايير الطبية الدولية.",
@@ -551,6 +552,30 @@
     { "label": "أسواق", "value": "6+" }
   ],
   "ctaTitle": "جاهز لتجربة الفرق؟",
-  "ctaBtn": "تصفح المنتجات"
+  "ctaBtn": "تصفح المنتجات",
+  "upload-to": "رفع حتى",
+  "six-images": "6 صور",
+  "adminForm": {
+    "basicInfo": "البيانات الأساسية",
+    "nameEn": "اسم المنتج (إنجليزي)",
+    "nameAr": "اسم المنتج (عربي)",
+    "descriptionEn": "الوصف (إنجليزي)",
+    "descriptionAr": "الوصف (عربي)",
 
+    "images": "صور المنتج",
+    "imagesHint": "يمكنك رفع حتى {{count}} صور.",
+    "uploadImages": "رفع الصور",
+
+    "category": "تصنيف المنتج",
+
+    "brand": "العلامة التجارية",
+    "selectBrand": "اختر العلامة التجارية",
+    "flags": {
+      "title": "علامات المنتج",
+      "best_selling": "الأكثر مبيعًا",
+      "featured": "مميز",
+      "new_arrival": "جديد",
+      "disabled": "معطل"
+    }
+  }
 }

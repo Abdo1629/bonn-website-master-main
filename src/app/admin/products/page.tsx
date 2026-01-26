@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { Layers, Tag, Settings, Image as ImageIcon, Upload } from "lucide-react";
 
 // ---- Types ----
 type Product = {
@@ -28,18 +29,17 @@ type Product = {
   tagline_ar: string;
   description_en: string;
   description_ar: string;
-  category: string;
+  category: string[];
   usage_en: string;
   usage_ar: string;
   compliance: string[];
-  image: string;
+  images: string[];
   brand_id: string | null;
   seo_title_en: string;
   seo_title_ar: string;
   seo_desc_en: string;
   seo_desc_ar: string;
   best_selling: boolean;
-
   usage_target_en: string;
   usage_target_ar: string;
 instructions_en?: string;
@@ -64,11 +64,11 @@ const initialProduct = (): Product => ({
   tagline_ar: "",
   description_en: "",
   description_ar: "",
-  category: "",
+  category: [],
   usage_en: "",
   usage_ar: "",
   compliance: [],
-  image: "",
+  images: [],
   brand_id: null,
   seo_title_en: "",
   seo_title_ar: "",
@@ -90,6 +90,7 @@ const initialProduct = (): Product => ({
 });
 
 export default function AdminProductsPage() {
+  const MAX_IMAGES = 6;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBrand, setSelectedBrand] = useState<string | "all">("all");
@@ -98,6 +99,21 @@ export default function AdminProductsPage() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [search, setSearch] = useState("");
   const { t, i18n } = useTranslation();
+  const CATEGORY_OPTIONS = [
+  {
+    title: "Skin Type",
+    options: ["Sensitive Skin", "Oily Skin", "Dry Skin", "Normal Skin"],
+  },
+  {
+    title: "Product Type",
+    options: ["Face Wash", "Cleanser", "Moisturizer", "Serum"],
+  },
+  {
+    title: "Usage",
+    options: ["Daily Use", "Medical", "Kids", "Men", "Women"],
+  },
+];
+
 
   const stats = {
     total: products.length,
@@ -252,16 +268,17 @@ export default function AdminProductsPage() {
     setShowForm(true);
   };
 
-  const handleImageUpload = async (file: File) => {
+  const uploadImage = async (file: File) => {
     try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      const ext = file.name.split(".").pop();
+      const fileName = `${crypto.randomUUID()}.${ext}`;
       const filePath = `images/${fileName}`;
 
       const { error: uploadError } = await supabase.storage.from("products").upload(filePath, file, {
         cacheControl: "3600",
         upsert: true,
       });
+      
 
       if (uploadError) throw uploadError;
 
@@ -280,6 +297,7 @@ export default function AdminProductsPage() {
     }
   };
 
+  
   // ---- submit (insert/update) ----
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -370,184 +388,286 @@ if (!slugValue) {
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow space-y-4">
-          <input
-            name="name_en"
-            value={product.name_en}
-            onChange={(e) => {
-              const value = e.target.value;
-              setProduct((prev) => ({ ...prev, name_en: value, slug: prev.slug || generateSlug(value) }));
-            }}
-            placeholder="Product name (EN)"
-            className="border p-2 rounded w-full"
-            required
+<form
+  onSubmit={handleSubmit}
+  className="w-full bg-white border rounded-xl shadow-sm p-8 space-y-10"
+>
+  {/* ================= BASIC INFORMATION ================= */}
+  <section className="border rounded-lg p-6 space-y-6">
+    <div className="flex items-center gap-2 border-b pb-3">
+      <Package size={18} />
+      <h2 className="text-lg font-semibold">
+        {t("adminForm.basicInfo")}
+      </h2>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label className="label">
+          {t("adminForm.nameEn")}
+        </label>
+        <input
+          name="name_en"
+          value={product.name_en}
+          onChange={(e) => {
+            const value = e.target.value;
+            setProduct((prev) => ({
+              ...prev,
+              name_en: value,
+              slug: prev.slug || generateSlug(value),
+            }));
+          }}
+          className="input"
+          required
+        />
+      </div>
+
+      <div>
+        <label className="label">
+          {t("adminForm.nameAr")}
+        </label>
+        <input
+          name="name_ar"
+          value={product.name_ar}
+          onChange={handleChange}
+          className="input"
+          required
+        />
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label className="label">
+          {t("adminForm.descriptionEn")}
+        </label>
+        <textarea
+          name="description_en"
+          value={product.description_en}
+          onChange={handleChange}
+          className="textarea"
+        />
+      </div>
+
+      <div>
+        <label className="label">
+          {t("adminForm.descriptionAr")}
+        </label>
+        <textarea
+          name="description_ar"
+          value={product.description_ar}
+          onChange={handleChange}
+          className="textarea"
+        />
+      </div>
+    </div>
+  </section>
+
+  {/* ================= IMAGES ================= */}
+  <section className="border rounded-lg p-6 space-y-6">
+    <div className="flex items-center gap-2 border-b pb-3">
+      <ImageIcon size={18} />
+      <h2 className="text-lg font-semibold">
+        {t("adminForm.images")}
+      </h2>
+    </div>
+
+    <p className="text-sm text-gray-600">
+      {t("adminForm.imagesHint", { count: MAX_IMAGES })}
+    </p>
+
+    <input
+      id="product-images"
+      type="file"
+      accept="image/*"
+      multiple
+      hidden
+      disabled={product.images.length >= MAX_IMAGES}
+      onChange={async (e) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        const filesArray = Array.from(files);
+        const availableSlots = MAX_IMAGES - product.images.length;
+        const filesToUpload = filesArray.slice(0, availableSlots);
+
+        setUploadingImage(true);
+        try {
+          const uploadPromises = filesToUpload.map((file) => uploadImage(file));
+          const uploadedUrls = await Promise.all(uploadPromises);
+
+          setProduct((prev) => ({
+            ...prev,
+            images: [...prev.images, ...uploadedUrls],
+          }));
+          toast.success("Images uploaded");
+        } catch (err: unknown) {
+          console.error(err);
+          toast.error("Image upload failed: " + getErrorMessage(err));
+        } finally {
+          setUploadingImage(false);
+          // Clear the input value to allow re-uploading the same file if needed
+          e.target.value = "";
+        }
+        }}
+    />
+
+    <label
+      htmlFor="product-images"
+      className="inline-flex items-center gap-2 px-4 py-2 border rounded-lg cursor-pointer hover:bg-gray-50"
+    >
+      <Upload size={16} />
+      {t("adminForm.uploadImages")}
+    </label>
+
+    <div className="flex flex-wrap gap-4">
+      {product.images.map((img, idx) => (
+        <div key={img} className="relative border rounded-lg p-1">
+          <Image
+            src={img}
+            alt="product"
+            width={140}
+            height={140}
+            className="rounded object-cover"
           />
+          <button
+            type="button"
+            onClick={() =>
+              setProduct((prev) => ({
+                ...prev,
+                images: prev.images.filter((_, i) => i !== idx),
+              }))
+            }
+            className="absolute top-1 right-1 bg-white border rounded-full p-1 hover:bg-red-50"
+          >
+            <Trash2 size={14} />
+          </button>
+        </div>
+      ))}
+    </div>
+  </section>
 
-          <input
-            name="name_ar"
-            value={product.name_ar}
-            onChange={handleChange}
-            placeholder={t("admin-form.nameAr")}
-            className="border p-2 rounded w-full"
-            required
-          />
+  {/* ================= CATEGORY ================= */}
+  <section className="border rounded-lg p-6 space-y-6">
+    <div className="flex items-center gap-2 border-b pb-3">
+      <Layers size={18} />
+      <h2 className="text-lg font-semibold">
+        {t("adminForm.category")}
+      </h2>
+    </div>
 
-          <textarea
-            name="description_en"
-            value={product.description_en}
-            onChange={handleChange}
-            placeholder={t("admin-form.descriptionEn")}
-            className="border p-2 rounded w-full"
-          />
+    {CATEGORY_OPTIONS.map((section) => (
+      <div key={section.title}>
+        <p className="text-sm font-medium mb-2">{section.title}</p>
 
-          <textarea
-            name="description_ar"
-            value={product.description_ar}
-            onChange={handleChange}
-            placeholder={t("admin-form.descriptionAr")}
-            className="border p-2 rounded w-full"
-          />
-
-          {/* Image Upload */}
-          <div className="space-y-2">
-            <input
-              id="product-image-input"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-
-                try {
-                  setUploadingImage(true);
-                  const url = await handleImageUpload(file);
-                  setProduct((prev) => ({ ...prev, image: url }));
-                } catch {
-                  // intentionally ignore error detail here; toast below
-                  toast.error("Image upload failed");
-                } finally {
-                  setUploadingImage(false);
-                  (e.target as HTMLInputElement).value = "";
-                }
-              }}
-            />
-
-            <label htmlFor="product-image-input" className="inline-block px-4 py-2 bg-gray-200 rounded cursor-pointer">
-              {uploadingImage ? t("admin-form.uploading") : t("admin-form.upload")}
-            </label>
-
-            {product.image && (
-              <div className="h-32 w-32 relative">
-                <Image src={product.image} alt="preview" fill className="object-cover rounded border" />
-              </div>
-            )}
-          </div>
-
-          {/* Brand */}
-          <select name="brand" value={product.brand} onChange={handleChange} className="border p-2 rounded w-full">
-            <option value="">{t("admin-form.selectBrand") || "Select Brand"}</option>
-            {BRAND_NAMES.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-{/* Target Audience */}
-<input
-  name="usage_target_en"
-  value={product.usage_target_en || ""}
-  onChange={handleChange}
-  placeholder="Target Audience (EN)"
-  className="border p-2 rounded w-full"
-/>
-
-<input
-  name="usage_target_ar"
-  value={product.usage_target_ar || ""}
-  onChange={handleChange}
-  placeholder="الفئة المستهدفة (AR)"
-  className="border p-2 rounded w-full"
-/>
-
-{/* Instructions */}
-<textarea
-  name="instructions_en"
-  value={product.instructions_en || ""}
-  onChange={handleChange}
-  placeholder="Instructions (EN)"
-  className="border p-2 rounded w-full"
-/>
-
-<textarea
-  name="instructions_ar"
-  value={product.instructions_ar || ""}
-  onChange={handleChange}
-  placeholder="تعليمات الاستخدام (AR)"
-  className="border p-2 rounded w-full"
-/>
-
-{/* Ingredients */}
-<input
-  name="ingredients_en"
-  value={product.ingredients_en?.join(", ") || ""}
-  onChange={(e) => setProduct((prev) => ({ ...prev, ingredients_en: e.target.value.split(",").map(s => s.trim()) }))}
-  placeholder="Ingredients (EN, comma separated)"
-  className="border p-2 rounded w-full"
-/>
-
-<input
-  name="ingredients_ar"
-  value={product.ingredients_ar?.join(", ") || ""}
-  onChange={(e) => setProduct((prev) => ({ ...prev, ingredients_ar: e.target.value.split(",").map(s => s.trim()) }))}
-  placeholder="المكونات (AR, مفصولة بفاصلة)"
-  className="border p-2 rounded w-full"
-/>
-
-{/* Storage */}
-<input
-  name="storage_en"
-  value={product.storage_en || ""}
-  onChange={handleChange}
-  placeholder="Storage Instructions (EN)"
-  className="border p-2 rounded w-full"
-/>
-
-<input
-  name="storage_ar"
-  value={product.storage_ar || ""}
-  onChange={handleChange}
-  placeholder="تعليمات التخزين (AR)"
-  className="border p-2 rounded w-full"
-/>
-          <input name="seo_title_en" value={product.seo_title_en} onChange={handleChange} placeholder="SEO Title (EN)" className="border p-2 rounded w-full" />
-
-          <input name="seo_title_ar" value={product.seo_title_ar} onChange={handleChange} placeholder="SEO Title (AR)" className="border p-2 rounded w-full" />
-
-          <textarea name="seo_desc_en" value={product.seo_desc_en} onChange={handleChange} placeholder="SEO Description (EN)" className="border p-2 rounded w-full" />
-
-          <textarea name="seo_desc_ar" value={product.seo_desc_ar} onChange={handleChange} placeholder="SEO Description (AR)" className="border p-2 rounded w-full" />
-
-          {/* Flags */}
-          <div className="flex flex-wrap gap-4">
-            {(["best_selling", "featured", "new_arrival", "disabled"] as Array<keyof Product>).map((flag) => (
-              <label key={flag} className="flex items-center gap-1">
-                <input type="checkbox" name={flag} checked={product[flag] as boolean} onChange={handleChange} />
-                {flag}
+        <div className="flex flex-wrap gap-2">
+          {section.options.map((option) => {
+            const checked = product.category.includes(option);
+            return (
+              <label
+                key={option}
+                className={`px-3 py-1 rounded-full border cursor-pointer text-sm
+                ${checked ? "bg-blue-600 text-white" : "bg-white hover:bg-gray-50"}`}
+              >
+                <input
+                  type="checkbox"
+                  hidden
+                  checked={checked}
+                  onChange={() =>
+                    setProduct((prev) => ({
+                      ...prev,
+                      category: checked
+                        ? prev.category.filter((c) => c !== option)
+                        : [...prev.category, option],
+                    }))
+                  }
+                />
+                {option}
               </label>
-            ))}
-          </div>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </section>
 
-          <div className="flex gap-2">
-            <button type="submit" disabled={uploadingImage} className={`px-4 py-2 rounded hover:cursor-pointer text-white ${uploadingImage ? "bg-gray-400" : "bg-blue-600"}`}>
-              {isEditing ? t("update") : t("add")}
-            </button>
+  {/* ================= BRAND ================= */}
+  <section className="border rounded-lg p-6 space-y-4">
+    <div className="flex items-center gap-2 border-b pb-3">
+      <Tag size={18} />
+      <h2 className="text-lg font-semibold">
+        {t("adminForm.brand")}
+      </h2>
+    </div>
 
-            <button type="button" onClick={() => { setShowForm(false); setProduct(initialProduct()); }} className="bg-gray-300 px-4 py-2 rounded hover:cursor-pointer">
-              {t("cancel")}
-            </button>
-          </div>
-        </form>
+    <label className="label">
+      {t("adminForm.selectBrand")}
+    </label>
+    <select
+      name="brand"
+      value={product.brand}
+      onChange={handleChange}
+      className="input"
+    >
+      <option value="">{t("adminForm.selectBrand")}</option>
+      {BRAND_NAMES.map((b) => (
+        <option key={b} value={b}>
+          {b}
+        </option>
+      ))}
+    </select>
+  </section>
+
+  {/* ================= FLAGS ================= */}
+  <section className="border rounded-lg p-6 space-y-4">
+    <div className="flex items-center gap-2 border-b pb-3">
+      <Settings size={18} />
+      <h2 className="text-lg font-semibold">
+        {t("adminForm.flags.title")}
+      </h2>
+    </div>
+
+    <div className="flex flex-wrap gap-6">
+      {(["best_selling", "featured", "new_arrival", "disabled"] as Array<
+        keyof Product
+      >).map((flag) => (
+        <label key={flag} className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name={flag}
+            checked={product[flag] as boolean}
+            onChange={handleChange}
+          />
+          {t(`adminForm.flags.${flag}`)}
+        </label>
+      ))}
+    </div>
+  </section>
+
+  {/* ================= ACTIONS ================= */}
+  <div className="flex gap-4 justify-end">
+    <button
+      type="submit"
+      disabled={uploadingImage}
+      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+    >
+      {isEditing ? t("update") : t("add")}
+    </button>
+
+    <button
+      type="button"
+      onClick={() => {
+        setShowForm(false);
+        setProduct(initialProduct());
+      }}
+      className="px-6 py-2 border rounded-lg hover:bg-gray-50"
+    >
+      {t("cancel")}
+    </button>
+  </div>
+</form>
+
+
       )}
 
       {/* Stats */}
@@ -596,12 +716,19 @@ if (!slugValue) {
           <div key={p.id} className="bg-white rounded-xl shadow p-4">
             <div className="bg-white rounded-xl overflow-hidden group">
               <div className="relative h-48">
-                <Image src={p.image || "/placeholder.png"} alt={getName(p)} fill className="object-cover" />
-                <img src={p.image || "/placeholder.png"} alt={getName(p)} className="w-full h-full object-cover" />
+                <Image
+  src={p.images?.[0] || "/placeholder.png"}
+  alt={getName(p)}
+  fill
+  className="object-cover"
+/>
 
                 {p.disabled && (
-                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center text-sm font-medium">Disabled</div>
-                )}
+  <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-sm font-semibold">
+    Disabled
+  </div>
+)}
+
               </div>
 
               <div className="p-4  flex justify-between gap-4">

@@ -177,12 +177,6 @@ export default function ServicesAndProducts() {
                   className="flex gap-8 overflow-x-auto pb-6"
                 >
                   {items.map((p) => {
-                    const slug =
-                      p.slug ||
-                      (p.name_en || "")
-                        .toLowerCase()
-                        .replace(/\s+/g, "-");
-
                     return (
                       <motion.div
                         key={p.id}

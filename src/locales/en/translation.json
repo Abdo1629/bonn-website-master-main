@@ -452,7 +452,8 @@
     "cancel": "Cancel",
     "uploading": "Uploading...",
     "descriptionEn": "Description in English",
-    "descriptionAr": "Description in Arabic"
+    "descriptionAr": "Description in Arabic",
+    "selectBrand": "Select Brand"
   },
   "toast": {
     "added": "Product added successfully",
@@ -537,5 +538,30 @@
     { "label": "Markets", "value": "6+" }
   ],
   "ctaTitle": "Ready to feel the difference?",
-  "ctaBtn": "Browse Products"
+  "ctaBtn": "Browse Products",
+  "upload-to": "Upload Up To",
+  "six-images": "6 Images",
+  "adminForm": {
+    "basicInfo": "Basic Information",
+    "nameEn": "Product Name (English)",
+    "nameAr": "Product Name (Arabic)",
+    "descriptionEn": "Description (English)",
+    "descriptionAr": "Description (Arabic)",
+
+    "images": "Product Images",
+    "imagesHint": "You can upload up to {{count}} images.",
+    "uploadImages": "Upload Images",
+
+    "category": "Product Category",
+
+    "brand": "Brand",
+    "selectBrand": "Select Brand",
+    "flags": {
+      "title": "Product Flags",
+      "best_selling": "Best Selling",
+      "featured": "Featured",
+      "new_arrival": "New Arrival",
+      "disabled": "Disabled"
+    }
+  }
 }
