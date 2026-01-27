@@ -5,18 +5,39 @@ import ProductDetails from "../../components/ProductDetails";
 export const dynamic = "force-dynamic";
 
 type Product = {
-  id: string;
-  slug: string | null;
+  id: string; // client-generated UUID (or DB-generated if you prefer)
+  brand: string; // brand name shown in UI
   name_en: string;
   name_ar: string;
+  slug: string;
+  tagline_en: string;
+  tagline_ar: string;
   description_en: string;
   description_ar: string;
-  image: string | null;
-  brand: string | null;
+  category: string[];
+  usage_en: string;
+  usage_ar: string;
+  compliance: string[];
+  images: string[];
+  brand_id: string | null;
+  seo_title_en: string;
+  seo_title_ar: string;
+  seo_desc_en: string;
+  seo_desc_ar: string;
   best_selling: boolean;
-  likes: number | null;
-  disabled: boolean | null;
+  usage_target_en: string;
+  usage_target_ar: string;
+instructions_en?: string;
+instructions_ar?: string;
+ingredients_en?: string[];
+ingredients_ar?: string[];
+storage_en?: string;
+storage_ar?: string;
+  featured: boolean;
+  new_arrival: boolean;
+  disabled: boolean;
 };
+
 
 /* ================= SEO ================= */
 export async function generateMetadata(
