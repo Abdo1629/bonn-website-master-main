@@ -27,12 +27,12 @@ type Product = {
   best_selling: boolean;
   usage_target_en: string;
   usage_target_ar: string;
-instructions_en?: string;
-instructions_ar?: string;
-ingredients_en?: string[];
-ingredients_ar?: string[];
-storage_en?: string;
-storage_ar?: string;
+  instructions_en?: string;
+  instructions_ar?: string;
+  ingredients_en?: string[];
+  ingredients_ar?: string[];
+  storage_en?: string;
+  storage_ar?: string;
   featured: boolean;
   new_arrival: boolean;
   disabled: boolean;

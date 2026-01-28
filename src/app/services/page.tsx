@@ -115,14 +115,12 @@ export default function ServicesAndProducts() {
     await supabase.from("products").update({ likes: newLikes }).eq("id", p.id);
   };
 
-  if (loading) return <p className="text-center py-20">Loading…</p>;
-
   return (
     <main>
       {/* ================= HERO / SERVICES ================= */}
-      <section className="py-32 bg-gradient-to-br from-[#0B1C39] to-[#050B18] text-white">
+      <section className="py-32 bg-gradient-to-br from-[#032e6a] via-[#0046b0] to-[#00265a] text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-6xl font-bold mb-6">{t("services.title")}</h1>
+          <h1 className="text-6xl font-bold mb-6 max-[468px]:text-5xl ">{t("services.title")}</h1>
           <p className="text-white/70 max-w-2xl mb-20">
             {t("services.subtitle")}
           </p>
@@ -146,106 +144,7 @@ export default function ServicesAndProducts() {
           </div>
         </div>
       </section>
-
-      {/* ================= PRODUCTS ================= */}
-      <section className="py-32 bg-[#F8FAFF]">
-        <div className="max-w-7xl mx-auto px-6 space-y-32">
-          {Object.entries(grouped).map(([brandName, items]) => {
-            const brandUI = BRAND_UI[brandName];
-            const color = brandUI?.color || "#0056D2";
-
-            return (
-              <div key={brandName} className="space-y-8 w-7xl">
-                {/* BRAND HEADER */}
-                <div className="flex items-center gap-4 mb-12">
-                  {brandUI?.logo && (
-                    <Image
-                      src={brandUI.logo}
-                      alt={brandName}
-                      width={52}
-                      height={52}
-                    />
-                  )}
-                  <h2 className="text-4xl font-bold" style={{ color }}>
-                    {brandName}
-                  </h2>
-                </div>
-
-                {/* PRODUCTS */}
-                <div
-                  dir={isArabic ? "rtl" : "ltr"}
-                  className="flex gap-8 overflow-x-auto pb-6"
-                >
-                  {items.map((p) => {
-                    return (
-                      <motion.div
-                        key={p.id}
-                        whileHover={{ y: -10 }}
-                        className="w-[280px] bg-white rounded-3xl shadow-xl overflow-hidden"
-                      >
-                        <Link href={`/products/${p.slug}`} className="block">
-                          <Image
-                            src={p.image || "/placeholder.png"}
-                            alt={isArabic ? p.name_ar : p.name_en}
-                            width={400}
-                            height={260}
-                            className="h-52 w-full object-cover"
-                          />
-
-                          <div className="p-6 space-y-3">
-                            <h3
-                              className="font-semibold text-lg"
-                              style={{ color }}
-                            >
-                              {isArabic ? p.name_ar : p.name_en}
-                            </h3>
-
-                            <p className="text-sm text-gray-600 line-clamp-2">
-                              {isArabic
-                                ? p.description_ar
-                                : p.description_en}
-                            </p>
-
-                            <div className="flex items-center justify-between pt-4">
-                              {p.best_selling && (
-                                <span className="text-xs px-2 py-1 rounded bg-red-600 text-white">
-                                  Best Seller
-                                </span>
-                              )}
-
-                              <button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  toggleLike(p);
-                                }}
-                                className={`flex items-center gap-1 transition ${
-                                  liked[p.id]
-                                    ? "text-red-600"
-                                    : "text-gray-400"
-                                }`}
-                              >
-                                <Heart
-                                  size={20}
-                                  className={
-                                    liked[p.id] ? "fill-current" : ""
-                                  }
-                                />
-                                <span className="text-xs">
-                                  {p.likes || 0}
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      
     </main>
   );
 }

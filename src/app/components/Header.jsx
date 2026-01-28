@@ -49,27 +49,6 @@ export default function FactoryHeader() {
 }, []);
 
 
-  // ✅ Fetch from Firebase
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productsCol = collection(db, "products");
-        const snapshot = await getDocs(productsCol);
-        const productsList = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(productsList);
-      } catch (err) {
-        console.error("Error fetching products from Firebase:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
-
-
 const navItems = [
   { key: "home", path: "/" },
   { key: "about", path: "/about" },
@@ -543,6 +522,7 @@ const brands = [
             >
               {brands.map((brand) => (
                 <Link
+                
                   key={brand.slug}
                   href={`/brands/${brand.slug}`}
                   className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
@@ -566,6 +546,7 @@ const brands = [
       </>
     ) : (
       <Link
+      onClick={() => setIsOpen(false)}
         href={item.path}
         className={`relative font-medium transition-colors ${
           pathname === item.path

@@ -16,37 +16,37 @@ const services = [
     title: "Product Ideation & Selection",
     description:
       "We help identify market trends and select suitable product concepts that match your brand vision and market needs.",
-    icon: <Brain size={80} className="text-[#0056D2]" />,
+    icon: <Brain size={80} className="text-white" />,
   },
   {
     title: "Custom Formulation",
     description:
       "Our R&D team develops tailor-made formulations using active ingredients to achieve targeted cosmetic benefits.",
-    icon: <FlaskConical size={80} className="text-[#0056D2]" />,
+    icon: <FlaskConical size={80} className="text-white" />,
   },
   {
     title: "Ready-to-Use Formulations",
     description:
       "Choose from our standard, pre-approved, high-quality formulas ready for fast market deployment.",
-    icon: <PackageCheck size={80} className="text-[#0056D2]" />,
+    icon: <PackageCheck size={80} className="text-white" />,
   },
   {
     title: "Packaging Development & Design",
     description:
       "We design and source creative, brand-aligned packaging tailored to regulatory and aesthetic standards.",
-    icon: <Palette size={80} className="text-[#0056D2]" />,
+    icon: <Palette size={80} className="text-white" />,
   },
   {
     title: "End-to-End Production",
     description:
       "From raw material sourcing to filling and labeling, we handle full-scale production under GMP standards.",
-    icon: <Factory size={80} className="text-[#0056D2]" />,
+    icon: <Factory size={80} className="text-white" />,
   },
   {
     title: "Documentation & Registration",
     description:
       "We prepare regulatory documentation and assist in registering products in local and international markets.",
-    icon: <FileCheck2 size={80} className="text-[#0056D2]" />,
+    icon: <FileCheck2 size={80} className=" text-white" />,
   },
 ];
 
@@ -55,7 +55,7 @@ export default function ServicesAndBrands() {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-[#0056D2] py-20 px-6 md:px-12">
+    <section className="py-20 px-6 bg-gradient-to-br from-[#032e6a] via-[#0046b0] to-[#00265a] text-white">
       {/* Services */}
       <div className="text-center mb-16">
         <h2 className="text-5xl font-bold text-gray-200 mb-2">
@@ -74,7 +74,7 @@ export default function ServicesAndBrands() {
   whileInView={{ opacity: 1, y: 0 }}
   viewport={{ once: true, amount: 0.2 }}
   transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-  className="ios-fix bg-white/30 backdrop-blur-md rounded-2xl p-8 shadow-md hover:shadow-xl transition-all border border-white/30 will-change-transform will-change-opacity "
+  className="rounded-3xl p-10 bg-white/5 border border-white/10 backdrop-blur "
 >
 
       <div className="flex justify-center mb-6">{service.icon}</div>
