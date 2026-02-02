@@ -562,6 +562,36 @@
       "featured": "Featured",
       "new_arrival": "New Arrival",
       "disabled": "Disabled"
+    },
+     "details": "Product Details",
+    "taglineEn": "Tagline (English)",
+    "taglineAr": "Tagline (Arabic)",
+    "usageEn": "Usage Description (English)",
+    "usageAr": "Usage Description (Arabic)",
+    "usageTargetEn": "Target Audience (English)",
+    "usageTargetAr": "Target Audience (Arabic)",
+    "instructionsEn": "Instructions (English)",
+    "instructionsAr": "Instructions (Arabic)",
+
+    "ingredientsStorage": "Ingredients & Storage",
+    "ingredientsEn": "Ingredients (English)",
+    "ingredientsAr": "Ingredients (Arabic)",
+    "ingredientsHint": "Comma separated values",
+    "storageEn": "Storage Instructions (English)",
+    "storageAr": "Storage Instructions (Arabic)",
+
+    "compliance": "Compliance & Safety",
+    "complianceDesc": "Compliance information, certifications, or safety notes",
+
+    "seo": "SEO Settings",
+    "seoTitleEn": "SEO Title (English)",
+    "seoTitleAr": "SEO Title (Arabic)",
+    "seoDescEn": "SEO Description (English)",
+    "seoDescAr": "SEO Description (Arabic)"
+  },
+    "gallery": {
+    "title": "Gallery",
+    "subtitle": "Explore our collection of product images & videos showcasing quality and variety.",
+    "viewMore": "View More "
     }
-  }
 }
