@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaYoutube, FaLinkedin, FaTiktok } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 export default function ContactUs() {
@@ -81,6 +81,38 @@ export default function ContactUs() {
               <p>{t("workingHours")}</p>
             </div>
           </div>
+                {/* Social Media */}
+<div className="pt-2 space-y-3" dir={isArabic ? "rtl" : "ltr"}>
+  <h4 className="font-semibold text-gray-800">
+    {t("connectWithUs") || "Connect With Us"}
+  </h4>
+
+  <div className="space-y-4">
+    <a
+      href="https://www.youtube.com/@BonnMedical"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-4 group"
+    >
+      <FaYoutube className="text-2xl text-blue-600 group-hover:text-blue-700 transition" />
+      <span className="text-gray-700 group-hover:text-gray-900 transition">
+        {t("youtubeChannel") || "YouTube Channel"}
+      </span>
+    </a>
+
+    <a
+      href="https://www.linkedin.com/company/bonnmedical"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-4 group"
+    >
+      <FaLinkedin className="text-2xl text-blue-600 group-hover:text-blue-700 transition" />
+      <span className="text-gray-700 group-hover:text-gray-900 transition">
+        {t("linkedinProfile") || "LinkedIn Profile"}
+      </span>
+    </a>
+  </div>
+</div>
         </div>
 
         {/* Contact Form */}

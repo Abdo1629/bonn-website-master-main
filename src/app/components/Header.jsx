@@ -155,14 +155,23 @@ const brands = [
   </motion.div>
 )}
 
-    <motion.header
-  initial={{ opacity: 1 , y: -50 }}
-  animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? -50 : 0 }}
-  transition={{ delay: 0.5, duration: 0.6 }}
-  className="w-full fixed top-0 left-0  z-50 bg-white/80 backdrop-blur-xl border-b border-[#4CA1FF]/10
- shadow-md"
+<motion.header
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? -30 : 0 }}
+  transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+  className="
+    w-full fixed top-0 left-0 z-50
+    bg-white/85 md:bg-white/80
+    backdrop-blur-lg md:backdrop-blur-xl
+    border-b border-[#4CA1FF]/10
+    shadow-[0_4px_30px_rgba(0,0,0,0.06)]
+    after:content-[''] after:absolute after:bottom-0 after:left-0
+    after:w-full after:h-px
+    after:bg-gradient-to-r after:from-transparent after:via-[#4CA1FF]/40 after:to-transparent
+  "
   dir="ltr"
 >
+
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center relative">
         <div className="flex items-center gap-4 lg:gap-18">
           <Link href="/" className="text-2xl font-bold text-[#4CA1FF]">

@@ -21,6 +21,7 @@ const clients = [
   { name: "Koln", logo: "/images/Koln.png" },
   { name: "Microsure", logo: "/images/Microsure.png" },
   { name: "Sanita", logo: "/images/Sanita.png" },
+  { name: "PU Care", logo: "/images/PUCare.png" },
 ];
 
 export default function ClientsSection() {
