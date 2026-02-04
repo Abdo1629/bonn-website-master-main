@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { Toaster } from "sonner";
 
+export const metadataBase = new URL("https://www.bonnmed.com");
 
 export const metadata: Metadata = {
   title: "Bonn Medical Industries | GMP & ISO Certified Cosmetics Manufacturer in Saudi Arabia",
