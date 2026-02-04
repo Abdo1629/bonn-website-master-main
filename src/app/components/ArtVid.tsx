@@ -1,18 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 export default function ServicesGallery() {
   const { t } = useTranslation();
-
-  const images = [
-    "/gallery/lab.jpg",
-    "/gallery/production.jpg",
-    "/gallery/packaging.jpg",
-    "/gallery/quality.jpg",
-  ];
 
   return (
     <section className="relative py-28 bg-[#F6F9FF] overflow-hidden">
