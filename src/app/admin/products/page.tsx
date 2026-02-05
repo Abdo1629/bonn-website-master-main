@@ -13,6 +13,8 @@ import {
   Pencil,
   Trash2,
   EyeOff,
+  Info,
+  ShieldCheck
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -643,6 +645,267 @@ if (!slugValue) {
       ))}
     </div>
   </section>
+  {/* ================= DETAILS & USAGE ================= */}
+<section className="border rounded-lg p-6 space-y-6">
+  <div className="flex items-center gap-2 border-b pb-3">
+    <Info size={18} />
+    <h2 className="text-lg font-semibold">
+      {t("adminForm.details")}
+    </h2>
+  </div>
+
+  {/* Tagline */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.taglineEn")}</label>
+      <input
+        name="tagline_en"
+        value={product.tagline_en || ""}
+        onChange={handleChange}
+        className="input"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.taglineAr")}</label>
+      <input
+        name="tagline_ar"
+        value={product.tagline_ar || ""}
+        onChange={handleChange}
+        className="input"
+      />
+    </div>
+  </div>
+
+  {/* Usage */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.usageEn")}</label>
+      <textarea
+        name="usage_en"
+        value={product.usage_en || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.usageAr")}</label>
+      <textarea
+        name="usage_ar"
+        value={product.usage_ar || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+  </div>
+
+  {/* Usage Target */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.usageTargetEn")}</label>
+      <input
+        name="usage_target_en"
+        value={product.usage_target_en || ""}
+        onChange={handleChange}
+        className="input"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.usageTargetAr")}</label>
+      <input
+        name="usage_target_ar"
+        value={product.usage_target_ar || ""}
+        onChange={handleChange}
+        className="input"
+      />
+    </div>
+  </div>
+
+  {/* Instructions */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.instructionsEn")}</label>
+      <textarea
+        name="instructions_en"
+        value={product.instructions_en || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.instructionsAr")}</label>
+      <textarea
+        name="instructions_ar"
+        value={product.instructions_ar || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+  </div>
+</section>
+{/* ================= INGREDIENTS & STORAGE ================= */}
+<section className="border rounded-lg p-6 space-y-6">
+  <div className="flex items-center gap-2 border-b pb-3">
+    <h2 className="text-lg font-semibold">
+      {t("adminForm.ingredientsStorage")}
+    </h2>
+  </div>
+
+  {/* Ingredients */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.ingredientsEn")}</label>
+      <input
+  name="ingredients_en"
+  value={product.ingredients_en?.join(", ") || ""}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    setProduct((prev) => ({
+      ...prev,
+      ingredients_en: value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean), // يشيل الفاضي
+    }));
+  }}
+  className="input"
+  placeholder={t("adminForm.ingredientsHint")}
+/>
+
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.ingredientsAr")}</label>
+<input
+  name="ingredients_ar"
+  value={product.ingredients_ar?.join(", ") || ""}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    setProduct((prev) => ({
+      ...prev,
+      ingredients_ar: value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    }));
+  }}
+  className="input"
+/>
+
+    </div>
+  </div>
+
+  {/* Storage */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.storageEn")}</label>
+      <textarea
+        name="storage_en"
+        value={product.storage_en || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.storageAr")}</label>
+      <textarea
+        name="storage_ar"
+        value={product.storage_ar || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+  </div>
+</section>
+{/* ================= COMPLIANCE ================= */}
+<section className="border rounded-lg p-6 space-y-4">
+  <div className="flex items-center gap-2 border-b pb-3">
+    <ShieldCheck size={18} />
+    <h2 className="text-lg font-semibold">
+      {t("adminForm.compliance")}
+    </h2>
+  </div>
+
+  <label className="label">{t("adminForm.complianceDesc")}</label>
+<textarea
+  name="compliance"
+  value={product.compliance?.join(", ") || ""}
+  onChange={(e) => {
+    const value = e.target.value;
+
+    setProduct((prev) => ({
+      ...prev,
+      compliance: value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    }));
+  }}
+  className="textarea"
+  placeholder={t("adminForm.complianceHint")}
+/>
+
+</section>
+{/* ================= SEO ================= */}
+<section className="border rounded-lg p-6 space-y-6">
+  <div className="flex items-center gap-2 border-b pb-3">
+    <Search size={18} />
+    <h2 className="text-lg font-semibold">
+      {t("adminForm.seo")}
+    </h2>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.seoTitleEn")}</label>
+      <input
+        name="seo_title_en"
+        value={product.seo_title_en || ""}
+        onChange={handleChange}
+        className="input"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.seoTitleAr")}</label>
+      <input
+        name="seo_title_ar"
+        value={product.seo_title_ar || ""}
+        onChange={handleChange}
+        className="input"
+      />
+    </div>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label className="label">{t("adminForm.seoDescEn")}</label>
+      <textarea
+        name="seo_desc_en"
+        value={product.seo_desc_en || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+
+    <div>
+      <label className="label">{t("adminForm.seoDescAr")}</label>
+      <textarea
+        name="seo_desc_ar"
+        value={product.seo_desc_ar || ""}
+        onChange={handleChange}
+        className="textarea"
+      />
+    </div>
+  </div>
+</section>
+
 
   {/* ================= ACTIONS ================= */}
   <div className="flex gap-4 justify-end">

@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn , FaYoutube} from "react-icons/fa";
 import Image from "next/image";
 
 export default function Footer() {
@@ -48,6 +48,9 @@ export default function Footer() {
             </Link>
             <Link href="https://www.linkedin.com/company/bonnmedical" aria-label="Visit Our Linkedin" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
               <FaLinkedinIn />
+            </Link>
+                      <Link href="https://www.youtube.com/@BonnMedical" aria-label="Visit Our Instagram" target="_blank" rel="noopener noreferrer" className="bg-[#0056D2] p-2 rounded-full hover:scale-110 transition">
+              <FaYoutube />
             </Link>
           </div>
         </div>

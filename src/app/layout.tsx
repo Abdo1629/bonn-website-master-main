@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   description:
     "Bonn Medical Industries (BMI) is a Saudi GMP & ISO certified factory specializing in cosmetics, skincare, haircare, and medical products manufacturing. We provide private label, OEM, packaging, and SFDA registration support for local and international brands.",
   keywords: [
-
+    "بون",
+    "Bonn Medical",
+    "Bonn",
     "Bonn Medical Industries",
     "Bonn Med",
     "Saudi Arabia manufacturing",

@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import {
   Globe,
@@ -279,22 +280,32 @@ export default function CovixCarePage() {
   aria-labelledby="who-title"
   className="relative py-20 bg-white"
 >
-  {/* Background logo with opacity */}
-  <div
-    className="absolute inset-0 mt-20 mb-5 bg-center bg-no-repeat bg-contain opacity-40"
-    style={{ backgroundImage: "url('/images/covix.png')" }}
-  ></div>
-
+{/* Background logo → Mobile only */}
+<div
+  className="absolute inset-0 mt-20 bg-center bg-no-repeat bg-contain opacity-40 md:hidden"
+  style={{ backgroundImage: "url('/images/covix.png')" }}
+></div>
   <div className="absolute inset-0 bg-white/20 backdrop-blur-xs"></div>
 
   <div className="relative max-w-7xl mx-auto px-6">
-    <motion.h2
+    {/* Logo */}
+<div className="flex items-center mb-10 justify-between">
+        <motion.h2
       {...fadeUp}
       id="who-title"
       className="text-4xl font-bold mb-4 text-[#f36f1a]"
     >
       {t.whoTitle}
     </motion.h2>
+<Image
+  src="/images/covix.png"
+  alt="Covix Care Logo"
+  className="h-18 md:h-19 w-auto object-contain opacity-95 max-[460px]:hidden"
+  width="250"
+  height="80"
+/>
+
+</div>
 
     <div className="flex flex-col md:flex-row items-center gap-8">
       <motion.p {...fadeUp} className="text-xl text-gray-700 whitespace-pre-line">
