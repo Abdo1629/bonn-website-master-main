@@ -1,14 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import {
   FaCheckCircle,
   FaChevronDown,
   FaIndustry,
-  FaFlask,
-  FaLeaf,
   FaTemperatureLow,
   FaUserShield,
   FaBox,
@@ -16,44 +15,174 @@ import {
 } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
-type Product = {
-  brand: string;
+function FactCard({
+  icon,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="bg-white rounded-xl p-4 shadow-sm">
+      <div className="text-blue-600 mb-2">{icon}</div>
+      <h5 className="text-sm font-semibold mb-1">{title}</h5>
+      <p className="text-xs text-gray-600 leading-relaxed">{text}</p>
+    </div>
+  );
+}
 
+
+// ---- Types ----
+type Product = {
+  id: string; // client-generated UUID (or DB-generated if you prefer)
+  brand: string; // brand name shown in UI
   name_en: string;
   name_ar: string;
-
+  slug: string;
   tagline_en: string;
   tagline_ar: string;
-
   description_en: string;
   description_ar: string;
-
+  category: string[];
   usage_en: string;
   usage_ar: string;
-
-  usage_target_en: string;
-  usage_target_ar: string;
-
-  instructions_en?: string;
-  instructions_ar?: string;
-
-  ingredients_en?: string[];
-  ingredients_ar?: string[];
-
-  storage_en?: string;
-  storage_ar?: string;
-
   compliance: string[];
   images: string[];
+  brand_id: string | null;
+  seo_title_en: string;
+  seo_title_ar: string;
+  seo_desc_en: string;
+  seo_desc_ar: string;
+  best_selling: boolean;
+  usage_target_en: string;
+  usage_target_ar: string;
+instructions_en?: string;
+instructions_ar?: string;
+ingredients_en?: string[];
+ingredients_ar?: string[];
+storage_en?: string;
+storage_ar?: string;
+
+  featured: boolean;
+  new_arrival: boolean;
+  disabled: boolean;
 };
 
-export default function ProductDetails({ product }: { product: Product }) {
+function getRelatedProducts(
+  current: Product,
+  allProducts: Product[] = [],
+  limit = 4
+) {
+
+  return allProducts
+    .filter((p) => p.id !== current.id && !p.disabled)
+    .map((p) => {
+      let score = 0;
+
+      // Category match
+const sharedCategories =
+  p.category?.filter((c) =>
+    current.category?.includes(c)
+  ) || [];
+
+score += sharedCategories.length * 3;
+
+      // Usage target
+      if (
+        p.usage_target_en &&
+        p.usage_target_en === current.usage_target_en
+      ) {
+        score += 3;
+      }
+
+      // Usage
+      if (p.usage_en === current.usage_en) {
+        score += 2;
+      }
+
+      // Ingredients
+      if (p.ingredients_en && current.ingredients_en) {
+        const sharedIngredients = p.ingredients_en.filter((i) =>
+          current.ingredients_en!.includes(i)
+        );
+        score += sharedIngredients.length;
+      }
+
+      // Same brand (low weight)
+      if (p.brand_id === current.brand_id) {
+        score += 1;
+      }
+
+      return { ...p, score };
+    })
+    .filter((p) => p.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+
+export default function ProductDetails({
+  product,
+  allProducts = [],
+}: {
+  product: Product;
+  allProducts?: Product[];
+}) {
+
   const { i18n } = useTranslation();
   const isAr = i18n.language === "ar";
 
   const images = product.images || [];
   const [activeIndex, setActiveIndex] = useState(0);
   const active = images[activeIndex];
+const relatedProducts = getRelatedProducts(
+  product,
+  allProducts || []
+);
+
+
+type AccordionId = "instructions" | "ingredients" | "storage" | "";
+
+function Accordion({
+  id,
+  title,
+  children,
+}: {
+  id: AccordionId;
+  title: string;
+  children: React.ReactNode;
+}) {
+    const isOpen = openAccordion === id;
+    return (
+        <div className="border-b">
+            <button
+                onClick={() => setOpenAccordion(isOpen ? "" : id)}
+                className="w-full py-6 flex justify-between items-center text-lg font-semibold"
+            >
+                {title}
+                <FaChevronDown
+                    className={`transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                    }`}
+                />
+            </button>
+                
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="pb-6 text-gray-600 leading-relaxed"
+                    >
+                        {children}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
 
   useEffect(() => {
     if (images.length < 2) return;
@@ -74,58 +203,56 @@ export default function ProductDetails({ product }: { product: Product }) {
     storage: isAr ? product.storage_ar : product.storage_en,
   };
 
-  const [openAccordion, setOpenAccordion] = useState("instructions");
-
-  function Accordion({
-    id,
-    title,
-    children,
-  }: {
-    id: string;
-    title: string;
-    children: React.ReactNode;
-  }) {
-    const isOpen = openAccordion === id;
-    return (
-      <div className="border-b">
-        <button
-          onClick={() => setOpenAccordion(isOpen ? "" : id)}
-          className="w-full py-6 flex justify-between items-center text-lg font-semibold"
-        >
-          {title}
-          <FaChevronDown
-            className={`transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="pb-6 text-gray-600 leading-relaxed"
-            >
-              {children}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  }
+const [openAccordion, setOpenAccordion] = useState<
+  "instructions" | "ingredients" | "storage" | ""
+>(() => {
+  if (product.instructions_en || product.instructions_ar) return "instructions";
+  if (product.ingredients_en?.length) return "ingredients";
+  if (product.storage_en || product.storage_ar) return "storage";
+  return "";
+});
 
   return (
     <main className="bg-[#F8FAFF] py-20" dir={isAr ? "rtl" : "ltr"}>
       {/* ================= HERO ================= */}
-      <section className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.1fr_0.9fr] gap-20 items-start">
+<section className="px-4 sm:px-6 lg:px-20 mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20">
 {/* ===== Gallery ===== */}
 <div className="w-full">
-  {/* Desktop / Tablet */}
-  <div className="hidden md:flex gap-6">
+  <div className="flex flex-col-reverse gap-6 md:gap-8">
+
+    {/* Main Image */}
+    <motion.div
+      key={active}
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="
+        relative
+        w-full md:flex-1
+        h-[280px] sm:h-[320px] md:h-[520px]
+        bg-white
+        rounded-[28px] md:rounded-[40px]
+        shadow-2xl
+        order-1
+      "
+    >
+      <Image
+        src={active}
+        alt={t.name}
+        fill
+        priority
+        className="object-contain p-4 sm:p-6 md:p-12"
+      />
+    </motion.div>
+
     {/* Thumbnails */}
-    <div className="flex flex-col gap-3">
+    <div
+      className="
+        flex flex-row md:flex-col
+        gap-3
+        order-2
+        justify-center md:justify-start
+      "
+    >
       {images.map((img, idx) => (
         <button
           key={img}
@@ -134,7 +261,7 @@ export default function ProductDetails({ product }: { product: Product }) {
             ${
               idx === activeIndex
                 ? "ring-2 ring-blue-600"
-                : "opacity-50 hover:opacity-100 hover:scale-105 hover:ring-1 hover:ring-gray-200 hover:cursor-pointer"
+                : "opacity-60 hover:opacity-100 hover:scale-105 hover:ring-1 hover:ring-gray-200"
             }
           `}
         >
@@ -143,52 +270,9 @@ export default function ProductDetails({ product }: { product: Product }) {
       ))}
     </div>
 
-    {/* Main Image */}
-    <motion.div
-      key={active}
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="relative flex-1 h-[520px] bg-white rounded-[40px] shadow-2xl"
-    >
-      <Image
-        src={active}
-        alt={t.name}
-        fill
-        className="object-contain p-12"
-      />
-    </motion.div>
-  </div>
-
-  {/* Mobile Slider */}
-  <div className="md:hidden">
-    <motion.div
-      key={active}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="relative w-full h-[380px] bg-white rounded-3xl shadow-xl"
-    >
-      <Image
-        src={active}
-        alt={t.name}
-        fill
-        className="object-contain p-8"
-      />
-    </motion.div>
-
-    {/* Dots */}
-    <div className="flex justify-center gap-2 mt-4">
-      {images.map((_, i) => (
-        <button
-          key={i}
-          onClick={() => setActiveIndex(i)}
-          className={`w-2.5 h-2.5 rounded-full transition
-            ${i === activeIndex ? "bg-blue-600" : "bg-gray-300"}
-          `}
-        />
-      ))}
-    </div>
   </div>
 </div>
+
 
 
         {/* ===== Product Info ===== */}
@@ -205,18 +289,50 @@ export default function ProductDetails({ product }: { product: Product }) {
   {t.tagline}
 </p>
 
-          {/* Trust Icons */}
-          <div className="flex flex-wrap gap-4 mt-4">
-            <Trust icon={<FaIndustry />} label="GMP Facility" />
-            <Trust icon={<FaFlask />} label="Lab Tested" />
-            <Trust icon={<FaLeaf />} label="Safe Ingredients" />
-            <Trust icon={<FaUserShield />} label="Medical Grade" />
-          </div>
+          
+          {product.compliance?.length > 0 && (
+  <div className="flex flex-wrap gap-2 mt-4">
+    {product.compliance.map((c) => (
+      <span
+        key={c}
+        className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200"
+      >
+        {c}
+      </span>
+    ))}
+  </div>
+)}
 
           {/* Description */}
           <p className="text-gray-700 leading-relaxed max-w-prose">
             {t.desc}
           </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+  {t.usage && (
+    <FactCard
+      icon={<FaUserShield />}
+      title={isAr ? "الاستخدام" : "Usage"}
+      text={t.usage}
+    />
+  )}
+
+  {t.target && (
+    <FactCard
+      icon={<FaIndustry />}
+      title={isAr ? "الفئة المستهدفة" : "Target"}
+      text={t.target}
+    />
+  )}
+
+  {t.storage && (
+    <FactCard
+      icon={<FaTemperatureLow />}
+      title={isAr ? "التخزين" : "Storage"}
+      text={t.storage}
+    />
+  )}
+</div>
+
 
           {/* Target */}
           {t.target && (
@@ -228,17 +344,7 @@ export default function ProductDetails({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Usage Snapshot */}
-          <div className="bg-white flex justify-between rounded-2xl p-5 text-center shadow hover:shadow-md transition">
-            <UsageCard icon={<FaUserShield />} title="Usage" text={t.usage} />
-            <UsageCard icon={<FaLeaf />} title="Skin Type" text="All Types" />
-            <UsageCard icon={<FaFlask />} title="Formulation" text="Dermal" />
-            <UsageCard
-              icon={<FaTemperatureLow />}
-              title="Storage"
-              text="Below 30°C"
-            />
-          </div>
+
         </div>
       </section>
 
@@ -253,7 +359,7 @@ export default function ProductDetails({ product }: { product: Product }) {
           </Accordion>
         )}
 
-        {t.ingredients?.length && (
+        {Array.isArray(t.ingredients) && t.ingredients.length > 0 && (
           <Accordion
             id="ingredients"
             title={isAr ? "المكونات" : "Ingredients"}
@@ -343,35 +449,51 @@ export default function ProductDetails({ product }: { product: Product }) {
           </div>
         </div>
       </section>
+      {relatedProducts.length > 0 && (
+  <section className="max-w-7xl mx-auto px-6 mt-32">
+    <h3 className="text-2xl md:text-3xl font-semibold mb-10">
+      {isAr ? "منتجات ذات صلة" : "Related Products"}
+    </h3>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {relatedProducts.map((p) => (
+        <Link href={`/products/${p.slug}`}
+        key={p.id}
+>
+        <motion.div
+          whileHover={{ y: -6 }}
+          className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden cursor-pointer"
+        >
+          <div className="relative h-56 bg-gray-50">
+ <Image
+  src={p.images?.[0] || "/placeholder.png"}
+  alt={isAr ? p.name_ar : p.name_en}
+  fill
+  className="object-contain p-6"
+/>
+
+          </div>
+
+          <div className="p-5 space-y-2">
+            <span className="text-xs uppercase text-blue-600 font-semibold">
+              {p.brand}
+            </span>
+
+            <h4 className="font-semibold leading-snug">
+              {isAr ? p.name_ar : p.name_en}
+            </h4>
+
+            <p className="text-sm text-gray-500 line-clamp-2">
+              {isAr ? p.tagline_ar : p.tagline_en}
+            </p>
+          </div>
+        </motion.div>
+        </Link>
+      ))}
+    </div>
+  </section>
+)}
+
     </main>
-  );
-}
-
-/* ================= Components ================= */
-
-function Trust({ icon, label }: { icon: React.ReactNode; label: string }) {
-  return (
-    <div className="flex items-center gap-2 text-sm text-gray-700">
-      <span className="text-blue-600">{icon}</span>
-      {label}
-    </div>
-  );
-}
-
-function UsageCard({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="bg-white rounded-xl p-4 text-center shadow-sm">
-      <div className="text-blue-600 mb-2 flex justify-center">{icon}</div>
-      <h5 className="text-sm font-semibold">{title}</h5>
-      <p className="text-xs text-gray-600 mt-1">{text}</p>
-    </div>
   );
 }

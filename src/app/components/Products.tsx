@@ -85,37 +85,6 @@ export default function ServicesAndBrands() {
     </motion.div>
   ))}
 </div>
-
-
-      {/* Brands */}
-      {/* <div className="mt-24 text-center">
-        <h2 className="text-3xl font-bold text-[#003D99] mb-10">
-          {t("our_brands")}
-        </h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {brands.map((brand, i) => (
-            <motion.div
-              key={brand.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-[#F5F8FF] rounded-xl p-6 shadow hover:shadow-md transition text-center"
-            >
-              <img
-                src={brand.image}
-                alt={brand.name}
-                width={120}
-                height={120}
-                className="mx-auto mb-4"
-              />
-              <h4 className="font-semibold text-[#003D99]">{t(brand.name)}</h4>
-              <p className="text-sm text-gray-600 mt-1">
-                {t(brand.description)}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div> */}
     </section>
   );
 }
