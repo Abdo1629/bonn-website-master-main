@@ -41,65 +41,82 @@ type Product = {
 
 /* ================= SEO ================= */
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: { slug: string } }
 ): Promise<Metadata> {
-  const { slug } = await params;
+  const slug = params.slug;
 
-  const { data: product } = await supabaseServer
-    .from("products")
-    .select(`
-      name_en,
-      seo_title_en,
-      seo_desc_en,
-      images,
-      brand
-    `)
-    .eq("slug", slug)
-    .maybeSingle();
+  try {
+    const { data } = await supabaseServer
+      .from("products")
+      .select(`
+        name_en,
+        seo_title_en,
+        seo_desc_en,
+        images,
+        brand
+      `)
+      .eq("slug", slug)
+      .maybeSingle();
 
-  if (!product) {
+    /* ===== FALLBACKS (مايكسرش الصفحة) ===== */
+    const title = data?.seo_title_en || data?.name_en || "Product | Bonn Medical";
+    const description =
+      data?.seo_desc_en ||
+      "Medical products manufactured by Bonn Medical Industries";
+
+    const image =
+      data?.images?.[0] ||
+      "https://www.bonnmed.com/cover.png"; // default cover
+
+    const brandName = data?.brand
+      ? `by ${data.brand}`
+      : "by Bonn Medical Industries";
+
+    return {
+      title: `${title} | ${brandName}`,
+      description,
+
+      openGraph: {
+        title: `${title} | ${brandName}`,
+        description,
+        url: `https://www.bonnmed.com/products/${slug}`,
+        siteName: "Bonn Medical Industries",
+        type: "website",
+
+        images: [
+          {
+            url: image,
+            width: 1200,
+            height: 630,
+            alt: `${title} ${brandName}`,
+          },
+        ],
+      },
+
+      twitter: {
+        card: "summary_large_image",
+        title: `${title} | ${brandName}`,
+        description,
+        images: [image],
+      },
+    };
+  } catch (e) {
+    /* ===== لو Supabase وقع لأي سبب ===== */
     return {
       title: "Product | Bonn Medical",
       description: "Medical products manufactured by Bonn Medical Industries",
-      robots: { index: false },
+      openGraph: {
+        images: [
+          {
+            url: "https://www.bonnmed.com/cover.png",
+            width: 1200,
+            height: 630,
+          },
+        ],
+      },
     };
   }
-
-  const title = product.seo_title_en || product.name_en;
-  const description = product.seo_desc_en || undefined;
-  const image = product.images?.[0] || "https://www.bonnmed.com/cover.png";
-  const brandName = product.brand ? `by ${product.brand}` : "by Bonn Medical";
-
-  return {
-    title: `${title} | ${brandName}`,
-    description,
-
-    openGraph: {
-      title: `${title} | ${brandName}`,
-      description,
-      url: `https://www.bonnmed.com/products/${slug}`,
-      siteName: "Bonn Medical Industries",
-      type: "website",
-
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: `${title} ${brandName}`,
-        },
-      ],
-    },
-
-    twitter: {
-      card: "summary_large_image",
-      title: `${title} | ${brandName}`,
-      description,
-      images: [image],
-    },
-  };
 }
-
 
 /* ================= PAGE ================= */
 type PageProps = {
