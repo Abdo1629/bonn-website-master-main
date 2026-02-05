@@ -38,6 +38,8 @@ type Product = {
   disabled: boolean;
 };
 
+export const runtime = "nodejs";
+export const revalidate = 0;
 
 /* ================= SEO ================= */
 export async function generateMetadata(
@@ -46,19 +48,20 @@ export async function generateMetadata(
   const slug = params.slug;
 
   try {
-    const { data } = await supabaseServer
-      .from("products")
-      .select(`
-        name_en,
-        seo_title_en,
-        seo_desc_en,
-        images,
-        brand
-      `)
-      .eq("slug", slug)
-      .maybeSingle();
+ const { data } = await supabaseServer
+  .from("products")
+  .select(`
+    name_en,
+    seo_title_en,
+    seo_desc_en,
+    images,
+    brand
+  `)
+  .eq("slug", slug)
+  .limit(1)
+  .single();
 
-    /* ===== FALLBACKS (مايكسرش الصفحة) ===== */
+
     const title = data?.seo_title_en || data?.name_en || "Product | Bonn Medical";
     const description =
       data?.seo_desc_en ||
