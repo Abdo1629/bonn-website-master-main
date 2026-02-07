@@ -15,23 +15,59 @@ import {
 } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
+// ================= BRAND THEME =================
+const BRAND_THEME: Record<
+  string,
+  { primary: string; soft: string; ring: string }
+> = {
+  "Covix Care": {
+    primary: "#F97316", // برتقالي
+    soft: "#FFF4ED",
+    ring: "ring-orange-500",
+  },
+
+  "Le Visage": {
+    primary: "#DC2626", // أحمر
+    soft: "#FEF2F2",
+    ring: "ring-red-500",
+  },
+
+  Bonn: {
+    primary: "#2563EB", // أزرق
+    soft: "#EFF6FF",
+    ring: "ring-blue-500",
+  },
+
+  default: {
+    primary: "#2563EB",
+    soft: "#EFF6FF",
+    ring: "ring-blue-500",
+  },
+};
+
+
 function FactCard({
   icon,
   title,
   text,
+  color,
 }: {
   icon: React.ReactNode;
   title: string;
   text: string;
+  color?: string;
 }) {
   return (
-    <div className="bg-white rounded-xl p-4 shadow-sm">
-      <div className="text-blue-600 mb-2">{icon}</div>
+    <div className="bg-white w-full rounded-xl p-4 shadow-sm">
+      <div className="mb-2" style={{ color: color || "#2563EB" }}>
+        {icon}
+      </div>
       <h5 className="text-sm font-semibold mb-1">{title}</h5>
       <p className="text-xs text-gray-600 leading-relaxed">{text}</p>
     </div>
   );
 }
+
 
 
 // ---- Types ----
@@ -132,6 +168,8 @@ export default function ProductDetails({
 
   const { i18n } = useTranslation();
   const isAr = i18n.language === "ar";
+const theme = BRAND_THEME[product.brand || "default"] || BRAND_THEME.default;
+
 
   const images = product.images || [];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -218,7 +256,7 @@ const [openAccordion, setOpenAccordion] = useState<
 <section className="px-4 sm:px-6 lg:px-20 mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20">
 {/* ===== Gallery ===== */}
 <div className="w-full">
-  <div className="flex flex-col-reverse gap-6 md:gap-8">
+  <div className="flex flex-col md:flex-row-reverse md:flex-nowrap gap-6 md:gap-8">
 
     {/* Main Image */}
     <motion.div
@@ -227,7 +265,7 @@ const [openAccordion, setOpenAccordion] = useState<
       animate={{ opacity: 1, scale: 1 }}
       className="
         relative
-        w-full md:flex-1
+        w-full
         h-[280px] sm:h-[320px] md:h-[520px]
         bg-white
         rounded-[28px] md:rounded-[40px]
@@ -257,10 +295,10 @@ const [openAccordion, setOpenAccordion] = useState<
         <button
           key={img}
           onClick={() => setActiveIndex(idx)}
-          className={`relative w-20 h-24 rounded-xl overflow-hidden transition
+          className={`relative w-13 h-24 rounded-xl overflow-hidden transition min-[400px]:w-20
             ${
               idx === activeIndex
-                ? "ring-2 ring-blue-600"
+                ?  `ring-2 ${idx === activeIndex ? `ring-2 ${theme.ring}` : ""}`
                 : "opacity-60 hover:opacity-100 hover:scale-105 hover:ring-1 hover:ring-gray-200"
             }
           `}
@@ -277,7 +315,7 @@ const [openAccordion, setOpenAccordion] = useState<
 
         {/* ===== Product Info ===== */}
         <div className="space-y-6">
-          <span className="text-xs tracking-widest uppercase text-blue-600 font-semibold">
+          <span className="text-xs tracking-widest uppercase font-semibold" style={{ color: theme.primary }}>
   {product.brand}
 </span>
 
@@ -295,7 +333,12 @@ const [openAccordion, setOpenAccordion] = useState<
     {product.compliance.map((c) => (
       <span
         key={c}
-        className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200"
+className="px-3 py-1 rounded-full text-xs font-medium border"
+style={{
+  background: theme.soft,
+  color: theme.primary,
+  borderColor: theme.primary + "33",
+}}
       >
         {c}
       </span>
@@ -307,12 +350,13 @@ const [openAccordion, setOpenAccordion] = useState<
           <p className="text-gray-700 leading-relaxed max-w-prose">
             {t.desc}
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+ <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-6">
   {t.usage && (
     <FactCard
       icon={<FaUserShield />}
       title={isAr ? "الاستخدام" : "Usage"}
       text={t.usage}
+      color={theme.primary}
     />
   )}
 
@@ -321,6 +365,7 @@ const [openAccordion, setOpenAccordion] = useState<
       icon={<FaIndustry />}
       title={isAr ? "الفئة المستهدفة" : "Target"}
       text={t.target}
+      color={theme.primary}
     />
   )}
 
@@ -329,20 +374,10 @@ const [openAccordion, setOpenAccordion] = useState<
       icon={<FaTemperatureLow />}
       title={isAr ? "التخزين" : "Storage"}
       text={t.storage}
+      color={theme.primary}
     />
   )}
 </div>
-
-
-          {/* Target */}
-          {t.target && (
-            <div className="bg-white rounded-xl p-5 shadow-sm">
-              <h4 className="font-semibold mb-1">
-                {isAr ? "الفئة المستهدفة" : "Target Audience"}
-              </h4>
-              <p className="text-sm text-gray-600">{t.target}</p>
-            </div>
-          )}
 
 
         </div>
@@ -367,7 +402,7 @@ const [openAccordion, setOpenAccordion] = useState<
             <ul className="grid grid-cols-2 gap-3">
               {t.ingredients.map((i) => (
                 <li key={i} className="flex gap-2 text-sm">
-                  <span className="w-2 h-2 mt-2 bg-blue-500 rounded-full" />
+                  <span className="w-2 h-2 mt-2 rounded-full" style={{ background: theme.primary }}/>
                   {i}
                 </li>
               ))}
@@ -475,7 +510,7 @@ const [openAccordion, setOpenAccordion] = useState<
           </div>
 
           <div className="p-5 space-y-2">
-            <span className="text-xs uppercase text-blue-600 font-semibold">
+            <span className="text-xs uppercase font-semibold" style={{ color: theme.primary }}>
               {p.brand}
             </span>
 

@@ -41,6 +41,12 @@ type Product = {
 export const runtime = "nodejs";
 export const revalidate = 0;
 
+const safe = (value?: string | null) => {
+  if (!value) return null;
+  const v = value.trim();
+  return v.length ? v : null;
+};
+
 /* ================= SEO ================= */
 export async function generateMetadata(
   { params }: { params: { slug: string } }
@@ -48,7 +54,7 @@ export async function generateMetadata(
 
   const slug = params.slug;
 
-  const { data } = await supabaseServer
+  const { data, error } = await supabaseServer
     .from("products")
     .select(`
       name_en,
@@ -56,21 +62,23 @@ export async function generateMetadata(
       seo_title_en,
       seo_desc_en,
       images,
-      brand
+      brand,
+      disabled
     `)
     .eq("slug", slug)
-    .maybeSingle();   // ← مش single
+    .eq("disabled", false) // مهم
+    .maybeSingle();
 
-  /* ========= FORCE FALLBACK ========= */
+  /* ====== FALLBACK LOGIC (NO EMPTY STRINGS) ====== */
 
   const title =
-    data?.seo_title_en ||
-    data?.name_en ||
+    safe(data?.seo_title_en) ||
+    safe(data?.name_en) ||
     "Bonn Medical Product";
 
   const description =
-    data?.seo_desc_en ||
-    data?.description_en ||
+    safe(data?.seo_desc_en) ||
+    safe(data?.description_en) ||
     "Medical products manufactured by Bonn Medical Industries";
 
   const image =
@@ -78,18 +86,21 @@ export async function generateMetadata(
     "https://www.bonnmed.com/cover.png";
 
   const brandName =
-    data?.brand
-      ? `by ${data.brand}`
+    safe(data?.brand)
+      ? `by ${data?.brand}`
       : "by Bonn Medical Industries";
 
+  const fullTitle = `${title} | ${brandName}`;
+  const url = `https://www.bonnmed.com/products/${slug}`;
+
   return {
-    title: `${title} | ${brandName}`,
+    title: fullTitle,
     description,
 
     openGraph: {
-      title: `${title} | ${brandName}`,
+      title: fullTitle,
       description,
-      url: `https://www.bonnmed.com/products/${slug}`,
+      url,
       siteName: "Bonn Medical Industries",
       type: "website",
 
@@ -98,19 +109,23 @@ export async function generateMetadata(
           url: image,
           width: 1200,
           height: 630,
-          alt: `${title} ${brandName}`,
+          alt: fullTitle,
         },
       ],
     },
 
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${brandName}`,
+      title: fullTitle,
       description,
       images: [image],
     },
+
+    // مهم للـ bots
+    metadataBase: new URL("https://www.bonnmed.com"),
   };
 }
+
 
 /* ================= PAGE ================= */
 type PageProps = {
