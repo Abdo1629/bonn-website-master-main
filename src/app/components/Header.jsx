@@ -191,7 +191,19 @@ const brands = [
     </motion.h1>
   </motion.div>
 )}
-
+<AnimatePresence>
+  {isOpen && (
+    <motion.div
+      key="overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 bg-black/50 z-[40]"
+      onClick={() => setIsOpen(false)}
+    />
+  )}
+</AnimatePresence>
 <motion.header
   initial={{ opacity: 0, y: -20 }}
   animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? -30 : 0 }}
@@ -427,7 +439,9 @@ const brands = [
                   key={brand.slug}
                   href={`/brands/${brand.slug}`}
                   className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
-                  onClick={() => setBrandsOpen(false)}
+                  onClick={() => 
+                    setIsOpen(false)
+                  }
                 >
                   <Image
                     src={brand.logo}
@@ -478,7 +492,7 @@ const brands = [
 </button>
 
  {/* Mobile Menu */}
-      <AnimatePresence>
+      <AnimatePresence>        
         {isOpen && (
           <motion.div
       initial={{ opacity: 0, y: -10, scaleY: 0 }}
@@ -486,7 +500,7 @@ const brands = [
       exit={{ opacity: 0, y: -10, scaleY: 0 }}
       transition={{ duration: 0.35 }}
       style={{ originY: 0 }}
-      className="absolute right-[-20px] top-full z-40 bg-white p-4 rounded-b-xl shadow-xl w-[100%] mx-5"
+      className="absolute right-[-20px] top-full z-50 bg-white p-4 rounded-b-xl shadow-xl w-[100%] mx-5"
           >
 <div className="flex items-center gap-3 px-6 pt-4">
   {/* Language Button */}
@@ -638,7 +652,10 @@ alt={i18n.language === "ar" ? product.name_ar : product.name_en}
                   key={brand.slug}
                   href={`/brands/${brand.slug}`}
                   className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
-                  onClick={() => setBrandsOpen(false)}
+onClick={() => {
+  setBrandsOpen(false);
+  setIsOpen(false);
+}}
                 >
                   <Image
                     src={brand.logo}
@@ -658,7 +675,10 @@ alt={i18n.language === "ar" ? product.name_ar : product.name_en}
       </>
     ) : (
       <Link
-      onClick={() => setIsOpen(false)}
+onClick={() => {
+  setBrandsOpen(false);
+  setIsOpen(false);
+}}
         href={item.path}
         className={`relative font-medium transition-colors ${
           pathname === item.path
@@ -671,11 +691,13 @@ alt={i18n.language === "ar" ? product.name_ar : product.name_en}
       </Link>
     )}
   </motion.div>
+
 ))}
 
             </div>
           </motion.div>
         )}
+        
       </AnimatePresence>
       </div>
     </motion.header>
