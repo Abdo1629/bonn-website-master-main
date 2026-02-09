@@ -426,7 +426,7 @@ const circleY = typeof window !== "undefined" ? (window.innerHeight * parseFloat
 
       {/* Form Card */}
       <motion.div
-        className="mt-20 relative w-full max-w-6xl bg-white/95 backdrop-blur-lg rounded-2xl py-10 px-1 md:px-10 md:py-14 border border-[#E0E7FF] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+        className="mt-20 relative w-full max-w-7xl bg-white/95 backdrop-blur-lg rounded-2xl py-10 px-1 md:px-10 md:py-14 border border-[#E0E7FF] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}

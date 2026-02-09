@@ -14,6 +14,43 @@ import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 import { supabase } from "../lib/supabaseClient";
 
+function highlightText(text, matches, key) {
+  if (!matches) return text;
+
+  const match = matches.find((m) => m.key === key);
+  if (!match) return text;
+
+  let result = [];
+  let lastIndex = 0;
+
+  match.indices.forEach(([start, end], i) => {
+    // normal text
+    if (start > lastIndex) {
+      result.push(text.slice(lastIndex, start));
+    }
+
+    // highlighted text
+    result.push(
+      <mark
+        key={i}
+        className="bg-yellow-200 text-black px-[1px] rounded"
+      >
+        {text.slice(start, end + 1)}
+      </mark>
+    );
+
+    lastIndex = end + 1;
+  });
+
+  // remaining text
+  if (lastIndex < text.length) {
+    result.push(text.slice(lastIndex));
+  }
+
+  return result;
+}
+
+
 export default function FactoryHeader() {
   const [showIntro, setShowIntro] = useState(true);
   const { t } = useTranslation();
@@ -251,34 +288,98 @@ const brands = [
             </div>
 
             {/* ✅ Search Results Dropdown */}
-            {searchTerm && (
-              <div className="absolute z-50 bg-white border border-gray-200 rounded shadow-md mt-1 w-[250px] max-[850px]:w-[190px] max-h-60 overflow-auto">
-                {searchResults.length > 0 ? (
-                  searchResults.map((product) => (
-                    <Link
-                      key={product.id}
-                      href={`/products/${product.slug}`}
-                      dir={i18n.language === "ar" ? "rtl" : "ltr"}
-                      className="flex items-center p-2 hover:bg-gray-100 transition"
-                    >
-                      <Image
-                        src={product.image}
-                        alt={i18n.language === "ar" ? product.name_ar : product.name_en}
-                        className="rounded object-cover mr-2"
-                        width="40"
-                        height="40"
-                      />
-                      <div className="text-sm pr-5 pl-5">
-                        <div className="font-medium text-gray-900">{i18n.language === "ar" ? product.name_ar : product.name_en}</div>
-                        <div className="text-gray-500">{i18n.language === "ar" ? product.description_ar : product.description_en}</div>
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className="p-2 text-sm text-gray-600">{searchError}</div>
-                )}
+{searchTerm && (
+  <div className="absolute z-50 bg-white border border-gray-200 rounded shadow-md mt-1 w-[250px] max-[850px]:w-[190px] max-h-60 overflow-auto">
+    {searchResults.length > 0 ? (
+      searchResults.map((res) => {
+        // يدعم الشكلين: item أو object عادي
+        const product = res?.item || res;
+        const matches = res?.matches || [];
+
+        if (!product) return null;
+
+        const highlightText = (text, key) => {
+          if (!text || !matches.length) return text;
+
+          const match = matches.find((m) => m.key === key);
+          if (!match) return text;
+
+          let parts = [];
+          let lastIndex = 0;
+
+          match.indices.forEach(([start, end], i) => {
+            if (start > lastIndex) {
+              parts.push(text.slice(lastIndex, start));
+            }
+
+            parts.push(
+              <mark
+                key={i}
+                className="bg-yellow-200 text-black px-[1px] rounded"
+              >
+                {text.slice(start, end + 1)}
+              </mark>
+            );
+
+            lastIndex = end + 1;
+          });
+
+          if (lastIndex < text.length) {
+            parts.push(text.slice(lastIndex));
+          }
+
+          return parts;
+        };
+
+        const nameKey = i18n.language === "ar" ? "name_ar" : "name_en";
+        const descKey =
+          i18n.language === "ar" ? "description_ar" : "description_en";
+
+        const nameText =
+          i18n.language === "ar"
+            ? product?.name_ar || ""
+            : product?.name_en || "";
+
+        const descText =
+          i18n.language === "ar"
+            ? product?.description_ar || ""
+            : product?.description_en || "";
+
+        return (
+          <Link
+            key={product.id}
+            href={`/products/${product.slug}`}
+            dir={i18n.language === "ar" ? "rtl" : "ltr"}
+            className="flex items-center p-2 hover:bg-gray-100 transition"
+          >
+            <Image
+              src={product?.images?.[0] || "/placeholder.png"}
+              alt={nameText}
+              className="rounded object-cover mr-2"
+              width={40}
+              height={40}
+            />
+
+            <div className="text-sm pr-5 pl-5">
+              {/* Name */}
+              <div className="font-medium text-gray-900">
+                {highlightText(nameText, nameKey)}
               </div>
-            )}
+
+              {/* Description (2 lines only) */}
+              <div className="text-gray-500 line-clamp-2">
+                {highlightText(descText, descKey)}
+              </div>
+            </div>
+          </Link>
+        );
+      })
+    ) : (
+      <div className="p-2 text-sm text-gray-600">{searchError}</div>
+    )}
+  </div>
+)}
+
           </div>
         </div>
 <nav className="hidden min-[916px]:flex items-center lg:gap-6 md:gap-3">
@@ -467,15 +568,17 @@ const brands = [
               className="flex items-center p-2 hover:bg-gray-100 transition"
             >
               <Image
-                src={product.image}
-                alt={product.name[i18n.language]}
+src={product.images?.[0] || "/placeholder.png"}
+alt={i18n.language === "ar" ? product.name_ar : product.name_en}
                 className="w-10 h-10 rounded object-cover mr-2"
                 width="40"
                 height="40"
               />
               <div className="text-sm pr-5 pl-5">
-                <div className="font-medium text-gray-900">{product.name[i18n.language]}</div>
-                <div className="text-gray-500">{product.description[i18n.language]}</div>
+                <div className="font-medium text-gray-900">{i18n.language === "ar" ? product.name_ar : product.name_en}</div>
+                <div className="text-gray-500">{i18n.language === "ar"
+  ? product.description_ar
+  : product.description_en}</div>
               </div>
             </Link>
           ))

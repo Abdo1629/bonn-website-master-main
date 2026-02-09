@@ -54,7 +54,7 @@ export async function generateMetadata(
 
   const slug = params.slug;
 
-  const { data, error } = await supabaseServer
+  const { data } = await supabaseServer
     .from("products")
     .select(`
       name_en,

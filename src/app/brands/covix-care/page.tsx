@@ -498,8 +498,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
         {/* CATEGORIES */}
         <section aria-labelledby="categories-title" className="py-12 bg-[#fff9f4]">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.h3 {...fadeUp} id="categories-title" className="text-xl font-semibold mb-6">{t.categoriesTitle}</motion.h3>
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <motion.h3 {...fadeUp} id="categories-title" className="text-2xl font-bold mb-6">{t.categoriesTitle}</motion.h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {t.categories.map((c, i) => (
                 <motion.div key={i} whileHover={{ y: -6, scale: 1.02 }} transition={{ type: "spring", stiffness: 200 }} className="bg-white p-6 rounded-2xl text-center shadow" tabIndex={0}>
@@ -514,7 +514,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         </section>
 
 {/* NUMBERS */}
-<section aria-labelledby="numbers-title" className="py-12">
+<section aria-labelledby="numbers-title" className="py-12 bg-[#fff9f4]">
   <div className="max-w-7xl mx-auto px-6 text-center">
     <motion.h3 {...fadeUp} id="numbers-title" className="text-2xl font-bold mb-6">
       {t.numbersTitle}
