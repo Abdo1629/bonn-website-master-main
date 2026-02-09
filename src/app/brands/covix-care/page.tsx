@@ -823,7 +823,9 @@ We also expanded intimate care into a full range — because real care means off
             <div className="flex gap-4">
               <FaEnvelope className="text-[#f36f1a] mt-1" />
               <div>
-                <div className="font-semibold">Email</div>
+                <div className="font-semibold">
+                  {isArabic ? "البريد الإلكتروني" : "Email"}
+                </div>
                 <a
                   href="mailto:CustomerRelation@bonnmed.com"
                   className="text-gray-600 hover:text-[#f36f1a]"
@@ -836,7 +838,9 @@ We also expanded intimate care into a full range — because real care means off
             <div className="flex gap-4">
               <FaPhone className="text-[#f36f1a] mt-1" />
               <div>
-                <div className="font-semibold">Phone</div>
+                <div className="font-semibold">
+                  {isArabic ? "رقم الهاتف" : "Phone"}
+                </div>
                 <a
                   href="tel:+966580347173"
                   className="text-gray-600 hover:text-[#f36f1a]"
@@ -850,7 +854,9 @@ We also expanded intimate care into a full range — because real care means off
             <div className="flex gap-4">
               <FaInstagram className="text-[#f36f1a] mt-1" />
               <div>
-                <div className="font-semibold">Instagram</div>
+                <div className="font-semibold">
+                  {isArabic ? "إنستغرام" : "Instagram"}
+                </div>
                 <a
                   href="https://www.instagram.com/covix.care"
                   target="_blank"
@@ -867,7 +873,11 @@ We also expanded intimate care into a full range — because real care means off
                 <div className="font-semibold">
                   {isArabic ? "ساعات العمل" : "Working Hours"}
                 </div>
-                <div className="text-gray-600">Sun — Thu | 9AM — 5PM</div>
+                <div className="text-gray-600">
+                                    {isArabic
+                    ? "من الأحد إلى الخميس: 9 صباحًا - 5 مساءً"
+                    : "Sun - Thu: 9am - 5pm"}
+                </div>
               </div>
             </div>
           </div>

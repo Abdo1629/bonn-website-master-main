@@ -773,20 +773,66 @@ const grouped = useMemo(() => {
 {/* WHY CONTACT */}
 <section className="py-24 bg-white">
   <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12">
-    <div>
-      <h2 className="text-4xl font-extrabold mb-12 text-[#E11D48]">{t.contactTitle}</h2>
-      <div className="grid md:grid-cols-2 gap-10">
-        {t.contactSections.map((section, i) => (
-          <div key={i}>
-            <h3 className="text-2xl font-semibold mb-4">{section.heading}</h3>
-            <ul className="space-y-3 text-gray-700">
-              {section.items.map((item, idx) => <li key={idx}>{item}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
+        {/* LEFT — CONTACT INFO */}
+        <div className="space-y-7">
+          <h2 className="text-3xl font-bold text-[#E11D48]">
+            {isArabic ? "تواصل معنا" : "Contact Us"}
+          </h2>
 
+          <p className="text-gray-600 leading-relaxed">
+            {isArabic
+              ? "فريق لو فيزاج جاهز للرد على استفساراتكم وتقديم الدعم. يمكنكم التواصل عبر القنوات التالية."
+              : "Our Le Visage team is ready to assist and answer your inquiries through the following channels."}
+          </p>
+
+          <div className="space-y-5">
+
+            <div className="flex gap-4">
+              <FaEnvelope className="text-[#E11D48] mt-1" />
+              <div>
+                <div className="font-semibold">
+                  {isArabic ? "البريد الإلكتروني" : "Email Address"}
+                </div>
+                <a
+                  href="mailto:CustomerRelation@bonnmed.com"
+                  className="text-gray-600 hover:text-[#f36f1a]"
+                >
+                  Relation@bonnmed.com
+                </a>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <FaPhone className="text-[#E11D48] mt-1" />
+              <div>
+                <div className="font-semibold">
+                  {isArabic ? "رقم الهاتف" : "Phone Number"}
+                </div>
+                <a
+                  href="tel:+966580347173"
+                  className="text-gray-600 hover:text-[#E11D48]"
+                  dir="ltr"
+                >
+                  +966 58 034 7173
+                </a>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <FaClock className="text-[#E11D48] mt-1" />
+              <div>
+                <div className="font-semibold">
+                  {isArabic ? "ساعات العمل" : "Working Hours"}
+                </div>
+                <div className="text-gray-600">
+                  {isArabic
+                    ? "من الأحد إلى الخميس: 9 صباحًا - 5 مساءً"
+                    : "Sun - Thu: 9am - 5pm"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     {/* CONTACT FORM */}
     <div className="relative">
       <AnimatePresence mode="wait">
