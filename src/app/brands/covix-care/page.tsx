@@ -2,8 +2,10 @@
 
 import React, { useMemo } from "react";
 import Head from "next/head";
-import { motion } from "framer-motion";
+import { motion , AnimatePresence} from "framer-motion";
 import Link from "next/link";
+import { supabase } from "../../lib/supabaseClient";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,8 +20,59 @@ import {
   Wrench,
   Rocket,
   Calendar,
+  Heart
 } from "lucide-react";
 import CountUp from "react-countup";
+import {
+  FaPhone,
+  FaEnvelope,
+  FaClock,
+  FaCheckCircle,
+  FaInstagram,
+} from "react-icons/fa";
+
+/* ================= TYPES ================= */
+type Product = {
+  id: string;
+  slug: string | null;
+  images: string[];
+  name_en: string;
+  name_ar: string;
+  description_en: string;
+  description_ar: string;
+  brand: string | null;
+  best_selling: boolean;
+  likes: number | null;
+  disabled: boolean | null;
+};
+
+/* ================= BRAND UI (LOCAL) ================= */
+const BRAND_UI: Record<
+  string,
+  {
+    primary: string;
+    gradient: string;
+    glow: string;
+    badge: string;
+    logo?: string;
+  }
+> = {
+  "Covix Care": {
+    primary: "#F97316", 
+    gradient: "from-orange-500 to-amber-400",
+    glow: "shadow-orange-500/30",
+    badge: "bg-orange-500",
+    logo: "/images/covix.png",
+  },
+
+  "Le Visage Plus": {
+    primary: "#E11D48",
+    gradient: "from-pink-600 to-rose-400",
+    glow: "shadow-pink-500/30",
+    badge: "bg-pink-600",
+    logo: "/images/Visage.png",
+  },
+};
 
 type NumberBoxProps = {
   value: string | number;
@@ -213,11 +266,112 @@ Covix Care positions itself as a premium yet accessible brand: specializing in c
   },
 };
 
-export default function CovixCarePage() {
+export default function CovixCarePage() {  
+    const [products, setProducts] = useState<Product[]>([]);
+    const [liked, setLiked] = useState<Record<string, boolean>>({});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "General Inquiry",
+    message: "",
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({ ...prev, [name]: value }));
+};
+
+
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  // validation (كل الداتا required)
+  if (
+    !formData.name.trim() ||
+    !formData.email.trim() ||
+    !formData.phone.trim() ||
+    !formData.message.trim()
+  ) {
+    return;
+  }
+
+  setSubmitted(true);
+
+  setTimeout(() => {
+    setSubmitted(false);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "General Inquiry",
+      message: "",
+    });
+  }, 3500);
+};
+
+
+  
+    /* ================= FETCH ================= */
+    useEffect(() => {
+      const load = async () => {
+        const { data, error } = await supabase
+        .from("products")
+        .select("*")
+          .or("disabled.is.null,disabled.eq.false");
+  
+        if (error) {
+          console.error(error);
+          return;
+        }
+  
+        setProducts(data || []);
+      };
+  
+      load();
+    }, []);
+  
+    /* ================= GROUP + SORT ================= */
+    const grouped = useMemo(() => {
+      const map: Record<string, Product[]> = {};
+  
+      products.forEach((p) => {
+        const key = p.brand?.trim() || "Other";
+        if (!map[key]) map[key] = [];
+        map[key].push(p);
+      });
+  
+      Object.values(map).forEach((list) =>
+        list.sort((a, b) => {
+          if (a.best_selling && !b.best_selling) return -1;
+          if (!a.best_selling && b.best_selling) return 1;
+          return (b.likes || 0) - (a.likes || 0);
+        })
+      );
+  
+      return map;
+    }, [products]);
+  
+    /* ================= LIKE TOGGLE ================= */
+    const toggleLike = async (p: Product) => {
+      const isLiked = liked[p.id];
+      const newLikes = (p.likes || 0) + (isLiked ? -1 : 1);
+  
+      setLiked((prev) => ({ ...prev, [p.id]: !isLiked }));
+      setProducts((prev) =>
+        prev.map((x) => (x.id === p.id ? { ...x, likes: newLikes } : x))
+      );
+  
+      await supabase.from("products").update({ likes: newLikes }).eq("id", p.id);
+    };
   const { i18n } = useTranslation();
   const lang = i18n && i18n.language === "ar" ? "ar" : "en";
   const t = useMemo(() => translations[lang], [lang]);
-
+  const isArabic = i18n.language === "ar";
   const fadeUp = {
     initial: { opacity: 0, y: 18 },
     whileInView: { opacity: 1, y: 0 },
@@ -418,90 +572,388 @@ export default function CovixCarePage() {
     </div>
   </div>
 </section>
+{/* ================= PRODUCT PHILOSOPHY ================= */}
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-6">
 
+    <motion.h2 {...fadeUp} className="text-3xl font-bold mb-10 text-[#f36f1a]">
+      {lang === "ar" ? "فلسفة تطوير المنتجات" : "Product Philosophy"}
+    </motion.h2>
 
+    <motion.div {...fadeUp} className="bg-gradient-to-r from-orange-50 to-white p-8 rounded-2xl shadow-sm border border-orange-100">
+      <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">
+        {lang === "ar"
+          ? `التطوير في كوفيكس كير يبدأ دائماً من الاستماع لصوت العميلة. 
+نطور تركيبات التفتيح بدمج حماية من الشمس وترطيب متوازن، ونحول مزيلات المكياج إلى صيغ أكثر راحة مثل الفوم مع مكونات مهدئة.
 
-        {/* CTA */}
-        <section className="py-12 bg-white/60" aria-labelledby="final-cta">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <motion.h3 {...fadeUp} id="final-cta" className="text-2xl font-bold mb-4">{t.ctaTitle}</motion.h3>
-            <div className="flex items-center justify-center gap-4">
-              <Link href="/services" className="px-10 py-3 rounded-full bg-gradient-to-r from-[#ff9a49] to-[#f36f1a] text-white font-semibold" aria-label={t.ctaBtn}>
-                {t.ctaBtn}
-              </Link>
-            </div>
+كما توسعنا في خط العناية الحميمة لتغطية احتياجات مختلفة لأن العناية الحقيقية تعني توفير خيارات مدروسة وليس منتجاً واحداً فقط.`
+          : `Development at Covix Care always begins with listening to the customer. 
+We enhance brightening formulas with sun protection and hydration balance, and transform cleansers into more comfortable formats such as foam enriched with soothing ingredients.
+
+We also expanded intimate care into a full range — because real care means offering thoughtful options, not one generic solution.`}
+      </p>
+    </motion.div>
+  </div>
+</section>
+
+{/* PRODUCTS CTA + GRID */}
+<section className="py-20 bg-gradient-to-b from-white to-[#fff7f0]">
+  <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
+
+    {/* Main CTA */}
+    <motion.h2 {...fadeUp} className="text-3xl md:text-4xl font-bold text-[#f36f1a]">
+      {t.ctaTitle} {/* "Ready to feel the difference?" */}
+    </motion.h2>
+
+    {/* Subtitle for products */}
+    <motion.p {...fadeUp} className="text-xl md:text-2xl font-semibold text-gray-800">
+      {lang === "ar" ? "منتجات كوفيكس كير" : "Covix Care Products"}
+    </motion.p>
+
+    {/* PRODUCTS CAROUSEL */}
+    {Object.entries(grouped).map(([brandName, items]) => {
+      const brandUI = BRAND_UI[brandName];
+      const primary = brandUI?.primary || "#0056D2";
+
+      return (
+        <div key={brandName} className="space-y-8">
+          {/* Products */}
+          <div
+            dir={isArabic ? "rtl" : "ltr"}
+            className="
+              flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory
+              scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+            "
+          >
+            {items.map((p) => (
+              <motion.div
+                key={p.id}
+                whileHover={{ y: -5 }}
+                className="
+                  snap-start shrink-0 w-[250px] sm:w-[270px]
+                  rounded-2xl overflow-hidden bg-white/80 backdrop-blur
+                  border border-gray-100 shadow-md hover:shadow-lg
+                  transition
+                "
+              >
+                <Link href={`/products/${p.slug}`} className="block">
+                  <Image
+                    src={p.images?.[0] || "/placeholder.png"}
+                    alt={isArabic ? p.name_ar : p.name_en}
+                    width={400}
+                    height={260}
+                    className="h-48 w-full object-cover"
+                  />
+                  <div className="p-5 space-y-2">
+                    <h3 className="font-semibold text-base leading-tight" style={{ color: primary }}>
+                      {isArabic ? p.name_ar : p.name_en}
+                    </h3>
+                    <p className="text-sm text-gray-600 line-clamp-2">
+                      {isArabic ? p.description_ar : p.description_en}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4">
+                      {p.best_selling && (
+                        <span className="text-xs px-2 py-1 rounded bg-red-600 text-white">
+                          Best Seller
+                        </span>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleLike(p);
+                        }}
+                        className={`flex items-center gap-1 transition ${liked[p.id] ? "text-red-600" : "text-gray-400"}`}
+                      >
+                        <Heart
+                          size={20}
+                          className={`transition ${liked[p.id] ? "fill-red-600 scale-110" : "hover:scale-110"}`}
+                        />
+                        <span className="text-xs">{p.likes || 0}</span>
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </div>
+      );
+    })}
+  </div>
+</section>
+{/* ================= COMPETITIVE ADVANTAGE ================= */}
+<section className="py-20 bg-[#fff7f0]">
+  <div className="max-w-7xl mx-auto px-6">
+
+    <motion.h2 {...fadeUp} className="text-3xl md:text-4xl font-bold mb-12 text-[#f36f1a]">
+      {lang === "ar" ? "ما يميز كوفيكس كير" : "Why Covix Care"}
+    </motion.h2>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      {[
+        {
+          icon: ShieldCheck,
+          title_ar: "جودة بمعايير دولية",
+          title_en: "International Quality",
+          desc_ar: "تصنيع وفق ممارسات GMP ومعايير جودة عالمية لضمان ثبات الأداء من أول عبوة حتى آخر واحدة.",
+          desc_en: "Manufactured under GMP and international standards ensuring consistent performance.",
+        },
+        {
+          icon: Sparkles,
+          title_ar: "مكونات طبيعية آمنة",
+          title_en: "Safe Natural Ingredients",
+          desc_ar: "مكونات مختارة بعناية خالية من المواد الضارة أو المهيجة مع شفافية كاملة في التركيبة.",
+          desc_en: "Carefully selected natural ingredients free from harsh irritants with full transparency.",
+        },
+        {
+          icon: CheckCircle,
+          title_ar: "فعالية مدعومة بالعلم",
+          title_en: "Science-Backed Effectiveness",
+          desc_ar: "كل منتج مبني على دراسات واختبارات حقيقية وليس ادعاءات تسويقية.",
+          desc_en: "Every product is built on real testing and research, not marketing claims.",
+        },
+        {
+          icon: Layers,
+          title_ar: "تركيبات مخصصة للبشرة",
+          title_en: "Skin-Targeted Formulas",
+          desc_ar: "خطوط مختلفة لكل نوع بشرة لضمان أفضل نتيجة حقيقية.",
+          desc_en: "Specialized lines designed for each skin type for optimal results.",
+        },
+        {
+          icon: Globe,
+          title_ar: "تصنيع سعودي بهوية عالمية",
+          title_en: "Saudi Manufacturing, Global Mindset",
+          desc_ar: "تصنيع محلي بإشراف الجهات التنظيمية مع توافق معايير التصدير.",
+          desc_en: "Locally manufactured under strict regulation with export-grade standards.",
+        },
+        {
+          icon: Star,
+          title_ar: "قيمة مقابل السعر",
+          title_en: "True Value Pricing",
+          desc_ar: "موازنة بين جودة التركيبة والسعر لتشعر العميلة بقيمة حقيقية.",
+          desc_en: "Balanced pricing ensuring real value without compromising quality.",
+        },
+      ].map((item, i) => {
+        const Icon = item.icon;
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+            className="group p-7 rounded-2xl bg-white shadow hover:shadow-xl transition border border-gray-100"
+          >
+            <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 bg-orange-100 group-hover:scale-110 transition">
+              <Icon color={ORANGE} />
+            </div>
+
+            <h3 className="font-bold mb-2">
+              {lang === "ar" ? item.title_ar : item.title_en}
+            </h3>
+
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {lang === "ar" ? item.desc_ar : item.desc_en}
+            </p>
+          </motion.div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+{/* ================= EXPANSION ================= */}
+<section className="py-20 bg-[#fff9f4]">
+  <div className="max-w-7xl mx-auto px-6">
+
+    <motion.h2 {...fadeUp} className="text-3xl font-bold mb-10 text-[#f36f1a]">
+      {lang === "ar" ? "الانتشار والشراكات" : "Expansion & Partnerships"}
+    </motion.h2>
+
+    <div className="grid md:grid-cols-2 gap-8">
+
+      <motion.div {...fadeUp} className="p-6 bg-white rounded-2xl shadow border">
+        <h3 className="font-bold mb-3">
+          {lang === "ar" ? "الأسواق" : "Markets"}
+        </h3>
+        <p className="text-gray-600">
+          {lang === "ar"
+            ? "كوفيكس كير حاضرة في السعودية، البحرين، الأردن، عُمان، سوريا، ومصر عبر قنوات توزيع متعددة."
+            : "Covix Care is present in Saudi Arabia, Bahrain, Jordan, Oman, Syria, and Egypt through multiple distribution channels."}
+        </p>
+      </motion.div>
+
+      <motion.div {...fadeUp} className="p-6 bg-white rounded-2xl shadow border">
+        <h3 className="font-bold mb-3">
+          {lang === "ar" ? "الشراكات الاستراتيجية" : "Strategic Partnerships"}
+        </h3>
+        <p className="text-gray-600">
+          {lang === "ar"
+            ? "شراكات مع مؤسسات طبية وسلاسل صيدليات ومتاجر متخصصة لضمان وصول المنتجات ضمن بيئات عالية الجودة."
+            : "Partnerships with healthcare institutions and pharmacy chains ensuring premium-grade distribution."}
+        </p>
+      </motion.div>
+
+    </div>
+  </div>
+</section>
+
+
+
 
         {/* Contact Us */}
-        <section className="py-20 bg-gray-50" aria-labelledby="contact-title">
-          <div className="max-w-5xl mx-auto px-6">
+<section className="py-20 bg-[#fffaf6]" dir={isArabic ? "rtl" : "ltr"}>
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12">
 
-            <h2
-              id="contact-title"
-              className={`text-3xl font-bold mb-10 text-center ${lang === "ar" ? "text-right md:text-center" : "text-left md:text-center"}`}
-            >
-              {t.contact.title}
-            </h2>
+        {/* LEFT — CONTACT INFO */}
+        <div className="space-y-7">
+          <h2 className="text-3xl font-bold text-[#f36f1a]">
+            {isArabic ? "تواصل معنا" : "Contact Us"}
+          </h2>
 
-            <form
-              className={`bg-white shadow-lg rounded-2xl p-8 grid grid-cols-1 md:grid-cols-2 gap-6 ${lang === "ar" ? "text-right" : "text-left"}`}
-              dir={lang === "ar" ? "rtl" : "ltr"}
-            >
+          <p className="text-gray-600 leading-relaxed">
+            {isArabic
+              ? "فريق كوفيكس كير جاهز للرد على استفساراتكم وتقديم الدعم. يمكنكم التواصل عبر القنوات التالية."
+              : "Our Covix Care team is ready to assist and answer your inquiries through the following channels."}
+          </p>
 
-              {/* Name */}
-              <div className="flex flex-col md:col-span-1">
-                <label className="font-semibold mb-2">{t.contact.name}</label>
-                <input
-                  type="text"
-                  className="border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-300 focus:outline-none"
-                  placeholder={t.contact.namePlaceholder}
-                />
+          <div className="space-y-5">
+
+            <div className="flex gap-4">
+              <FaEnvelope className="text-[#f36f1a] mt-1" />
+              <div>
+                <div className="font-semibold">Email</div>
+                <a
+                  href="mailto:CustomerRelation@bonnmed.com"
+                  className="text-gray-600 hover:text-[#f36f1a]"
+                >
+                  CustomerRelation@bonnmed.com
+                </a>
               </div>
+            </div>
 
-              {/* Email */}
-              <div className="flex flex-col md:col-span-1">
-                <label className="font-semibold mb-2">{t.contact.email}</label>
+            <div className="flex gap-4">
+              <FaPhone className="text-[#f36f1a] mt-1" />
+              <div>
+                <div className="font-semibold">Phone</div>
+                <a
+                  href="tel:+966580347173"
+                  className="text-gray-600 hover:text-[#f36f1a]"
+                  dir="ltr"
+                >
+                  +966 58 034 7173
+                </a>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <FaInstagram className="text-[#f36f1a] mt-1" />
+              <div>
+                <div className="font-semibold">Instagram</div>
+                <a
+                  href="https://www.instagram.com/covix.care"
+                  target="_blank"
+                  className="text-gray-600 hover:text-[#f36f1a]"
+                >
+                  @covix.care
+                </a>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
+              <FaClock className="text-[#f36f1a] mt-1" />
+              <div>
+                <div className="font-semibold">
+                  {isArabic ? "ساعات العمل" : "Working Hours"}
+                </div>
+                <div className="text-gray-600">Sun — Thu | 9AM — 5PM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT — FORM */}
+        <div className="relative">
+
+          <AnimatePresence mode="wait">
+            {submitted ? (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                className="bg-white rounded-2xl shadow-lg p-10 flex flex-col items-center justify-center text-center h-full"
+              >
+                <FaCheckCircle className="text-[#f36f1a] text-5xl mb-4" />
+                <h3 className="text-xl font-semibold mb-2">
+                  {isArabic ? "تم إرسال الرسالة بنجاح" : "Message Sent Successfully"}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  {isArabic
+                    ? "سيتواصل معك فريقنا في أقرب وقت."
+                    : "Our team will get back to you shortly."}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.form
+                key="form"
+                onSubmit={handleSubmit}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="bg-white rounded-2xl shadow-lg p-8 space-y-4"
+              >
                 <input
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder={isArabic ? "الاسم الكامل" : "Full Name"}
+                  required
+                  className="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#f36f1a] outline-none"
+                />
+
+                <input
+                  name="email"
                   type="email"
-                  className="border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-300 focus:outline-none"
-                  placeholder={t.contact.emailPlaceholder}
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  required
+                  className="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#f36f1a] outline-none"
                 />
-              </div>
 
-              {/* Phone */}
-              <div className="flex flex-col md:col-span-2">
-                <label className="font-semibold mb-2">{t.contact.phone}</label>
                 <input
-                  type="text"
-                  className="border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-300 focus:outline-none"
-                  placeholder={t.contact.phonePlaceholder}
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder={isArabic ? "رقم الهاتف (اختياري)" : "Phone (Optional)"}
+                  className="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#f36f1a] outline-none"
                 />
-              </div>
 
-              {/* Message */}
-              <div className="flex flex-col md:col-span-2">
-                <label className="font-semibold mb-2">{t.contact.message}</label>
                 <textarea
-                  className="border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-orange-300 focus:outline-none"
-                  placeholder={t.contact.messagePlaceholder}
+                  name="message"
                   rows={5}
-                ></textarea>
-              </div>
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder={isArabic ? "اكتب رسالتك..." : "Your message..."}
+                  required
+                  className="w-full border rounded-xl px-4 py-3 resize-none focus:ring-2 focus:ring-[#f36f1a] outline-none"
+                />
 
-              {/* Submit */}
-              <div className="md:col-span-2 flex justify-center">
                 <button
                   type="submit"
-                  className="px-10 py-3 bg-gradient-to-r from-[#ff9a49] to-[#f36f1a] hover:cursor-pointer text-white font-semibold rounded-full shadow hover:opacity-90 transition"
+                  className="w-full py-3 rounded-xl bg-[#f36f1a] text-white font-semibold hover:opacity-90 transition"
                 >
-                  {t.contact.submit}
+                  {isArabic ? "إرسال الرسالة" : "Send Message"}
                 </button>
-              </div>
+              </motion.form>
+            )}
+          </AnimatePresence>
 
-            </form>
-          </div>
-        </section>
+        </div>
+      </div>
+    </section>
+        
 
       </main>
     </>
