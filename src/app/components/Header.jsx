@@ -96,19 +96,45 @@ const navItems = [
   { key: "contact", path: "/#contact" },
 ];
 
-
 const brands = [
   {
-    name: "Covix Care",
+    name_en: "Covix Care",
+    name_ar: "كوفيكس كير",
     slug: "covix-care",
     logo: "/images/covix.png",
   },
   {
-    name: "Le Visage Plus",
+    name_en: "Le Visage Plus",
+    name_ar: "لو فيزاج بلس",
     slug: "leVisagePlus",
     logo: "/images/Visage.png",
   },
+  {
+    name_en: "B1Care",
+    name_ar: "بي 1 كير",
+    slug: "b1care",
+    logo: "/images/B1.png",
+  },
+  {
+    name_en: "PuCare",
+    name_ar: "بو كير",
+    slug: "pucare",
+    logo: "/images/PuCare.png",
+  },
+  {
+    name_en: "Vert",
+    name_ar: "فيرت",
+    slug: "vert",
+    logo: "/images/Vert.png",
+  },
+  {
+    name_en: "Rubin",
+    name_ar: "روبين",
+    slug: "rubin",
+    logo: "/images/Rubin.png",
+  }
 ];
+
 
 
 
@@ -155,6 +181,21 @@ const brands = [
       setSearchError(t("productNotFound"));
     }
   };
+useEffect(() => {
+  const handleScroll = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      setBrandsOpen(false);
+      setLangOpen(false);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, [isOpen]);
 
 
   return (
@@ -205,11 +246,13 @@ const brands = [
   )}
 </AnimatePresence>
 <motion.header
+  layout
+  style={{ transform: "translateZ(0)" }}
   initial={{ opacity: 0, y: -20 }}
   animate={{ opacity: showIntro ? 0 : 1, y: showIntro ? -30 : 0 }}
   transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
   className="
-    w-full fixed top-0 left-0 z-50
+    w-full fixed top-0 left-0 z-9999
     bg-white/85 md:bg-white/80
     backdrop-blur-lg md:backdrop-blur-xl
     border-b border-[#4CA1FF]/10
@@ -248,7 +291,7 @@ const brands = [
 <div className="relative">
   <button
     onClick={() => setLangOpen(!langOpen)}
-    className="flex items-center gap-2 px-2 h-8 rounded-lg border border-[#4CA1FF]/40 text-sm hover:bg-[#4CA1FF]/10 transition"
+    className="flex items-center gap-2 px-2 h-8 rounded-lg border border-[#4CA1FF]/40 text-sm hover:bg-[#4CA1FF]/10 transition cursor-pointer"
   >
      <Image
       src={i18n.language === "ar" ? "/images/sa.svg" : "/images/gb.svg"}
@@ -275,7 +318,7 @@ const brands = [
             document.documentElement.dir = "rtl";
             setLangOpen(false);
           }}
-          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
+          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm hover:cursor-pointer hover:text-[#4CA1FF] transition"
         >
           <Image src="/images/sa.svg" alt="" width={18} height={12} />
           العربية
@@ -287,7 +330,7 @@ const brands = [
             document.documentElement.dir = "ltr";
             setLangOpen(false);
           }}
-          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm"
+          className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 w-full text-sm hover:cursor-pointer hover:text-[#4CA1FF] transition"
         >
           <Image src="/images/gb.svg" alt="" width={18} height={12} />
           English
@@ -363,6 +406,11 @@ const brands = [
             href={`/products/${product.slug}`}
             dir={i18n.language === "ar" ? "rtl" : "ltr"}
             className="flex items-center p-2 hover:bg-gray-100 transition"
+            onClick={() => {
+              setSearchTerm("");
+              setSearchResults([]);
+              setIsOpen(false);
+            }}
           >
             <Image
               src={product?.images?.[0] || "/placeholder.png"}
@@ -410,8 +458,8 @@ const brands = [
           onClick={() => setBrandsOpen(!brandsOpen)}
           className={`flex items-center gap-1 font-medium transition ${
             brandsOpen
-              ? "text-[#4CA1FF]"
-              : "text-gray-700 hover:text-[#4CA1FF]"
+              ? "text-[#4CA1FF] cursor-pointer"
+              : "text-gray-700 hover:text-[#4CA1FF] cursor-pointer"
           }`}
         >
           {t("ourbrands")}
@@ -425,39 +473,92 @@ const brands = [
         </button>
 
         {/* Dropdown */}
-        <AnimatePresence>
-          {brandsOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-              className="absolute top-full mt-3 left-0 bg-white rounded-xl shadow-lg p-3 w-56 z-50"
-            >
-              {brands.map((brand) => (
-                <Link
-                  key={brand.slug}
-                  href={`/brands/${brand.slug}`}
-                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
-                  onClick={() => 
-                    setIsOpen(false)
-                  }
-                >
-                  <Image
-                    src={brand.logo}
-                    alt={brand.name}
-                    width={40}
-                    height={20}
-                    className="object-contain"
-                  />
-                  <span className="text-sm font-medium text-gray-800">
-                    {brand.name}
-                  </span>
-                </Link>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+<AnimatePresence>
+{brandsOpen && (
+  <motion.div
+    initial={{ 
+      opacity: 0,
+      y: -20,
+      scale: 0.98,
+      filter: "blur(6px)"
+    }}
+    animate={{ 
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)"
+    }}
+    exit={{ 
+      opacity: 0,
+      y: -15,
+      scale: 0.985,
+      filter: "blur(4px)"
+    }}
+    transition={{ 
+      type: "spring",
+      stiffness: 260,
+      damping: 22,
+      mass: 0.6
+    }}
+    style={{ originY: 0, transform: "translateZ(0)" }}
+    className="
+      fixed left-0 top-[100%] w-screen
+      bg-white shadow-xl
+      border-t border-[#4CA1FF]/10
+      z-20
+      will-change-transform
+    "
+  >
+
+      <div className="max-w-7xl mx-auto px-6 py-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
+
+        {brands.map((brand) => {
+  const brandName =
+    i18n.language === "ar" ? brand.name_ar : brand.name_en;
+
+  return (
+    <Link
+      key={brand.slug}
+      href={`/brands/${brand.slug}`}
+      dir={i18n.language === "ar" ? "rtl" : "ltr"}
+      onClick={() => {
+        setBrandsOpen(false);
+        setIsOpen(false);
+      }}
+      className="
+        flex items-center gap-4
+        p-4 rounded-xl
+        hover:bg-[#4CA1FF]/5
+        transition
+        group
+      "
+    >
+      <Image
+        src={brand.logo}
+        alt={brandName}
+        width={60}
+        height={40}
+        className="object-contain"
+      />
+
+      <div>
+        <h3 className="font-semibold text-gray-800 group-hover:text-[#4CA1FF] transition">
+          {brandName}
+        </h3>
+
+        <p className="text-sm text-gray-500">
+          {t("viewBrandProducts")}
+        </p>
+      </div>
+    </Link>
+  );
+})}
+
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
       </>
     ) : (
       <Link
@@ -636,42 +737,67 @@ alt={i18n.language === "ar" ? product.name_ar : product.name_en}
           </motion.span>
         </button>
 
-        {/* Dropdown */}
-        <AnimatePresence>
-          {brandsOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-              className="absolute top-full mt-3 left-0 bg-white rounded-xl shadow-lg p-3 w-56 z-50"
+<AnimatePresence>
+  {brandsOpen && (
+    <motion.div
+      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+      transition={{ duration: 0.22 }}
+      className="
+        absolute top-full mt-3 left-0
+        bg-white rounded-xl shadow-lg
+        p-2 w-64 max-h-[60vh] overflow-y-auto
+        z-50
+      "
+    >
+      <div className="flex flex-col gap-1">
+        {brands.map((brand) => {
+          const brandName =
+            i18n.language === "ar" ? brand.name_ar : brand.name_en;
+
+          return (
+            <Link
+              key={brand.slug}
+              href={`/brands/${brand.slug}`}
+              dir={i18n.language === "ar" ? "rtl" : "ltr"}
+              onClick={() => {
+                setBrandsOpen(false);
+                setIsOpen(false);
+              }}
+              className="
+                flex items-center gap-3
+                px-3 py-2 rounded-lg
+                hover:bg-gray-100 transition
+              "
             >
-              {brands.map((brand) => (
-                <Link
-                
-                  key={brand.slug}
-                  href={`/brands/${brand.slug}`}
-                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100 transition"
-onClick={() => {
-  setBrandsOpen(false);
-  setIsOpen(false);
-}}
-                >
-                  <Image
-                    src={brand.logo}
-                    alt={brand.name}
-                    width={40}
-                    height={20}
-                    className="object-contain"
-                  />
-                  <span className="text-sm font-medium text-gray-800">
-                    {brand.name}
-                  </span>
-                </Link>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {/* Logo */}
+              <div className="min-w-[42px] flex justify-center">
+                <Image
+                  src={brand.logo}
+                  alt={brandName}
+                  width={42}
+                  height={24}
+                  className="object-contain"
+                />
+              </div>
+
+              {/* Name */}
+              <span className="
+                text-sm font-medium text-gray-800
+                leading-tight
+                line-clamp-2
+              ">
+                {brandName}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
       </>
     ) : (
       <Link

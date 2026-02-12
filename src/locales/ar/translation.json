@@ -40,7 +40,7 @@
     "b1Care": "B1Care",
     "leVisagePlus": "Le Visage Plus",
     "puCare": "PuCare",
-    "luxury": "Luxury"
+    "luxury": "Vert"
   },
   "product": "المنتج",
   "outlets": "المنافذ",
@@ -611,5 +611,9 @@
   "connectWithUs": "تابعنا",
   "youtubeChannel": "قناة يوتيوب",
   "tiktokProfile": "حساب تيك توك",
-  "linkedinProfile": "حساب لينكدإن"
+  "linkedinProfile": "حساب لينكدإن",
+  "viewBrandProducts": "عرض منتجات العلامة →",
+  "underDevelopment": "هذه الصفحة قيد التطوير. يرجى العودة لاحقًا.",
+  "comingSoonDescription": "نحن نعمل بجد لإحضار هذه الصفحة إلى الحياة. ترقبوا تحديثاتنا القادمة!",
+  "expectedLaunch": "قريبًا"
 }

@@ -44,7 +44,7 @@
     "b1Care": "B1Care",
     "leVisagePlus": "Le Visage Plus",
     "puCare": "PuCare",
-    "luxury": "Luxury"
+    "luxury": "Vert"
   },
   "product": "Product",
   "outlets": "Outlets",
@@ -597,5 +597,9 @@
     "connectWithUs": "Follow Us",
     "youtubeChannel": "YouTube Channel",
     "linkedinProfile": "LinkedIn Profile",
-    "tiktokProfile": "TikTok Profile"
+    "tiktokProfile": "TikTok Profile",
+    "viewBrandProducts": "View Brand Products →",
+    "underDevelopment": "This page is under development. Please check back later.",
+    "comingSoonDescription": "We are working hard to bring you an amazing experience. Stay tuned for updates and new features coming soon!",
+    "expectedLaunch": "Soon"
 }

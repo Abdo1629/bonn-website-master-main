@@ -14,7 +14,7 @@ export default function Hero() {
     <section className="relative w-full h-[65vh] max-[450px]:h-[75svh] overflow-hidden mt-[65px]">
       {/* Background Video */}
       <video
-        className="absolute inset-0 w-full h-full object-cover scale-105"
+        className="absolute inset-0 w-full h-full object-cover scale-112 m-0 p-0"
         src="https://res.cloudinary.com/dbgdvnkev/video/upload/v1768245923/Promo_-_V2-2-2_xa4zoc.webm"
         autoPlay
         muted
