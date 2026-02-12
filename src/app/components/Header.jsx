@@ -119,7 +119,7 @@ const brands = [
     name_en: "PuCare",
     name_ar: "بو كير",
     slug: "pucare",
-    logo: "/images/PuCare.png",
+    logo: "/images/PUCare.png",
   },
   {
     name_en: "Vert",
