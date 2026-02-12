@@ -563,6 +563,10 @@ useEffect(() => {
     ) : (
       <Link
         href={item.path}
+        onClick={() => {
+          setIsOpen(false)
+          setBrandsOpen(false)
+        }}
         className={`relative font-medium transition-colors ${
           pathname === item.path
             ? "text-[#4CA1FF] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-[#4CA1FF]"
