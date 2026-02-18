@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import Head from "next/head";
-import { motion , AnimatePresence} from "framer-motion";
+import { motion , AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { supabase } from "../../lib/supabaseClient";
 import { useEffect, useState } from "react";
@@ -20,7 +20,10 @@ import {
   Wrench,
   Rocket,
   Calendar,
-  Heart
+  Heart,
+  Microscope,
+  FlaskConical,
+  BadgeCheck
 } from "lucide-react";
 import CountUp from "react-countup";
 import {
@@ -30,6 +33,8 @@ import {
   FaCheckCircle,
   FaInstagram,
 } from "react-icons/fa";
+
+
 
 /* ================= TYPES ================= */
 type Product = {
@@ -799,7 +804,63 @@ We also expanded intimate care into a full range — because real care means off
   </div>
 </section>
 
+{/* BON × COVIX MEDICAL SECTION */}
+<section className="py-20 bg-white relative overflow-hidden">
 
+  <div className="max-w-7xl mx-auto px-6">
+
+    <motion.div
+      {...fadeUp}
+      className="text-center mb-14"
+    >
+      <h2 className="text-3xl md:text-4xl font-bold text-[#f36f1a] mb-4">
+        {lang === "ar"
+          ? "كوفيكس كير ضمن منظومة بون الطبية"
+          : "Covix Care — Powered by Bonn Medical"}
+      </h2>
+
+      <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+        {lang === "ar"
+          ? "كوفيكس كير تعمل تحت مظلة مصنع بون للصناعات الطبية، حيث تلتقي معايير التصنيع الطبي الدقيقة مع العناية التجميلية الحديثة لتقديم منتجات آمنة، فعالة، وموثوقة."
+          : "Covix Care operates under Bonn Medical, combining strict medical-grade manufacturing with modern cosmetic science to deliver safe, effective, and trusted care."}
+      </p>
+    </motion.div>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      {[
+        { icon: ShieldCheck, titleAr: "جودة طبية", titleEn: "Medical-grade Quality", descAr: "معايير تصنيع طبية صارمة لضمان أعلى درجات الأمان.", descEn: "Strict medical manufacturing standards for maximum safety." },
+        { icon: FlaskConical, titleAr: "تركيبات علمية", titleEn: "Advanced Formulation", descAr: "تركيبات مبنية على أبحاث علمية حديثة.", descEn: "Formulations based on modern scientific research." },
+        { icon: BadgeCheck, titleAr: "رقابة جودة دقيقة", titleEn: "Strict Quality Control", descAr: "كل منتج يمر بمراحل تدقيق وفحص متعددة.", descEn: "Every batch passes through multiple quality checks." },
+        { icon: Microscope, titleAr: "جمال علمي", titleEn: "Scientific Beauty", descAr: "عناية تجميلية بعقلية طبية دقيقة.", descEn: "Beauty backed by precise medical science." },
+      ].map((card, i) => {
+        const Icon = card.icon;
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="p-6 rounded-2xl bg-[#fff7f0] border border-orange-100 hover:shadow-lg transition"
+          >
+            <div className="w-12 h-12 flex items-center justify-center rounded-lg mb-4 bg-orange-100">
+              <Icon color={ORANGE} />
+            </div>
+
+            <h3 className="font-semibold mb-1">
+              {lang === "ar" ? card.titleAr : card.titleEn}
+            </h3>
+
+            <p className="text-sm text-gray-600">
+              {lang === "ar" ? card.descAr : card.descEn}
+            </p>
+          </motion.div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
 
 
         {/* Contact Us */}
