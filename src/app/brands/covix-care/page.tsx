@@ -809,6 +809,34 @@ We also expanded intimate care into a full range — because real care means off
 
   <div className="max-w-7xl mx-auto px-6">
 
+    {/* LOGOS ROW */}
+    <motion.div
+      {...fadeUp}
+      className="flex flex-col items-center justify-center gap-6 mb-10"
+    >
+      <div className="flex items-center gap-6">
+
+        {/* BONN LOGO */}
+        <img
+          src="/images/logo.webp"
+          className="h-22 object-contain opacity-90"
+        />
+
+        {/* Divider */}
+        <div className="w-px h-8 bg-gray-300"></div>
+
+        {/* COVIX LOGO */}
+        <img
+          src="/images/covix.png"
+          alt="Covix Care"
+          className="h-15 object-contain"
+        />
+
+      </div>
+    </motion.div>
+
+
+    {/* TITLE */}
     <motion.div
       {...fadeUp}
       className="text-center mb-14"
@@ -826,6 +854,8 @@ We also expanded intimate care into a full range — because real care means off
       </p>
     </motion.div>
 
+
+    {/* CARDS */}
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
       {[
@@ -841,7 +871,8 @@ We also expanded intimate care into a full range — because real care means off
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="p-6 rounded-2xl bg-[#fff7f0] border border-orange-100 hover:shadow-lg transition"
+            whileHover={{ scale: 1.03 }}
+            className="p-6 rounded-2xl bg-gradient-to-br from-[#fff7f0] to-white border border-orange-100 hover:shadow-xl transition"
           >
             <div className="w-12 h-12 flex items-center justify-center rounded-lg mb-4 bg-orange-100">
               <Icon color={ORANGE} />
@@ -861,6 +892,7 @@ We also expanded intimate care into a full range — because real care means off
 
   </div>
 </section>
+
 
 
         {/* Contact Us */}
